@@ -65,34 +65,31 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: Colors.red,
             ),
             title: Text("Startseite"),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.show_chart,
-              color: Colors.grey,
             ),
             title: Text("Level"),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.grade,
-              color: Colors.grey,
             ),
             title: Text("Mutmacher"),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-              color: Colors.grey,
             ),
             title: Text("Profil"),
           ),
         ],
         currentIndex: selectedScreen,
         selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.grey,
         onTap: (index) {
           setState(() {
             selectedScreen = index;
