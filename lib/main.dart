@@ -137,7 +137,6 @@ class MyHomePage extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person,
               color: Colors.grey,
             ),
             title: Text("Profil"),
