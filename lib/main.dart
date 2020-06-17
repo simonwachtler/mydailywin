@@ -68,15 +68,17 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
           ),
-
-            InkWell(
+          InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
               print("isRecording");
             },
             child: Padding(
-              padding: EdgeInsets.only(left: 65.0, top:  15.0,),
+              padding: EdgeInsets.only(
+                left: 65.0,
+                top: 15.0,
+              ),
               child: Container(
                 decoration: new BoxDecoration(
                   color: Colors.blue[200],
@@ -89,15 +91,17 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
           ),
-
-            InkWell(
+          InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
               print("isRecording");
             },
             child: Padding(
-              padding: EdgeInsets.only(left: 65.0, top:  18.0,),
+              padding: EdgeInsets.only(
+                left: 65.0,
+                top: 18.0,
+              ),
               child: Container(
                 decoration: new BoxDecoration(
                   color: Colors.pink[200],
