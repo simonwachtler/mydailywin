@@ -293,33 +293,39 @@ class DayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Row(children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                fit: FlexFit.loose,
-                child: Text("30"),
-              ),
-              Text("Samstag"),
-            ],
+      child: IntrinsicHeight(
+        child: Row(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      "30",
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+                ),
+                Text("Samstag"),
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              Text("1. Lorem ipsum"),
-              Text("1. Lorem ipsum"),
-              Text("1. Lorem ipsum"),
-              Text("1. Lorem ipsum"),
-              Text("1. Lorem ipsum"),
-            ],
-          ),
-        )
-      ]),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                Text("1. Lorem ipsum"),
+                Text("1. Lorem ipsum"),
+                Text("1. Lorem ipsum"),
+                Text("1. Lorem ipsum"),
+                Text("1. Lorem ipsum"),
+              ],
+            ),
+          )
+        ]),
+      ),
     );
   }
 }
