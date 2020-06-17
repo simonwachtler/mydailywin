@@ -47,7 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (index) {
       case 0:
         return Greeting();
-
       case 1:
         return Level();
       case 2:
