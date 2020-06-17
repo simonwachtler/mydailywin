@@ -1,4 +1,0 @@
-#Tue Jun 16 17:29:47 CEST 2020
-base.0=/home/michael/devprojects/my_daily_success/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

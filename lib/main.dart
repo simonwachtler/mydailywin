@@ -35,60 +35,41 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-        Column(
-          children: [
+      body: ListView(
+        children: [
           Padding(
             padding: const EdgeInsets.all(55.0),
             child: Text(
               'Guten Tag, Michael!',
               style: TextStyle(
-                fontSize: 38.0,
-                fontFamily: 'Abadi', 
-                fontWeight: FontWeight.bold, 
-                color: Colors.grey),
+                  fontSize: 38.0,
+                  fontFamily: 'Abadi',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey),
             ),
           ),
-          ], 
-        ),
-
-
           InkWell(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      onTap: () {
-        setState(() {
-          _isRecording = !_isRecording;
-        });
-      },
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(width: 5.0, color: Colors.green),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(32.0),
-          child: Container(
-            width: 40.0,
-            height: 40.0,
-            child: Container(
-              decoration: new BoxDecoration(
-                color: Colors.red,
-                shape:
-                    _isRecording ? BoxShape.rectangle : BoxShape.circle,
-                borderRadius: _isRecording
-                    ? BorderRadius.all(Radius.circular(8.0))
-                    : null,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              print("isRecording");
+            },
+            child: Padding(
+              padding: EdgeInsets.all(32.0),
+              child: Container(
+                decoration: new BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Lorem ipsum"),
+                ),
               ),
             ),
-          ),
-        ),
+          )
+        ],
       ),
-    )
-        
-          
-        
-        
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
