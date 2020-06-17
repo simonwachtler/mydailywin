@@ -55,19 +55,61 @@ class MyHomePage extends StatelessWidget {
               print("isRecording");
             },
             child: Padding(
-              padding: EdgeInsets.all(32.0),
+              padding: EdgeInsets.only(left: 65.0, top: 3.0),
               child: Container(
                 decoration: new BoxDecoration(
-                  color: Colors.red,
+                  color: Colors.green[300],
                   borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Lorem ipsum"),
+                  padding: const EdgeInsets.all(35.0),
+                  child: Text("MORGEN-ROUTINE: Perfekt in den Tag starten!"),
                 ),
               ),
             ),
-          )
+          ),
+
+            InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              print("isRecording");
+            },
+            child: Padding(
+              padding: EdgeInsets.only(left: 65.0, top:  15.0,),
+              child: Container(
+                decoration: new BoxDecoration(
+                  color: Colors.blue[200],
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(35.0),
+                  child: Text("TÄGLICHE REFLEXION: Positive Stimmung!"),
+                ),
+              ),
+            ),
+          ),
+
+            InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              print("isRecording");
+            },
+            child: Padding(
+              padding: EdgeInsets.only(left: 65.0, top:  18.0,),
+              child: Container(
+                decoration: new BoxDecoration(
+                  color: Colors.pink[200],
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(35.0),
+                  child: Text("SELBSTVERTRAUEN-BOOST: Ja, ich schaffe es!"),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
