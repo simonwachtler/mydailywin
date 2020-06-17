@@ -26,96 +26,41 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      initialRoute: "Startseite",
+      routes: {
+        "Startseite": (context) => MyHomePage(),
+        "Level": (context) => Level(),
+      },
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int selectedScreen = 0;
+
+  Widget currentScreen(int index) {
+    switch (index) {
+      case 0:
+        return Greeting();
+
+      case 1:
+        return Level();
+      case 2:
+        return HallOfFame();
+      default:
+        return Placeholder();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(55.0),
-            child: Text(
-              'Guten Tag, Michael!',
-              style: TextStyle(
-                  fontSize: 38.0,
-                  fontFamily: 'Abadi',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey),
-            ),
-          ),
-          InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              print("isRecording");
-            },
-            child: Padding(
-              padding: EdgeInsets.only(left: 65.0, top: 3.0),
-              child: Container(
-                decoration: new BoxDecoration(
-                  color: Colors.green[300],
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(35.0),
-                  child: Text("MORGEN-ROUTINE: Perfekt in den Tag starten!"),
-                ),
-              ),
-            ),
-          ),
-          InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              print("isRecording");
-            },
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 65.0,
-                top: 15.0,
-              ),
-              child: Container(
-                decoration: new BoxDecoration(
-                  color: Colors.blue[200],
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(35.0),
-                  child: Text("TÄGLICHE REFLEXION: Positive Stimmung!"),
-                ),
-              ),
-            ),
-          ),
-          InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              print("isRecording");
-            },
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 65.0,
-                top: 18.0,
-              ),
-              child: Container(
-                decoration: new BoxDecoration(
-                  color: Colors.pink[200],
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(35.0),
-                  child: Text("SELBSTVERTRAUEN-BOOST: Ja, ich schaffe es!"),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      body: currentScreen(selectedScreen),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
@@ -147,15 +92,234 @@ class MyHomePage extends StatelessWidget {
             title: Text("Profil"),
           ),
         ],
-        currentIndex: 0,
+        currentIndex: selectedScreen,
         selectedItemColor: Colors.red,
-        onTap: (_) {},
+        onTap: (index) {
+          setState(() {
+            selectedScreen = index;
+          });
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: Icon(Icons.add),
         tooltip: "Hinzufügen",
       ),
+    );
+  }
+}
+
+class Greeting extends StatelessWidget {
+  const Greeting({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(55.0),
+          child: Text(
+            'Guten Tag, Michael!',
+            style: TextStyle(
+                fontSize: 38.0,
+                fontFamily: 'Abadi',
+                fontWeight: FontWeight.bold,
+                color: Colors.grey),
+          ),
+        ),
+        InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            print("isRecording");
+          },
+          child: Padding(
+            padding: EdgeInsets.only(left: 65.0, top: 3.0),
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.green[300],
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(35.0),
+                child: Text("MORGEN-ROUTINE: \nPerfekt in den Tag starten!"),
+              ),
+            ),
+          ),
+        ),
+        InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            print("isRecording");
+          },
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 65.0,
+              top: 15.0,
+            ),
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.blue[200],
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(35.0),
+                child: Text("TÄGLICHE REFLEXION:\nPositive Stimmung!"),
+              ),
+            ),
+          ),
+        ),
+        InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            print("isRecording");
+          },
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 65.0,
+              top: 18.0,
+            ),
+            child: Container(
+              decoration: new BoxDecoration(
+                color: Colors.pink[200],
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(35.0),
+                child: Text("SELBSTVERTRAUEN-BOOST: \nJa, ich schaffe es!"),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class Level extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 90),
+          child: Text(
+            'Guten Tag, Michael!',
+            style: TextStyle(
+                fontSize: 25.0,
+                fontFamily: 'Abadi',
+                fontWeight: FontWeight.bold,
+                color: Colors.grey),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 70),
+          child: PercentageWidget(),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(32),
+          child: Text("Glückwunsch, du hast Level 5 erreicht!"),
+        ),
+      ]),
+    );
+  }
+}
+
+class PercentageWidget extends StatelessWidget {
+  const PercentageWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: Align(
+        alignment: Alignment.topCenter,
+        heightFactor: 0.75,
+        child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.indigo, width: 10),
+                shape: BoxShape.circle),
+            width: 250,
+            height: 250,
+            child: Center(
+              child: Text("60 %",
+                  style: TextStyle(
+                    fontSize: 45,
+                    fontFamily: 'Abadi',
+                    fontWeight: FontWeight.bold,
+                  )),
+            )),
+      ),
+    );
+  }
+}
+
+class HallOfFame extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView(children: [
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Text(
+            "Ich schaffe das",
+            style: TextStyle(fontSize: 28.0),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0, top: 7, bottom: 15.0),
+          child: Text(
+            "Lorem ipsum.....",
+            style: TextStyle(fontSize: 28.0),
+          ),
+        ),
+        DayWidget(),
+        DayWidget(),
+        DayWidget(),
+        DayWidget(),
+        DayWidget(),
+      ]),
+    );
+  }
+}
+
+class DayWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Row(children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                fit: FlexFit.loose,
+                child: Text("30"),
+              ),
+              Text("Samstag"),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Text("1. Lorem ipsum"),
+              Text("1. Lorem ipsum"),
+              Text("1. Lorem ipsum"),
+              Text("1. Lorem ipsum"),
+              Text("1. Lorem ipsum"),
+            ],
+          ),
+        )
+      ]),
     );
   }
 }
