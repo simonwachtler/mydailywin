@@ -14,10 +14,11 @@ class Greeting extends StatelessWidget {
           child: Text(
             'Guten Tag, Michael!',
             style: TextStyle(
-                fontSize: 38.0,
-                fontFamily: 'Abadi',
-                fontWeight: FontWeight.bold,
-                color: Colors.grey),
+              fontSize: 38.0,
+              fontFamily: 'Abadi',
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
           ),
         ),
         GreetingBox(
