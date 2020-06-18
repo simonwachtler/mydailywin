@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'greeting.dart';
 import 'hall_of_fame.dart';
@@ -96,11 +97,51 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
-        tooltip: "Hinzufügen",
-      ),
+      floatingActionButton: SpeedDialAdd(),
+    );
+  }
+}
+
+class SpeedDialAdd extends StatefulWidget {
+  const SpeedDialAdd({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _SpeedDialAddState createState() => _SpeedDialAddState();
+}
+
+class _SpeedDialAddState extends State<SpeedDialAdd> {
+  bool isExpanded = false;
+  @override
+  Widget build(BuildContext context) {
+    // TODO: Better icons
+    return SpeedDial(
+      child: Icon(isExpanded ? Icons.close : Icons.add),
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.arrow_right),
+          label: "Start in den Tag",
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.tag_faces),
+          label: "Dankbarkeitsnotiz",
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.grade),
+          label: "Erfolg",
+        ),
+      ],
+      onOpen: () {
+        setState(() {
+          isExpanded = true;
+        });
+      },
+      onClose: () {
+        setState(() {
+          isExpanded = false;
+        });
+      },
     );
   }
 }
