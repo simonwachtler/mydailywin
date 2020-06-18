@@ -54,7 +54,7 @@ class GreetingBox extends StatelessWidget {
       child: Container(
         decoration: new BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderRadius: BorderRadius.horizontal(left: Radius.circular(8.0)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(35.0),
