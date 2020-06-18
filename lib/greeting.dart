@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Greeting extends StatelessWidget {
@@ -21,73 +20,47 @@ class Greeting extends StatelessWidget {
                 color: Colors.grey),
           ),
         ),
-        InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            print("isRecording");
-          },
-          child: Padding(
-            padding: EdgeInsets.only(left: 65.0, top: 3.0),
-            child: Container(
-              decoration: new BoxDecoration(
-                color: Colors.green[300],
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(35.0),
-                child: Text("MORGEN-ROUTINE: \nPerfekt in den Tag starten!"),
-              ),
-            ),
-          ),
+        GreetingBox(
+          color: Colors.green[300],
+          child: Text("MORGEN-ROUTINE:\nPerfekt in den Tag starten!"),
         ),
-        InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            print("isRecording");
-          },
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: 65.0,
-              top: 15.0,
-            ),
-            child: Container(
-              decoration: new BoxDecoration(
-                color: Colors.blue[200],
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(35.0),
-                child: Text("TÄGLICHE REFLEXION:\nPositive Stimmung!"),
-              ),
-            ),
-          ),
+        GreetingBox(
+          color: Colors.blue[200],
+          child: Text("TÄGLICHE REFLEXION:\nPositive Stimmung!"),
         ),
-        InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            print("isRecording");
-          },
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: 65.0,
-              top: 18.0,
-            ),
-            child: Container(
-              decoration: new BoxDecoration(
-                color: Colors.pink[200],
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(35.0),
-                child: Text("SELBSTVERTRAUEN-BOOST: \nJa, ich schaffe es!"),
-              ),
-            ),
-          ),
+        GreetingBox(
+          color: Colors.pink[200],
+          child: Text("SELBSTVERTRAUEN-BOOST:\nJa, ich schaffe es!"),
         ),
       ],
+    );
+  }
+}
+
+class GreetingBox extends StatelessWidget {
+  const GreetingBox({
+    Key key,
+    @required this.color,
+    @required this.child,
+  }) : super(key: key);
+
+  final Color color;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 65.0, top: 3.0),
+      child: Container(
+        decoration: new BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(35.0),
+          child: child,
+        ),
+      ),
     );
   }
 }
