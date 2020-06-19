@@ -30,6 +30,23 @@ class Profil extends StatelessWidget {
           ],
         ),
         Padding(
+          padding: const EdgeInsets.only(left: 370.0, top: 15),
+          child: Container(
+            decoration: new BoxDecoration(
+              color: Colors.grey[250],
+              borderRadius: BorderRadius.only(bottomRight: Radius.circular(16)),
+            ),
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  width: 70,
+                ),
+                Icon(Icons.settings, color: Colors.black, size: 40),
+              ],
+            ),
+          ),
+        ),
+        Padding(
           padding: const EdgeInsets.only(left: 3.0, top: 150),
           child: Text(
             'JETZT ENTWICKLER UNTERSTÜTZEN!',

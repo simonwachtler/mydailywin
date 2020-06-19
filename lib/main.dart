@@ -5,6 +5,7 @@ import 'greeting.dart';
 import 'hall_of_fame.dart';
 import 'level.dart';
 import 'profil.dart';
+import 'settings.dart';
 
 void main() {
   runApp(MyApp());
