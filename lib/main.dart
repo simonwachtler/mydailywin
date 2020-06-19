@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'greeting.dart';
 import 'hall_of_fame.dart';
 import 'level.dart';
+import 'profil.dart';
 
 void main() {
   runApp(MyApp());
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         return HallOfFame();
       default:
-        return Placeholder();
+        return Profil();
     }
   }
 
@@ -120,7 +121,7 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
       child: Icon(isExpanded ? Icons.close : Icons.add),
       children: [
         SpeedDialChild(
-          child: Icon(Icons.arrow_right),
+          child: Icon(Icons.wb_sunny),
           label: "Start in den Tag",
         ),
         SpeedDialChild(
