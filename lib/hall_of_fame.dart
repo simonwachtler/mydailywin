@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class HallOfFame extends StatelessWidget {
@@ -10,15 +9,15 @@ class HallOfFame extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: Text(
-            "Ich schaffe das",
-            style: TextStyle(fontSize: 28.0),
+            "Ich schaffe das!",
+            style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 15.0, top: 7, bottom: 15.0),
           child: Text(
-            "Lorem ipsum.....",
-            style: TextStyle(fontSize: 28.0),
+            "Ich habe schon so viel geschafft! \nIch werde auch diese Herausforderung meistern!",
+            style: TextStyle(fontSize: 23.0),
           ),
         ),
         DayWidget(),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Level extends StatelessWidget {
@@ -24,6 +23,20 @@ class Level extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(32),
           child: Text("Glückwunsch, du hast Level 5 erreicht!"),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 54, left: 20),
+          child: Text(
+            "So startest du durch:",
+            style: TextStyle(fontSize: 26),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 10, top: 55),
+          child: Text(
+            "+5 pro Erfolgseintrag \n+5 pro Dankbarkeitseintrag\n+50 pro gesamte Morgenroutine",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       ]),
     );
