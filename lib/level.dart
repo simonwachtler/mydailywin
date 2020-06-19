@@ -22,13 +22,15 @@ class Level extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(32),
-          child: Text("Glückwunsch, du hast Level 5 erreicht!"),
+          child: Text(
+            "Glückwunsch, du hast Level 5 erreicht!",
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 54, left: 20),
           child: Text(
             "So startest du durch:",
-            style: TextStyle(fontSize: 26),
+            style: TextStyle(fontSize: 26, fontFamily: "Abadi"),
           ),
         ),
         Padding(

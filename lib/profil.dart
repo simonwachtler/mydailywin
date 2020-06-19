@@ -23,13 +23,38 @@ class Profil extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 16, top: 150),
+              padding: const EdgeInsets.only(left: 16, top: 135),
               child:
-                  Text("Simon", style: Theme.of(context).textTheme.headline5),
-            )
+                  Text("Simon", style: Theme.of(context).textTheme.headline4),
+            ),
           ],
         ),
+        Padding(
+          padding: const EdgeInsets.only(left: 3.0, top: 150),
+          child: Text(
+            'JETZT ENTWICKLER UNTERSTÜTZEN!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25, fontFamily: 'Abadi'),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 3.0, top: 60),
+          child: Text(
+            'GIB UNS 5 STERNE!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25, fontFamily: 'Abadi'),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 3.0, top: 60),
+          child: Text(
+            'SUPPORT ERHALTEN!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 25, fontFamily: 'Abadi'),
+          ),
+        ),
       ]),
+      // Um de drei Sochn mias mo jeweils no so a Box mochn.
     );
   }
 }
