@@ -30,14 +30,14 @@ class Profil extends StatelessWidget {
                   Text("Simon", style: Theme.of(context).textTheme.headline4),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 125, left: 6),
-              child:
-                  Text("Level 5", style: Theme.of(context).textTheme.headline6),
+              padding: const EdgeInsets.only(top: 126, left: 6),
+              child: Text(" Level 5",
+                  style: Theme.of(context).textTheme.headline6),
             ),
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 360, top: 15),
+          padding: const EdgeInsets.only(left: 360, top: 19),
           child: Container(
             decoration: new BoxDecoration(
               color: Colors.grey[300],

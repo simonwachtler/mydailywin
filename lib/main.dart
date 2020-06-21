@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
         currentIndex: selectedScreen,
-        selectedItemColor: Colors.red,
+        selectedItemColor: Colors.blue[800],
         unselectedItemColor: Colors.grey,
         onTap: (index) {
           setState(() {

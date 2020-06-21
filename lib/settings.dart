@@ -37,28 +37,46 @@ class Settings extends StatelessWidget {
               ),
             ],
           ),
-          Card(
-            child: Row(
+          Padding(
+            padding: const EdgeInsets.only(top: 33, left: 12, right: 12),
+            child: Card(
+              child: Row(
+                children: <Widget>[
+                  Text(" Simon", style: Theme.of(context).textTheme.headline4),
+                  Spacer(),
+                  Icon(
+                    Icons.person,
+                    size: 75,
+                    color: Colors.grey.shade300,
+                  )
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
+            child: SwitchListTile.adaptive(
+              title: Text("Deaktiviert"),
+              subtitle: Text("Biometrische Bildschirmsperre "),
+              onChanged: (enabled) {
+                print("Aktiviert: $enabled");
+              },
+              value: false,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 7, left: 12, right: 12),
+            child: Column(
               children: <Widget>[
-                Text("Simon", style: Theme.of(context).textTheme.headline4),
-                Spacer(),
-                Icon(
-                  Icons.person,
-                  size: 75,
-                  color: Colors.grey.shade300,
-                )
+                DarkModeSwitch(),
               ],
             ),
           ),
-          SwitchListTile.adaptive(
-            title: Text("Deaktiviert"),
-            subtitle: Text("Biometrische Bildschirmsperre "),
-            onChanged: (enabled) {
-              print("Aktiviert: $enabled");
-            },
-            value: false,
-          ),
-          DarkModeSwitch(),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+                '\n\n                              ver 1\n\n© Debertol Michael & Wachtler Simon'),
+          )
         ],
       ),
     );
