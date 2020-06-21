@@ -1,39 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:persist_theme/persist_theme.dart';
+import 'package:provider/provider.dart';
 
 import 'greeting.dart';
 import 'hall_of_fame.dart';
 import 'level.dart';
+import 'new_success.dart';
 import 'profil.dart';
 
 void main() {
   runApp(MyApp());
 }
 
+final _model = ThemeModel();
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Flutter Demo",
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.red,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(),
-    );
+    return ListenableProvider<ThemeModel>(
+        create: (_) => _model..init(),
+        child: Consumer<ThemeModel>(builder: (context, model, child) {
+          return MaterialApp(
+            title: "Flutter Demo",
+            theme: model.theme,
+            home: MyHomePage(),
+          );
+        }));
   }
 }
 
@@ -121,17 +115,31 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
       child: Icon(isExpanded ? Icons.close : Icons.add),
       children: [
         SpeedDialChild(
-          child: Icon(Icons.wb_sunny),
-          label: "Start in den Tag",
-        ),
+            child: Icon(Icons.wb_sunny),
+            label: "Start in den Tag",
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => NewSuccess(
+                        type: EntryType.Success,
+                        morningRoutine: true,
+                      )));
+            }),
         SpeedDialChild(
-          child: Icon(Icons.tag_faces),
-          label: "Dankbarkeitsnotiz",
-        ),
+            child: Icon(Icons.tag_faces),
+            label: "Dankbarkeitsnotiz",
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => NewSuccess(type: EntryType.Grateful)));
+            }),
         SpeedDialChild(
-          child: Icon(Icons.grade),
-          label: "Erfolg",
-        ),
+            child: Icon(Icons.grade),
+            label: "Erfolg",
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => NewSuccess(
+                        type: EntryType.Success,
+                      )));
+            }),
       ],
       onOpen: () {
         setState(() {

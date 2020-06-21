@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'settings.dart';
+
 class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -46,82 +48,27 @@ class Profil extends StatelessWidget {
                 SizedBox(
                   width: 130,
                 ),
-                Icon(Icons.settings, color: Colors.black, size: 40),
+                IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (_) => Settings()));
+                    }),
               ],
             ),
           ),
         ),
-        InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            print("isRecording");
-          },
-          child: Padding(
-            padding: EdgeInsets.only(left: 3.0, top: 100),
-            child: Container(
-              width: 370,
-              decoration: new BoxDecoration(
-                color: Colors.purple[200],
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(35.0),
-                child: Text(
-                  "JETZT ENTWICKLER UNTERSTÜTZEN! >>",
-                  style: TextStyle(fontSize: 20, fontFamily: 'Abadi'),
-                ),
-              ),
-            ),
-          ),
+        ProfilBox(
+          color: Colors.purple[200],
+          text: "JETZT ENTWICKLER UNTERSTÜTZEN! >>",
         ),
-        InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            print("isRecording");
-          },
-          child: Padding(
-            padding: EdgeInsets.only(left: 3.0, top: 15),
-            child: Container(
-              width: 370,
-              decoration: new BoxDecoration(
-                color: Colors.blue[200],
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(35.0),
-                child: Text(
-                  "GIB UNS 5 STERNE!",
-                  style: TextStyle(fontSize: 25, fontFamily: 'Abadi'),
-                ),
-              ),
-            ),
-          ),
+        ProfilBox(
+          color: Colors.blue[200],
+          text: "GIB UNS 5 STERNE!",
         ),
-        InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            print("isRecording");
-          },
-          child: Padding(
-            padding: EdgeInsets.only(left: 3.0, top: 15),
-            child: Container(
-              width: 370,
-              decoration: new BoxDecoration(
-                color: Colors.green[300],
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(35.0),
-                child: Text(
-                  "SUPPORT ERHALTEN!",
-                  style: TextStyle(fontSize: 25, fontFamily: 'Abadi'),
-                ),
-              ),
-            ),
-          ),
+        ProfilBox(
+          color: Colors.green[300],
+          text: "SUPPORT ERHALTEN!",
         ),
       ]),
     );
@@ -130,12 +77,33 @@ class Profil extends StatelessWidget {
 
 class ProfilBox extends StatelessWidget {
   final Color color;
-  final Widget child;
+  final String text;
 
-  const ProfilBox({Key key, this.color, this.child}) : super(key: key);
+  const ProfilBox({Key key, this.color, this.text}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: EdgeInsets.only(left: 3.0, top: 15),
+      child: Container(
+        width: 370,
+        child: Material(
+          color: color,
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          child: InkWell(
+            onTap: () {
+              print("isRecording");
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(35.0),
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 25, fontFamily: 'Abadi'),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
