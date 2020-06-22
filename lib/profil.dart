@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_daily_success/main.dart';
 
 import 'settings.dart';
 
@@ -26,8 +27,7 @@ class Profil extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16, top: 115),
-              child:
-                  Text("Simon", style: Theme.of(context).textTheme.headline4),
+              child: Text(name, style: Theme.of(context).textTheme.headline4),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 126, left: 6),

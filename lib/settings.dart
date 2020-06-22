@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:persist_theme/ui/theme_widgets.dart';
 
+import 'main.dart';
+
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class Settings extends StatelessWidget {
             child: Card(
               child: Row(
                 children: <Widget>[
-                  Text(" Simon", style: Theme.of(context).textTheme.headline4),
+                  Text(name, style: Theme.of(context).textTheme.headline4),
                   Spacer(),
                   Icon(
                     Icons.person,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_daily_success/main.dart';
 
 class Greeting extends StatelessWidget {
   const Greeting({
@@ -12,7 +13,7 @@ class Greeting extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(55.0),
           child: Text(
-            'Guten Tag, Michael!',
+            'Guten Tag, $name!',
             style: TextStyle(
               fontSize: 38.0,
               fontFamily: 'Abadi',

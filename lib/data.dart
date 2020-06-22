@@ -21,19 +21,37 @@ class Entry {
   Map<String, dynamic> toJson() => _$EntryToJson(this);
 }
 
-Future<File> getFile() async {
+Future<File> getDataFile() async {
   final documentsDirectory = await getApplicationDocumentsDirectory();
   return File("${documentsDirectory.path}/data.json");
 }
 
-void readEntries() async {
-  final file = await getFile();
-  final result = json.decode(await file.readAsString());
-  entries = result.map((e) => Entry.fromJson(e)).toList();
+Future<File> getNameFile() async {
+  final documentsDirectory = await getApplicationDocumentsDirectory();
+  return File("${documentsDirectory.path}/name");
+}
+
+Future<void> readEntries() async {
+  final file = await getDataFile();
+  if (!await file.exists()) {
+    entries = [];
+  } else {
+    final result = json.decode(await file.readAsString());
+    entries = List.from(result.map((e) => Entry.fromJson(e)));
+  }
+  final nameFile = await getNameFile();
+  if (await nameFile.exists()) {
+    name = await nameFile.readAsString();
+  }
 }
 
 void writeEntries() async {
-  final file = await getFile();
+  final file = await getDataFile();
   final result = json.encode(entries.map((e) => e.toJson()).toList());
   file.writeAsString(result);
+}
+
+void writeName() async {
+  final file = await getNameFile();
+  file.writeAsString(name);
 }

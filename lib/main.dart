@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:persist_theme/persist_theme.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +12,10 @@ import 'new_success.dart';
 import 'profil.dart';
 
 List<Entry> entries;
+String name;
 
 void main() {
   runApp(MyApp());
-  readEntries();
 }
 
 final _model = ThemeModel();
@@ -30,6 +31,12 @@ class MyApp extends StatelessWidget {
             title: "Flutter Demo",
             theme: model.theme,
             home: MyHomePage(),
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [Locale("de")],
           );
         }));
   }
@@ -42,6 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int selectedScreen = 0;
+  bool showingDialog = false;
 
   Widget currentScreen(int index) {
     switch (index) {
@@ -58,6 +66,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    readEntries().then((value) async {
+      if (!showingDialog && name == null) {
+        showingDialog = true;
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Hi! Wie heißt du?"),
+            content: TextField(
+              onChanged: (n) => name = n,
+            ),
+            actions: [
+              FlatButton(
+                  child: Text("Ok"),
+                  onPressed: () => Navigator.of(context).pop()),
+            ],
+          ),
+          barrierDismissible: false,
+        );
+        writeName();
+      }
+    });
     return Scaffold(
       body: currentScreen(selectedScreen),
       bottomNavigationBar: BottomNavigationBar(
@@ -96,14 +125,21 @@ class _MyHomePageState extends State<MyHomePage> {
           });
         },
       ),
-      floatingActionButton: SpeedDialAdd(),
+      floatingActionButton: SpeedDialAdd(
+        onEntered: () {
+          setState(() {});
+        },
+      ),
     );
   }
 }
 
 class SpeedDialAdd extends StatefulWidget {
+  final VoidCallback onEntered;
+
   const SpeedDialAdd({
     Key key,
+    this.onEntered,
   }) : super(key: key);
 
   @override
@@ -121,28 +157,31 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
         SpeedDialChild(
             child: Icon(Icons.wb_sunny),
             label: "Start in den Tag",
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
+            onTap: () async {
+              await Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => NewSuccess(
                         type: EntryType.Success,
                         morningRoutine: true,
                       )));
+              widget.onEntered();
             }),
         SpeedDialChild(
             child: Icon(Icons.tag_faces),
             label: "Dankbarkeitsnotiz",
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
+            onTap: () async {
+              await Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => NewSuccess(type: EntryType.Grateful)));
+              widget.onEntered();
             }),
         SpeedDialChild(
             child: Icon(Icons.grade),
             label: "Erfolg",
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
+            onTap: () async {
+              await Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => NewSuccess(
                         type: EntryType.Success,
                       )));
+              widget.onEntered();
             }),
       ],
       onOpen: () {

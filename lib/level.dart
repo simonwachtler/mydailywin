@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'main.dart';
+
 class Level extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -8,7 +10,7 @@ class Level extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 90),
           child: Text(
-            'Guten Tag, Michael!',
+            'Guten Tag, $name!',
             style: TextStyle(
                 fontSize: 25.0,
                 fontFamily: 'Abadi',

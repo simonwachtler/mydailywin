@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+import 'data.dart';
+import 'main.dart';
 
 class HallOfFame extends StatelessWidget {
   @override
@@ -20,52 +24,87 @@ class HallOfFame extends StatelessWidget {
             style: TextStyle(fontSize: 23.0),
           ),
         ),
-        DayWidget(),
-        DayWidget(),
-        DayWidget(),
-        DayWidget(),
-        DayWidget(),
+        ...filterEntries(entries)
+            .entries
+            .map((e) => DayWidget(entries: e.value, date: e.key))
+            .toList(),
+        SizedBox(height: 100),
       ]),
     );
+  }
+
+  DateTime toDate(DateTime time) {
+    return DateTime(time.year, time.month, time.day);
+  }
+
+  Map<DateTime, List<Entry>> filterEntries(List<Entry> entries) {
+    final map = Map<DateTime, List<Entry>>();
+    for (var entry in entries) {
+      final date = toDate(entry.date);
+      if (map.containsKey(date)) {
+        map[date].add(entry);
+      } else {
+        map[date] = [entry];
+      }
+    }
+    return map;
   }
 }
 
 class DayWidget extends StatelessWidget {
+  final List<Entry> entries;
+  final DateTime date;
+
+  const DayWidget({Key key, this.entries, this.date}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: IntrinsicHeight(
-        child: Row(children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "30",
-                      style: Theme.of(context).textTheme.headline4,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              DateFormat.MMMMd("de").format(date),
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text("Das habe ich geschafft:",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: entries
+                  .where((element) => element.type == EntryType.Success)
+                  .map(
+                    (e) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: e.contents
+                          .where((element) => element.isNotEmpty)
+                          .map((c) => Text(c))
+                          .toList(),
                     ),
-                  ),
-                ),
-                Text("Samstag"),
-              ],
+                  )
+                  .toList(),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                Text("1. Lorem ipsum"),
-                Text("1. Lorem ipsum"),
-                Text("1. Lorem ipsum"),
-                Text("1. Lorem ipsum"),
-                Text("1. Lorem ipsum"),
-              ],
+            SizedBox(height: 8),
+            Text("Dafür bin ich dankbar:",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: entries
+                  .where((element) => element.type == EntryType.Grateful)
+                  .map(
+                    (e) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: e.contents
+                          .where((element) => element.isNotEmpty)
+                          .map((c) => Text(c))
+                          .toList(),
+                    ),
+                  )
+                  .toList(),
             ),
-          )
-        ]),
+          ],
+        ),
       ),
     );
   }

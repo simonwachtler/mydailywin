@@ -31,7 +31,7 @@ class NewSuccess extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Text(
-                  'Guten Tag, Michael!',
+                  'Guten Tag, $name!',
                   style: TextStyle(
                       fontSize: 25.0,
                       fontFamily: 'Abadi',
@@ -69,6 +69,8 @@ class NewSuccess extends StatelessWidget {
               if (morningRoutine && type == EntryType.Success) {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (_) => NewSuccess(type: EntryType.Grateful)));
+              } else {
+                Navigator.of(context).pop();
               }
             },
           )
