@@ -85,6 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
           barrierDismissible: false,
         );
         writeName();
+      } else {
+        setState(() {});
       }
     });
     return Scaffold(
