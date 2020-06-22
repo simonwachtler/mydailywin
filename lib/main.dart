@@ -152,7 +152,6 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
   bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
-    // TODO: Better icons
     return SpeedDial(
       child: Icon(isExpanded ? Icons.close : Icons.add),
       children: [
