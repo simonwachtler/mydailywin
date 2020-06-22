@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-enum EntryType { Success, Grateful }
+import 'data.dart';
+import 'main.dart';
 
 class NewSuccess extends StatelessWidget {
   final String text;
@@ -63,6 +64,8 @@ class NewSuccess extends StatelessWidget {
                 ? "Weiter"
                 : "Fertig",
             onConfirm: (contents) {
+              entries.add(Entry(DateTime.now(), contents, type));
+              writeEntries();
               if (morningRoutine && type == EntryType.Success) {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (_) => NewSuccess(type: EntryType.Grateful)));

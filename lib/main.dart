@@ -3,14 +3,18 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:persist_theme/persist_theme.dart';
 import 'package:provider/provider.dart';
 
+import 'data.dart';
 import 'greeting.dart';
 import 'hall_of_fame.dart';
 import 'level.dart';
 import 'new_success.dart';
 import 'profil.dart';
 
+List<Entry> entries;
+
 void main() {
   runApp(MyApp());
+  readEntries();
 }
 
 final _model = ThemeModel();
