@@ -40,6 +40,16 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^1.0.0
   json_serializable: ^3.2.0
+  flutter_launcher_icons: "^0.7.3"
+
+# Run "flutter pub run flutter_launcher_icons:main" after changing the icon
+flutter_icons:
+  android: true
+  ios: true
+  # Konnsch des ändern & donoch "flutter pub run flutter_launcher_icons:main" im terminal ausführen
+  #                 ↓                                   (sel generiert donn die verschidenen icons)
+  image_path: "icon/1.png"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
