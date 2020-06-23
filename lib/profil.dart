@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:my_daily_success/main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import 'data.dart';
 import 'settings.dart';
 
-class Profil extends StatelessWidget {
+class Profil extends StatefulWidget {
+  @override
+  _ProfilState createState() => _ProfilState();
+}
+
+class _ProfilState extends State<Profil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +28,13 @@ class Profil extends StatelessWidget {
                   SizedBox(
                     height: 50,
                   ),
-                  Icon(Icons.person, color: Colors.white, size: 150),
+                  Container(
+                    child: imageFile == null
+                        ? Icon(Icons.person, color: Colors.white, size: 150)
+                        : Image.file(imageFile),
+                    height: 150,
+                    width: 150,
+                  ),
                 ],
               ),
             ),
@@ -31,8 +44,14 @@ class Profil extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 126, left: 6),
-              child: Text(" Level 5",
-                  style: Theme.of(context).textTheme.headline6),
+              child: IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () async {
+                  await showNameDialog(context);
+                  writeName();
+                  setState(() {});
+                },
+              ),
             ),
           ],
         ),
@@ -40,7 +59,7 @@ class Profil extends StatelessWidget {
           padding: const EdgeInsets.only(left: 360, top: 19),
           child: Container(
             decoration: new BoxDecoration(
-              color: Colors.grey[300],
+              color: Colors.grey.withAlpha(100),
               borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
             ),
             child: Column(
@@ -50,9 +69,10 @@ class Profil extends StatelessWidget {
                 ),
                 IconButton(
                     icon: Icon(Icons.settings),
-                    onPressed: () {
-                      Navigator.of(context)
+                    onPressed: () async {
+                      await Navigator.of(context)
                           .push(MaterialPageRoute(builder: (_) => Settings()));
+                      setState(() {});
                     }),
               ],
             ),
@@ -69,7 +89,10 @@ class Profil extends StatelessWidget {
         ProfilBox(
           color: Colors.green[300],
           text: "SUPPORT ERHALTEN!",
-          // diese Seite verlinken: https://form.jotform.com/201736647022047
+          onTap: () {
+            launch("https://form.jotform.com/201736647022047");
+          },
+          // diese Seite verlinken:
         ),
       ]),
     );
@@ -79,8 +102,10 @@ class Profil extends StatelessWidget {
 class ProfilBox extends StatelessWidget {
   final Color color;
   final String text;
+  final VoidCallback onTap;
 
-  const ProfilBox({Key key, this.color, this.text}) : super(key: key);
+  const ProfilBox({Key key, this.color, this.text, this.onTap})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -91,9 +116,7 @@ class ProfilBox extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
           child: InkWell(
-            onTap: () {
-              print("isRecording");
-            },
+            onTap: onTap,
             child: Padding(
               padding: const EdgeInsets.all(35.0),
               child: Text(

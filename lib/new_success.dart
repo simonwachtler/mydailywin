@@ -26,11 +26,11 @@ class NewSuccess extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 90, left: 13),
-            child: Row(
-              children: <Widget>[
-                Text(
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 90, left: 13),
+                child: Text(
                   'Guten Tag, $name!',
                   style: TextStyle(
                       fontSize: 25.0,
@@ -38,15 +38,15 @@ class NewSuccess extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.grey),
                 ),
-                Spacer(),
-                IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 70, left: 13),

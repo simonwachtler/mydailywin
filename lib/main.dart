@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -13,6 +15,7 @@ import 'profil.dart';
 
 List<Entry> entries;
 String name;
+File imageFile;
 
 void main() {
   runApp(MyApp());
@@ -54,7 +57,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget currentScreen(int index) {
     switch (index) {
       case 0:
-        return Greeting();
+        return Greeting(
+          switchToMutmacher: () {
+            setState(() {
+              selectedScreen = 2;
+            });
+          },
+        );
       case 1:
         return Level();
       case 2:
@@ -66,14 +75,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    readEntries().then((value) async {
-      if (!showingDialog && name == null) {
-        showingDialog = true;
-        await showNameDialog(context);
-        writeName();
-      }
-      setState(() {});
-    });
+    if (entries == null) {
+      readEntries().then((value) async {
+        if (!showingDialog && name == null) {
+          showingDialog = true;
+          await showNameDialog(context);
+          writeName();
+        }
+        setState(() {});
+      });
+    }
     return Scaffold(
       body: currentScreen(selectedScreen),
       bottomNavigationBar: BottomNavigationBar(
