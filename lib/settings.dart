@@ -33,7 +33,8 @@ class Settings extends StatelessWidget {
                       height: 30,
                     ),
                     Padding(
-                        padding: const EdgeInsets.all(30),
+                        padding: const EdgeInsets.only(
+                            right: 50, bottom: 50, left: 20, top: 20),
                         child: IconButton(
                           icon: Icon(Icons.camera_alt,
                               color: Colors.white, size: 75),
@@ -57,7 +58,7 @@ class Settings extends StatelessWidget {
                   Spacer(),
                   Icon(
                     Icons.person,
-                    size: 75,
+                    size: 70,
                     color: Colors.grey.shade300,
                   )
                 ],
@@ -88,9 +89,11 @@ class Settings extends StatelessWidget {
             child: Text(
                 '\n\n                              ver 1\n\n© Debertol Michael & Wachtler Simon'),
           ),
-          AboutListTile(
-            applicationName: "My daily win",
-            applicationLegalese: """Impressum
+          Padding(
+            padding: const EdgeInsets.only(left: 120),
+            child: AboutListTile(
+              applicationName: "My Daily Win!",
+              applicationLegalese: """Impressum
 Wachtler Simon und Debertol Michael
 Köstlanerstraße 33/B
 39042 Brixen
@@ -130,6 +133,7 @@ Bei Bekanntwerden von Rechtsverletzungen solcher Natur werden wir derartige Inha
 
 Debertol Michael & Wachtler Simon
  """,
+            ),
           )
         ],
       ),
