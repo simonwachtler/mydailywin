@@ -11,7 +11,7 @@ class HallOfFame extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: ListView(children: [
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.only(left: 15.0, top: 35),
           child: Text(
             "Ich schaffe das!",
             style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold),
@@ -68,6 +68,7 @@ class DayWidget extends StatelessWidget {
               DateFormat.MMMMd("de").format(date),
               style: Theme.of(context).textTheme.headline4,
             ),
+            SizedBox(height: 8),
             Text("Das habe ich geschafft:",
                 style: TextStyle(fontWeight: FontWeight.bold)),
             Column(

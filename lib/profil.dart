@@ -69,6 +69,7 @@ class Profil extends StatelessWidget {
         ProfilBox(
           color: Colors.green[300],
           text: "SUPPORT ERHALTEN!",
+          // diese Seite verlinken: https://form.jotform.com/201736647022047
         ),
       ]),
     );

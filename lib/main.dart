@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             actions: [
               FlatButton(
-                  child: Text("Ok"),
+                  child: Text("Jetzt loslegen!"),
                   onPressed: () => Navigator.of(context).pop()),
             ],
           ),
