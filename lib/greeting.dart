@@ -13,7 +13,7 @@ class Greeting extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(55.0),
           child: Text(
-            'Guten Tag, $name!',
+            name?.isNotEmpty == true ? 'Guten Tag, $name!' : 'Guten Tag!',
             style: TextStyle(
               fontSize: 38.0,
               fontFamily: 'Abadi',

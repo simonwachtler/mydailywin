@@ -69,25 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
     readEntries().then((value) async {
       if (!showingDialog && name == null) {
         showingDialog = true;
-        await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("Hi! Wie heißt du?"),
-            content: TextField(
-              onChanged: (n) => name = n,
-            ),
-            actions: [
-              FlatButton(
-                  child: Text("Jetzt loslegen!"),
-                  onPressed: () => Navigator.of(context).pop()),
-            ],
-          ),
-          barrierDismissible: false,
-        );
+        await showNameDialog(context);
         writeName();
-      } else {
-        setState(() {});
       }
+      setState(() {});
     });
     return Scaffold(
       body: currentScreen(selectedScreen),
@@ -195,6 +180,39 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
           isExpanded = false;
         });
       },
+    );
+  }
+}
+
+Future<void> showNameDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (_) => NameDialog(),
+    barrierDismissible: false,
+  );
+}
+
+class NameDialog extends StatefulWidget {
+  @override
+  _NameDialogState createState() => _NameDialogState();
+}
+
+class _NameDialogState extends State<NameDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Hi! Wie heißt du?"),
+      content: TextField(
+        onChanged: (n) => setState(() => name = n),
+      ),
+      actions: [
+        FlatButton(
+          child: Text("Jetzt loslegen!"),
+          onPressed: name?.isNotEmpty == true
+              ? () => Navigator.of(context).pop()
+              : null,
+        ),
+      ],
     );
   }
 }
