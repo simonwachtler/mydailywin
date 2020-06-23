@@ -95,11 +95,9 @@ class NewSuccessForm extends StatefulWidget {
 
 class _NewSuccessFormState extends State<NewSuccessForm> {
   final _formKey = GlobalKey<FormState>();
-  final textEditingController1 = TextEditingController(),
-      textEditingController2 = TextEditingController(),
-      textEditingController3 = TextEditingController(),
-      textEditingController4 = TextEditingController(),
-      textEditingController5 = TextEditingController();
+  final List<TextEditingController> controllers =
+      List.generate(5, (_) => TextEditingController());
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -107,42 +105,35 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
       child: Form(
           child: Column(
             children: <Widget>[
-              TextFormField(
-                controller: textEditingController1,
-                decoration: InputDecoration(
-                    labelText: "1.", border: OutlineInputBorder()),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: textEditingController2,
-                decoration: InputDecoration(
-                    labelText: "2.", border: OutlineInputBorder()),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: textEditingController3,
-                decoration: InputDecoration(
-                    labelText: "3.", border: OutlineInputBorder()),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: textEditingController4,
-                decoration: InputDecoration(
-                    labelText: "4.", border: OutlineInputBorder()),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: textEditingController5,
-                decoration: InputDecoration(
-                    labelText: "5.", border: OutlineInputBorder()),
+              for (var i = 0; i < controllers.length; i++)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: controllers[i],
+                          decoration: InputDecoration(
+                            labelText: "${i + 1}.",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          setState(() {
+                            controllers.removeAt(i);
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () =>
+                    setState(() => controllers.add(TextEditingController())),
               ),
               SizedBox(
                 height: 20,
@@ -152,13 +143,7 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
                   widget.confirmText,
                 ),
                 onPressed: () {
-                  final contents = [
-                    textEditingController1.text,
-                    textEditingController2.text,
-                    textEditingController3.text,
-                    textEditingController4.text,
-                    textEditingController5.text,
-                  ];
+                  final contents = controllers.map((c) => c.text).toList();
                   print(contents);
                   widget.onConfirm(contents);
                 },
