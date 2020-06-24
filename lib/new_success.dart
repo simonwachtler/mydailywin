@@ -63,12 +63,13 @@ class NewSuccess extends StatelessWidget {
             confirmText: morningRoutine && type == EntryType.Success
                 ? "Weiter"
                 : "Fertig",
-            onConfirm: (contents) {
+            onConfirm: (contents) async {
               entries.add(Entry(DateTime.now(), contents, type));
               writeEntries();
               if (morningRoutine && type == EntryType.Success) {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                await Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) => NewSuccess(type: EntryType.Grateful)));
+                Navigator.of(context).pop();
               } else {
                 Navigator.of(context).pop();
               }
@@ -149,7 +150,7 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
                             .map((c) => c.text)
                             .where((t) => t.isNotEmpty)
                             .toList();
-                        print(contents);
+
                         widget.onConfirm(contents);
                       }
                     : null,

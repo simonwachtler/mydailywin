@@ -33,8 +33,17 @@ class Greeting extends StatelessWidget {
           ),
         ),
         GreetingBox(
-          color: Colors.green[300],
-          child: Text("MORGEN-ROUTINE:\nPerfekt in den Tag starten!"),
+          color: Colors.green,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "MORGEN-ROUTINE: ",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text("Perfekt in den Tag starten!"),
+            ],
+          ),
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => NewSuccess(
@@ -44,18 +53,39 @@ class Greeting extends StatelessWidget {
           },
         ),
         GreetingBox(
-          color: Colors.blue[200],
-          child: Text("TÄGLICHE REFLEXION:\nPositive Stimmung!"),
+          color: Colors.blue,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "TÄGLICHE REFLEXION:",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text("Positive Stimmung!"),
+            ],
+          ),
         ),
         GreetingBox(
-          color: Colors.pink[200],
-          child: Text("SELBSTVERTRAUEN-BOOST:\nJa, ich schaffe es!"),
+          color: Colors.pink,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "SELBSTVERTRAUEN-BOOST:",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text("Ja, ich schaffe es!"),
+            ],
+          ),
           onTap: switchToMutmacher,
         ),
         if (lastEntries != null)
-          DayWidget(
-            entries: lastEntries.item2,
-            date: lastEntries.item1,
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: DayWidget(
+              entries: lastEntries.item2,
+              date: lastEntries.item1,
+            ),
           )
       ],
     );
@@ -63,6 +93,7 @@ class Greeting extends StatelessWidget {
 
   Tuple2<DateTime, List<Entry>> _filterEntries(List<Entry> entries) {
     Tuple2<DateTime, List<Entry>> tuple;
+    if (entries == null) return null;
     for (var entry in entries) {
       final date = toDate(entry.date);
       if (tuple?.item1?.isBefore(date) != false) {
@@ -92,7 +123,7 @@ class GreetingBox extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 65.0, top: 3.0),
       child: Material(
-        color: color,
+        color: color.withAlpha(150),
         borderRadius: BorderRadius.horizontal(left: Radius.circular(8.0)),
         child: InkWell(
           child: Padding(

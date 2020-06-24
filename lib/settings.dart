@@ -54,7 +54,11 @@ class Settings extends StatelessWidget {
             child: Card(
               child: Row(
                 children: <Widget>[
-                  Text(name, style: Theme.of(context).textTheme.headline4),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(name,
+                        style: Theme.of(context).textTheme.headline4),
+                  ),
                   Spacer(),
                   Icon(
                     Icons.person,
@@ -89,11 +93,12 @@ class Settings extends StatelessWidget {
             child: Text(
                 '\n\n                              ver 1\n\n© Debertol Michael & Wachtler Simon'),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 120),
-            child: AboutListTile(
-              applicationName: "My Daily Win!",
-              applicationLegalese: """Impressum
+          AboutListTile(
+            child: Center(
+              child: Text("Über My Daily Win!"),
+            ),
+            applicationName: "My Daily Win!",
+            applicationLegalese: """Impressum
 Wachtler Simon und Debertol Michael
 Köstlanerstraße 33/B
 39042 Brixen
@@ -133,7 +138,6 @@ Bei Bekanntwerden von Rechtsverletzungen solcher Natur werden wir derartige Inha
 
 Debertol Michael & Wachtler Simon
  """,
-            ),
           )
         ],
       ),

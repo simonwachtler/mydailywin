@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:persist_theme/persist_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:local_auth/local_auth.dart';
 
 import 'data.dart';
 import 'greeting.dart';
@@ -76,6 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     if (entries == null) {
+      final localAuth = LocalAuthentication();
+      localAuth.authenticateWithBiometrics(localizedReason: "Hi!");
       readEntries().then((value) async {
         if (!showingDialog && name == null) {
           showingDialog = true;
@@ -160,6 +163,7 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
                         type: EntryType.Success,
                         morningRoutine: true,
                       )));
+
               widget.onEntered();
             }),
         SpeedDialChild(

@@ -57,12 +57,12 @@ class DayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final success =
         entries.where((element) => element.type == EntryType.Success).fold(
-      [],
+      <String>[],
       (previousValue, element) => previousValue..addAll(element.contents),
     ).where((String c) => c.isNotEmpty);
     final grateful =
         entries.where((element) => element.type == EntryType.Grateful).fold(
-      [],
+      <String>[],
       (previousValue, element) => previousValue..addAll(element.contents),
     ).where((String c) => c.isNotEmpty);
     return Card(

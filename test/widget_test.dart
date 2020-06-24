@@ -7,24 +7,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:my_daily_success/level.dart';
 
 import 'package:my_daily_success/main.dart';
+import 'package:tuple/tuple.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
-
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('calculation of level', () {
+    expect(calculateLevels(0), Tuple2(1, .0));
+    expect(calculateLevels(9), Tuple2(1, .9));
+    expect(calculateLevels(10), Tuple2(2, .0));
+    expect(calculateLevels(30), Tuple2(3, .0));
   });
 }

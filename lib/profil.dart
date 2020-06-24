@@ -79,15 +79,15 @@ class _ProfilState extends State<Profil> {
           ),
         ),
         ProfilBox(
-          color: Colors.purple[200],
+          color: Colors.purple,
           text: "JETZT ENTWICKLER UNTERSTÜTZEN! >>",
         ),
         ProfilBox(
-          color: Colors.blue[200],
+          color: Colors.blue,
           text: "GIB UNS 5 STERNE!",
         ),
         ProfilBox(
-          color: Colors.green[300],
+          color: Colors.green,
           text: "SUPPORT ERHALTEN!",
           onTap: () {
             launch("https://form.jotform.com/201736647022047");
@@ -113,7 +113,7 @@ class ProfilBox extends StatelessWidget {
       child: Container(
         width: 370,
         child: Material(
-          color: color,
+          color: color.withAlpha(150),
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
           child: InkWell(
             onTap: onTap,
