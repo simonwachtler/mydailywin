@@ -117,6 +117,7 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
                             labelText: "${i + 1}.",
                             border: OutlineInputBorder(),
                           ),
+                          onChanged: (_) => setState(() {}),
                         ),
                       ),
                       IconButton(
@@ -142,11 +143,16 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
                 child: Text(
                   widget.confirmText,
                 ),
-                onPressed: () {
-                  final contents = controllers.map((c) => c.text).toList();
-                  print(contents);
-                  widget.onConfirm(contents);
-                },
+                onPressed: controllers.any((c) => c.text.isNotEmpty)
+                    ? () {
+                        final contents = controllers
+                            .map((c) => c.text)
+                            .where((t) => t.isNotEmpty)
+                            .toList();
+                        print(contents);
+                        widget.onConfirm(contents);
+                      }
+                    : null,
               )
             ],
           ),
