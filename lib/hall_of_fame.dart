@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'data.dart';
 import 'main.dart';
+import 'util.dart';
 
 class HallOfFame extends StatelessWidget {
   @override
@@ -33,10 +34,6 @@ class HallOfFame extends StatelessWidget {
     );
   }
 
-  DateTime toDate(DateTime time) {
-    return DateTime(time.year, time.month, time.day);
-  }
-
   Map<DateTime, List<Entry>> filterEntries(List<Entry> entries) {
     final map = Map<DateTime, List<Entry>>();
     for (var entry in entries) {
@@ -58,6 +55,16 @@ class DayWidget extends StatelessWidget {
   const DayWidget({Key key, this.entries, this.date}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final success =
+        entries.where((element) => element.type == EntryType.Success).fold(
+      [],
+      (previousValue, element) => previousValue..addAll(element.contents),
+    ).where((String c) => c.isNotEmpty);
+    final grateful =
+        entries.where((element) => element.type == EntryType.Grateful).fold(
+      [],
+      (previousValue, element) => previousValue..addAll(element.contents),
+    ).where((String c) => c.isNotEmpty);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -69,41 +76,15 @@ class DayWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.headline4,
             ),
             SizedBox(height: 8),
-            Text("Das habe ich geschafft:",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: entries
-                  .where((element) => element.type == EntryType.Success)
-                  .map(
-                    (e) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: e.contents
-                          .where((element) => element.isNotEmpty)
-                          .map((c) => Text(c))
-                          .toList(),
-                    ),
-                  )
-                  .toList(),
-            ),
+            if (success.isNotEmpty)
+              Text("Das habe ich geschafft:",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            for (var s in success) Text(s),
             SizedBox(height: 8),
-            Text("Dafür bin ich dankbar:",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: entries
-                  .where((element) => element.type == EntryType.Grateful)
-                  .map(
-                    (e) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: e.contents
-                          .where((element) => element.isNotEmpty)
-                          .map((c) => Text(c))
-                          .toList(),
-                    ),
-                  )
-                  .toList(),
-            ),
+            if (grateful.isNotEmpty)
+              Text("Dafür bin ich dankbar:",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            for (var g in grateful) Text(g)
           ],
         ),
       ),
