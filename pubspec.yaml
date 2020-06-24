@@ -28,10 +28,11 @@ dependencies:
   flutter_speed_dial: ^1.2.5
   persist_theme: ^1.7.0
   json_annotation: ^3.0.0
-  path_provider: ^1.6.1
+  path_provider: ^1.6.11
   intl: ^0.16.1
   url_launcher: ^5.4.11
   image_picker: ^0.6.7+2
+  tuple: ^1.0.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -51,7 +52,6 @@ flutter_icons:
   # Konnsch des ändern & donoch "flutter pub run flutter_launcher_icons:main" im terminal ausführen
   #                 ↓                                   (sel generiert donn die verschidenen icons)
   image_path: "icon/1.png"
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
