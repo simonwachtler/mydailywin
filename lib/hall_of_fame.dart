@@ -9,9 +9,9 @@ import 'util.dart';
 class HallOfFame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return AnimatedListView(
       padding: const EdgeInsets.all(8.0),
-      child: AnimatedListView(children: [
+      children: [
         Padding(
           padding: const EdgeInsets.only(left: 15.0, top: 35),
           child: Text(
@@ -31,7 +31,7 @@ class HallOfFame extends StatelessWidget {
             .map((e) => DayWidget(entries: e.value, date: e.key))
             .toList(),
         SizedBox(height: 100),
-      ]),
+      ],
     );
   }
 
