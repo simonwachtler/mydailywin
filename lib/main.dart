@@ -5,14 +5,15 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:persist_theme/persist_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:local_auth/local_auth.dart';
 
 import 'data.dart';
 import 'greeting.dart';
 import 'hall_of_fame.dart';
 import 'level.dart';
+import 'lockscreen.dart';
 import 'new_success.dart';
 import 'profil.dart';
+import 'screenlocker.dart';
 
 List<Entry> entries;
 String name;
@@ -29,12 +30,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListenableProvider<ThemeModel>(
-        create: (_) => _model..init(),
-        child: Consumer<ThemeModel>(builder: (context, model, child) {
+      create: (_) => _model..init(),
+      child: Consumer<ThemeModel>(
+        builder: (context, model, child) {
           return MaterialApp(
             title: "Flutter Demo",
             theme: model.theme,
-            home: MyHomePage(),
+            home: Screenlocker(
+              child: MyHomePage(),
+              lockScreen: Scaffold(
+                body: LockScreen(),
+              ),
+            ),
             localizationsDelegates: [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
@@ -42,7 +49,9 @@ class MyApp extends StatelessWidget {
             ],
             supportedLocales: [Locale("de")],
           );
-        }));
+        },
+      ),
+    );
   }
 }
 
@@ -77,8 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     if (entries == null) {
-      final localAuth = LocalAuthentication();
-      localAuth.authenticateWithBiometrics(localizedReason: "Hi!");
       readEntries().then((value) async {
         if (!showingDialog && name == null) {
           showingDialog = true;
@@ -128,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: SpeedDialAdd(
         onEntered: () {
-          setState(() {});
+          if (mounted) setState(() {});
         },
       ),
     );

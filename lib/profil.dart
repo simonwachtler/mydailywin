@@ -72,7 +72,7 @@ class _ProfilState extends State<Profil> {
                     onPressed: () async {
                       await Navigator.of(context)
                           .push(MaterialPageRoute(builder: (_) => Settings()));
-                      setState(() {});
+                      if (this.mounted) setState(() {});
                     }),
               ],
             ),

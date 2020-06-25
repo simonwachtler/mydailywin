@@ -1,12 +1,27 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:my_daily_success/screenlocker.dart';
 import 'package:persist_theme/ui/theme_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'main.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
+  @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  bool screenlockEnabled = false;
+  @override
+  void initState() {
+    super.initState();
+    isScreenlockerEnabled()
+        .then((isEnabled) => setState(() => screenlockEnabled = isEnabled));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,12 +87,29 @@ class Settings extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
             child: SwitchListTile.adaptive(
-              title: Text("Deaktiviert"),
+              title: Text(screenlockEnabled ? "Aktiviert" : "Deaktiviert"),
               subtitle: Text("Biometrische Bildschirmsperre "),
               onChanged: (enabled) {
-                print("Aktiviert: $enabled");
+                LocalAuthentication()
+                    .authenticateWithBiometrics(
+                        localizedReason:
+                            "Zum ${enabled ? "Aktivieren" : "Deaktivieren"} bestätigen")
+                    .then((success) async {
+                  if (success) {
+                    getScreenlockFile().then((file) {
+                      if (enabled) {
+                        file.create();
+                      } else {
+                        file.delete();
+                      }
+                      setState(() {
+                        screenlockEnabled = enabled;
+                      });
+                    });
+                  }
+                });
               },
-              value: false,
+              value: screenlockEnabled,
             ),
           ),
           Padding(
