@@ -82,7 +82,7 @@ class NewSuccess extends StatelessWidget {
   }
 }
 
-typedef void ConfirmationCallback(List<String> contents);
+typedef ConfirmationCallback = void Function(List<String> contents);
 
 class NewSuccessForm extends StatefulWidget {
   final String confirmText;

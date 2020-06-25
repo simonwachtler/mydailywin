@@ -20,7 +20,7 @@ class _ProfilState extends State<Profil> {
         Row(
           children: [
             Container(
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.purple[900],
                 borderRadius:
                     BorderRadius.only(bottomRight: Radius.circular(16)),
@@ -60,7 +60,7 @@ class _ProfilState extends State<Profil> {
         Padding(
           padding: const EdgeInsets.only(left: 360, top: 19),
           child: Container(
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.grey.withAlpha(100),
               borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
             ),

@@ -5,7 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:path_provider/path_provider.dart';
 
-typedef Widget LockscreenBuilder(BuildContext context, VoidCallback onRetry);
+typedef LockscreenBuilder = Widget Function(
+  BuildContext context,
+  VoidCallback onRetry,
+);
 
 const screenlockerRouteName = "screenlocker";
 

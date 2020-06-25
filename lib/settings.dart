@@ -38,7 +38,7 @@ class _SettingsState extends State<Settings> {
               ),
               Spacer(),
               Container(
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.purple[900],
                   borderRadius:
                       BorderRadius.only(bottomLeft: Radius.circular(16)),
