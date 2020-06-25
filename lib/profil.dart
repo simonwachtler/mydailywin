@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_daily_success/animations.dart';
 import 'package:my_daily_success/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,7 +16,7 @@ class _ProfilState extends State<Profil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
+      body: AnimatedListView(children: [
         Row(
           children: [
             Container(

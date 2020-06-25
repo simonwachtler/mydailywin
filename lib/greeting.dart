@@ -5,6 +5,7 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:tuple/tuple.dart';
 import 'package:supercharged/supercharged.dart';
 
+import 'animations.dart';
 import 'data.dart';
 import 'new_success.dart';
 import 'util.dart';
@@ -20,25 +21,21 @@ class Greeting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lastEntries = _filterEntries(entries);
-    return ListView(
+    return AnimatedListView(
       children: [
-        FadeIn(
-          0,
-          Padding(
-            padding: const EdgeInsets.all(55.0),
-            child: Text(
-              name?.isNotEmpty == true ? 'Guten Tag, $name!' : 'Guten Tag!',
-              style: TextStyle(
-                fontSize: 38.0,
-                fontFamily: 'Abadi',
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-              ),
+        Padding(
+          padding: const EdgeInsets.all(55.0),
+          child: Text(
+            name?.isNotEmpty == true ? 'Guten Tag, $name!' : 'Guten Tag!',
+            style: TextStyle(
+              fontSize: 38.0,
+              fontFamily: 'Abadi',
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
             ),
           ),
         ),
         GreetingBox(
-          delay: 0,
           color: Colors.green,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +56,6 @@ class Greeting extends StatelessWidget {
           },
         ),
         GreetingBox(
-          delay: .5,
           color: Colors.blue,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +69,6 @@ class Greeting extends StatelessWidget {
           ),
         ),
         GreetingBox(
-          delay: 1,
           color: Colors.pink,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,14 +83,11 @@ class Greeting extends StatelessWidget {
           onTap: switchToMutmacher,
         ),
         if (lastEntries != null)
-          FadeIn(
-            1,
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: DayWidget(
-                entries: lastEntries.item2,
-                date: lastEntries.item1,
-              ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: DayWidget(
+              entries: lastEntries.item2,
+              date: lastEntries.item1,
             ),
           )
       ],
@@ -129,28 +121,25 @@ class GreetingBox extends StatelessWidget {
   final Color color;
   final Widget child;
   final VoidCallback onTap;
-  final double delay;
+  final int delay;
 
   @override
   Widget build(BuildContext context) {
-    return FadeIn(
-      delay,
-      Padding(
-        padding: EdgeInsets.only(left: 65.0, bottom: 8.0),
-        child: AnimatedOpacity(
-          duration: Duration(milliseconds: 1000),
-          opacity: 1,
-          child: Material(
-            elevation: 4,
-            color: color.withAlpha(150),
-            borderRadius: BorderRadius.horizontal(left: Radius.circular(8.0)),
-            child: InkWell(
-              child: Padding(
-                padding: const EdgeInsets.all(35.0),
-                child: child,
-              ),
-              onTap: onTap,
+    return Padding(
+      padding: EdgeInsets.only(left: 65.0, bottom: 8.0),
+      child: AnimatedOpacity(
+        duration: Duration(milliseconds: 1000),
+        opacity: 1,
+        child: Material(
+          elevation: 4,
+          color: color.withAlpha(150),
+          borderRadius: BorderRadius.horizontal(left: Radius.circular(8.0)),
+          child: InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(35.0),
+              child: child,
             ),
+            onTap: onTap,
           ),
         ),
       ),
@@ -161,7 +150,7 @@ class GreetingBox extends StatelessWidget {
 enum _AniProps { opacity, translateX }
 
 class FadeIn extends StatelessWidget {
-  final double delay;
+  final int delay;
   final Widget child;
 
   FadeIn(this.delay, this.child);
@@ -170,13 +159,14 @@ class FadeIn extends StatelessWidget {
   Widget build(BuildContext context) {
     final tween = MultiTween<_AniProps>()
       ..add(_AniProps.opacity, 0.0.tweenTo(1.0))
-      ..add(_AniProps.translateX, 130.0.tweenTo(0.0));
+      ..add(_AniProps.translateX, 30.0.tweenTo(0.0));
 
     return PlayAnimation<MultiTweenValues<_AniProps>>(
-      delay: (300 * delay).round().milliseconds,
-      duration: 500.milliseconds,
+      delay: (25 * delay).milliseconds,
+      duration: 350.milliseconds,
       tween: tween,
       child: child,
+      curve: Curves.ease,
       builder: (context, child, value) => Opacity(
         opacity: value.get(_AniProps.opacity),
         child: Transform.translate(

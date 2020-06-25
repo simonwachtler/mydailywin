@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_daily_success/animations.dart';
 
 import 'data.dart';
 import 'main.dart';
@@ -24,7 +25,7 @@ class NewSuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: AnimatedListView(
         children: [
           Row(
             children: <Widget>[
@@ -104,60 +105,61 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
     return Padding(
       padding: const EdgeInsets.all(13),
       child: Form(
-          child: Column(
-            children: <Widget>[
-              for (var i = 0; i < controllers.length; i++)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: controllers[i],
-                          decoration: InputDecoration(
-                            labelText: "${i + 1}.",
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (_) => setState(() {}),
+        child: AnimatedColumn(
+          children: <Widget>[
+            for (var i = 0; i < controllers.length; i++)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: controllers[i],
+                        decoration: InputDecoration(
+                          labelText: "${i + 1}.",
+                          border: OutlineInputBorder(),
                         ),
+                        onChanged: (_) => setState(() {}),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          setState(() {
-                            controllers.removeAt(i);
-                          });
-                        },
-                      )
-                    ],
-                  ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        setState(() {
+                          controllers.removeAt(i);
+                        });
+                      },
+                    )
+                  ],
                 ),
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () =>
-                    setState(() => controllers.add(TextEditingController())),
               ),
-              SizedBox(
-                height: 20,
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () =>
+                  setState(() => controllers.add(TextEditingController())),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            RaisedButton(
+              child: Text(
+                widget.confirmText,
               ),
-              RaisedButton(
-                child: Text(
-                  widget.confirmText,
-                ),
-                onPressed: controllers.any((c) => c.text.isNotEmpty)
-                    ? () {
-                        final contents = controllers
-                            .map((c) => c.text)
-                            .where((t) => t.isNotEmpty)
-                            .toList();
+              onPressed: controllers.any((c) => c.text.isNotEmpty)
+                  ? () {
+                      final contents = controllers
+                          .map((c) => c.text)
+                          .where((t) => t.isNotEmpty)
+                          .toList();
 
-                        widget.onConfirm(contents);
-                      }
-                    : null,
-              )
-            ],
-          ),
-          key: _formKey),
+                      widget.onConfirm(contents);
+                    }
+                  : null,
+            )
+          ],
+        ),
+        key: _formKey,
+      ),
     );
   }
 }

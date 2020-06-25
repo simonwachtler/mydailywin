@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:my_daily_success/animations.dart';
 import 'package:my_daily_success/screenlocker.dart';
 import 'package:persist_theme/ui/theme_widgets.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +26,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: AnimatedListView(
         children: [
           Row(
             children: [

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:my_daily_success/animations.dart';
 import 'package:tuple/tuple.dart';
 
 import 'main.dart';
@@ -10,7 +11,7 @@ class Level extends StatelessWidget {
   Widget build(BuildContext context) {
     final level = calculateLevels(
         entries.fold(0, (value, entry) => value + entry.contents.length));
-    return Column(
+    return AnimatedListView(
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 90),
@@ -54,7 +55,6 @@ class Level extends StatelessWidget {
           ),
         ),
       ],
-      crossAxisAlignment: CrossAxisAlignment.stretch,
     );
   }
 }

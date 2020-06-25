@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'animations.dart';
 import 'data.dart';
 import 'main.dart';
 import 'util.dart';
@@ -10,7 +11,7 @@ class HallOfFame extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: ListView(children: [
+      child: AnimatedListView(children: [
         Padding(
           padding: const EdgeInsets.only(left: 15.0, top: 35),
           child: Text(
