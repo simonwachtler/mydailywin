@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'data.dart';
 import 'settings.dart';
+import 'spende.dart';
 
 class Profil extends StatefulWidget {
   @override
@@ -81,6 +82,10 @@ class _ProfilState extends State<Profil> {
         ProfilBox(
           color: Colors.purple,
           text: "JETZT ENTWICKLER UNTERSTÜTZEN! >>",
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Spenden()));
+          },
         ),
         ProfilBox(
           color: Colors.blue,

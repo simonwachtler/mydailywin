@@ -159,11 +159,13 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
+      overlayColor: Theme.of(context).scaffoldBackgroundColor,
       child: Icon(isExpanded ? Icons.close : Icons.add),
       children: [
         SpeedDialChild(
             child: Icon(Icons.wb_sunny),
             label: "Start in den Tag",
+            labelStyle: TextStyle(color: Colors.black),
             onTap: () async {
               await Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => NewSuccess(
@@ -176,6 +178,7 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
         SpeedDialChild(
             child: Icon(Icons.tag_faces),
             label: "Dankbarkeitsnotiz",
+            labelStyle: TextStyle(color: Colors.black),
             onTap: () async {
               await Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => NewSuccess(type: EntryType.Grateful)));
@@ -184,6 +187,7 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
         SpeedDialChild(
             child: Icon(Icons.grade),
             label: "Erfolg",
+            labelStyle: TextStyle(color: Colors.black),
             onTap: () async {
               await Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => NewSuccess(
