@@ -35,7 +35,10 @@ class MyApp extends StatelessWidget {
         builder: (context, model, child) {
           return MaterialApp(
             title: "Flutter Demo",
-            theme: model.theme,
+            theme: ThemeData(
+              fontFamily: "Abadi",
+              brightness: model.theme.brightness,
+            ),
             home: Screenlocker(
               child: MyHomePage(),
               lockScreen: Scaffold(
