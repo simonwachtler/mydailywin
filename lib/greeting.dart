@@ -89,7 +89,10 @@ class Greeting extends StatelessWidget {
               entries: lastEntries.item2,
               date: lastEntries.item1,
             ),
-          )
+          ),
+        SizedBox(
+          height: 100,
+        )
       ],
     );
   }
