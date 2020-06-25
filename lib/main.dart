@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
             ),
             home: Screenlocker(
               child: MyHomePage(),
-              lockScreen: Scaffold(
-                body: LockScreen(),
+              lockscreenBuilder: (context, onRetry) => LockScreen(
+                onRetry: onRetry,
               ),
             ),
             localizationsDelegates: [
