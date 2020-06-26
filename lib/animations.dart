@@ -13,7 +13,8 @@ class AnimatedListView extends StatelessWidget {
     return ListView(
       padding: padding,
       children: [
-        for (var i = 0; i < children.length; i++) FadeIn(i, children[i])
+        for (var i = 0; i < children.length; i++)
+          FadeIn(i, children[i], children[i].key)
       ],
     );
   }
@@ -28,7 +29,8 @@ class AnimatedColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for (var i = 0; i < children.length; i++) FadeIn(i, children[i])
+        for (var i = 0; i < children.length; i++)
+          FadeIn(i, children[i], children[i].key)
       ],
     );
   }
@@ -39,8 +41,9 @@ enum _AniProps { opacity, translateX }
 class FadeIn extends StatelessWidget {
   final int delay;
   final Widget child;
+  final Key key;
 
-  FadeIn(this.delay, this.child);
+  FadeIn(this.delay, this.child, this.key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +52,7 @@ class FadeIn extends StatelessWidget {
       ..add(_AniProps.translateX, 30.0.tweenTo(0.0));
 
     return PlayAnimation<MultiTweenValues<_AniProps>>(
+      key: key,
       delay: (25 * delay).milliseconds,
       duration: 350.milliseconds,
       tween: tween,

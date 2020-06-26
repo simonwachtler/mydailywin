@@ -110,6 +110,7 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
           children: <Widget>[
             for (var i = 0; i < controllers.length; i++)
               Padding(
+                key: Key("TextField $i"),
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
                   children: [
@@ -135,14 +136,17 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
                 ),
               ),
             IconButton(
+              key: Key("add"),
               icon: Icon(Icons.add),
               onPressed: () =>
                   setState(() => controllers.add(TextEditingController())),
             ),
             SizedBox(
+              key: Key("SizedBox"),
               height: 20,
             ),
             RaisedButton(
+              key: Key("next"),
               child: Text(
                 widget.confirmText,
               ),
