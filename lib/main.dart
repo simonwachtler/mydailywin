@@ -166,11 +166,14 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
             label: "Start in den Tag",
             labelStyle: TextStyle(color: Colors.black),
             onTap: () async {
-              await Navigator.of(context).push(MaterialPageRoute(
+              await Navigator.of(context).push(
+                MaterialPageRoute(
                   builder: (_) => NewSuccess(
-                        type: EntryType.Success,
-                        morningRoutine: true,
-                      )));
+                    type: EntryType.Success,
+                    morningRoutine: true,
+                  ),
+                ),
+              );
 
               widget.onEntered();
             }),
