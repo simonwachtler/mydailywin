@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_daily_success/animations.dart';
 
 import 'data.dart';
 import 'main.dart';
@@ -24,14 +25,14 @@ class NewSuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: AnimatedListView(
         children: [
           Row(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 90, left: 13),
                 child: Text(
-                  'Guten Tag, $name!',
+                  'Guten Tag, ${data.name}!',
                   style: TextStyle(
                       fontSize: 25.0,
                       fontFamily: 'Abadi',
@@ -64,8 +65,9 @@ class NewSuccess extends StatelessWidget {
                 ? "Weiter"
                 : "Fertig",
             onConfirm: (contents) async {
-              entries.add(Entry(DateTime.now(), contents, type));
-              writeEntries();
+              setData(() {
+                data.entries.add(Entry(DateTime.now(), contents, type));
+              });
               if (morningRoutine && type == EntryType.Success) {
                 await Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) => NewSuccess(type: EntryType.Grateful)));
@@ -81,7 +83,7 @@ class NewSuccess extends StatelessWidget {
   }
 }
 
-typedef void ConfirmationCallback(List<String> contents);
+typedef ConfirmationCallback = void Function(List<String> contents);
 
 class NewSuccessForm extends StatefulWidget {
   final String confirmText;
@@ -104,60 +106,61 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
     return Padding(
       padding: const EdgeInsets.all(13),
       child: Form(
-          child: Column(
-            children: <Widget>[
-              for (var i = 0; i < controllers.length; i++)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: controllers[i],
-                          decoration: InputDecoration(
-                            labelText: "${i + 1}.",
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (_) => setState(() {}),
+        child: AnimatedColumn(
+          children: <Widget>[
+            for (var i = 0; i < controllers.length; i++)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: controllers[i],
+                        decoration: InputDecoration(
+                          labelText: "${i + 1}.",
+                          border: OutlineInputBorder(),
                         ),
+                        onChanged: (_) => setState(() {}),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          setState(() {
-                            controllers.removeAt(i);
-                          });
-                        },
-                      )
-                    ],
-                  ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        setState(() {
+                          controllers.removeAt(i);
+                        });
+                      },
+                    )
+                  ],
                 ),
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () =>
-                    setState(() => controllers.add(TextEditingController())),
               ),
-              SizedBox(
-                height: 20,
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () =>
+                  setState(() => controllers.add(TextEditingController())),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            RaisedButton(
+              child: Text(
+                widget.confirmText,
               ),
-              RaisedButton(
-                child: Text(
-                  widget.confirmText,
-                ),
-                onPressed: controllers.any((c) => c.text.isNotEmpty)
-                    ? () {
-                        final contents = controllers
-                            .map((c) => c.text)
-                            .where((t) => t.isNotEmpty)
-                            .toList();
+              onPressed: controllers.any((c) => c.text.isNotEmpty)
+                  ? () {
+                      final contents = controllers
+                          .map((c) => c.text)
+                          .where((t) => t.isNotEmpty)
+                          .toList();
 
-                        widget.onConfirm(contents);
-                      }
-                    : null,
-              )
-            ],
-          ),
-          key: _formKey),
+                      widget.onConfirm(contents);
+                    }
+                  : null,
+            )
+          ],
+        ),
+        key: _formKey,
+      ),
     );
   }
 }

@@ -6,7 +6,7 @@ class Spenden extends StatelessWidget {
   Widget build(BuildContext context) {
     final darkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-        appBar: AppBar(title: Text("Unterstütze uns jetzt, $name!")),
+        appBar: AppBar(title: Text("Unterstütze uns jetzt, ${data.name}!")),
         body: ListView(
           children: <Widget>[
             Padding(

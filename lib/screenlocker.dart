@@ -1,21 +1,29 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'main.dart';
+
+typedef LockscreenBuilder = Widget Function(
+  BuildContext context,
+  VoidCallback onRetry,
+);
+
+const screenlockerRouteName = "screenlocker";
 
 class Screenlocker extends StatefulWidget {
   final Widget child;
-  final Widget lockScreen;
+  final LockscreenBuilder lockscreenBuilder;
 
-  const Screenlocker({Key key, this.child, this.lockScreen}) : super(key: key);
+  const Screenlocker({Key key, this.child, this.lockscreenBuilder})
+      : super(key: key);
   @override
   _ScreenlockerState createState() => _ScreenlockerState();
 }
 
 class _ScreenlockerState extends State<Screenlocker>
     with WidgetsBindingObserver {
-  bool isLocked = true;
+  bool unlockInProgress = false;
 
   @override
   void dispose() {
@@ -25,59 +33,50 @@ class _ScreenlockerState extends State<Screenlocker>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (state == AppLifecycleState.paused) {
-      isLocked = await isScreenlockerEnabled();
-      if (isLocked) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => WillPopScope(
-              child: widget.lockScreen,
-              onWillPop: () async => false,
-            ),
-          ),
-        );
-      }
-    } else if (state == AppLifecycleState.resumed) {
-      if (isLocked) {
-        final localAuth = LocalAuthentication();
-        isLocked = !await localAuth.authenticateWithBiometrics(
-            localizedReason: "Zum Entsperren bestätigen");
-        if (!isLocked) {
-          Navigator.of(context).pop();
-        }
-      }
+    if (state == AppLifecycleState.resumed) {
+      tryUnlock();
     }
   }
 
   @override
   void initState() {
+    tryUnlock();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    isScreenlockerEnabled().then((value) async {
-      if (value) {
-        final localAuth = LocalAuthentication();
-        isLocked = !await localAuth.authenticateWithBiometrics(
-            localizedReason: "Zum Entsperren bestätigen");
-        setState(() {});
-      } else {
-        setState(() {
-          isLocked = false;
-        });
-      }
-    });
+  }
+
+  void tryUnlock() async {
+    if (unlockInProgress || !data.screenlockerEnabled) return;
+    unlockInProgress = true;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        settings: RouteSettings(name: screenlockerRouteName),
+        builder: (context) {
+          return WillPopScope(
+            child: widget.lockscreenBuilder(context, doUnlock),
+            onWillPop: () async {
+              SystemNavigator.pop();
+              return false;
+            },
+          );
+        },
+      ),
+    );
+    doUnlock();
+
+    unlockInProgress = false;
+  }
+
+  void doUnlock() async {
+    if (await LocalAuthentication().authenticateWithBiometrics(
+        localizedReason: "Zum Entsperren bestätigen")) {
+      Navigator.of(context)
+          .popUntil((route) => route.settings.name != screenlockerRouteName);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return isLocked ? widget.lockScreen : widget.child;
+    return widget.child;
   }
-}
-
-Future<File> getScreenlockFile() async {
-  final documentsDirectory = await getApplicationDocumentsDirectory();
-  return File("${documentsDirectory.path}/screenlockenabled");
-}
-
-Future<bool> isScreenlockerEnabled() async {
-  return await (await getScreenlockFile()).exists();
 }

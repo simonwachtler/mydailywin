@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'animations.dart';
 import 'data.dart';
 import 'main.dart';
 import 'util.dart';
@@ -8,9 +9,9 @@ import 'util.dart';
 class HallOfFame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return AnimatedListView(
       padding: const EdgeInsets.all(8.0),
-      child: ListView(children: [
+      children: [
         Padding(
           padding: const EdgeInsets.only(left: 15.0, top: 35),
           child: Text(
@@ -25,12 +26,12 @@ class HallOfFame extends StatelessWidget {
             style: TextStyle(fontSize: 23.0),
           ),
         ),
-        ...filterEntries(entries)
+        ...filterEntries(data.entries)
             .entries
             .map((e) => DayWidget(entries: e.value, date: e.key))
             .toList(),
         SizedBox(height: 100),
-      ]),
+      ],
     );
   }
 

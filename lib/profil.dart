@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:my_daily_success/animations.dart';
 import 'package:my_daily_success/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'data.dart';
 import 'settings.dart';
 import 'spende.dart';
 
@@ -15,11 +17,11 @@ class _ProfilState extends State<Profil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
+      body: AnimatedListView(children: [
         Row(
           children: [
             Container(
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.purple[900],
                 borderRadius:
                     BorderRadius.only(bottomRight: Radius.circular(16)),
@@ -30,9 +32,9 @@ class _ProfilState extends State<Profil> {
                     height: 50,
                   ),
                   Container(
-                    child: imageFile == null
+                    child: data.imageFilePath == null
                         ? Icon(Icons.person, color: Colors.white, size: 150)
-                        : Image.file(imageFile),
+                        : Image.file(File(data.imageFilePath)),
                     height: 150,
                     width: 150,
                   ),
@@ -41,7 +43,8 @@ class _ProfilState extends State<Profil> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16, top: 115),
-              child: Text(name, style: Theme.of(context).textTheme.headline4),
+              child:
+                  Text(data.name, style: Theme.of(context).textTheme.headline4),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 126, left: 6),
@@ -49,7 +52,6 @@ class _ProfilState extends State<Profil> {
                 icon: Icon(Icons.edit),
                 onPressed: () async {
                   await showNameDialog(context);
-                  writeName();
                   setState(() {});
                 },
               ),
@@ -59,7 +61,7 @@ class _ProfilState extends State<Profil> {
         Padding(
           padding: const EdgeInsets.only(left: 360, top: 19),
           child: Container(
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.grey.withAlpha(100),
               borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
             ),
