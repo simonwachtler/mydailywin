@@ -106,47 +106,37 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
     return Padding(
       padding: const EdgeInsets.all(13),
       child: Form(
-        child: AnimatedColumn(
+        child: Column(
           children: <Widget>[
             for (var i = 0; i < controllers.length; i++)
-              Padding(
-                key: Key("TextField $i"),
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: controllers[i],
-                        decoration: InputDecoration(
-                          labelText: "${i + 1}.",
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (_) => setState(() {}),
-                      ),
+              Deleteable(
+                key: ValueKey(controllers[i]),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextField(
+                    controller: controllers[i],
+                    decoration: InputDecoration(
+                      labelText: "${i + 1}.",
+                      border: OutlineInputBorder(),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.close),
-                      onPressed: () {
-                        setState(() {
-                          controllers.removeAt(i);
-                        });
-                      },
-                    )
-                  ],
+                    onChanged: (_) => setState(() {}),
+                  ),
                 ),
+                onDeleted: () {
+                  setState(() {
+                    controllers.removeAt(i);
+                  });
+                },
               ),
             IconButton(
-              key: Key("add"),
               icon: Icon(Icons.add),
               onPressed: () =>
                   setState(() => controllers.add(TextEditingController())),
             ),
             SizedBox(
-              key: Key("SizedBox"),
               height: 20,
             ),
             RaisedButton(
-              key: Key("next"),
               child: Text(
                 widget.confirmText,
               ),
@@ -165,6 +155,67 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
         ),
         key: _formKey,
       ),
+    );
+  }
+}
+
+class Deleteable extends StatefulWidget {
+  final Widget child;
+  final VoidCallback onDeleted;
+  final Duration duration;
+
+  const Deleteable(
+      {Key key,
+      this.child,
+      this.onDeleted,
+      this.duration = const Duration(milliseconds: 500)})
+      : super(key: key);
+  @override
+  _DeleteableState createState() => _DeleteableState();
+}
+
+class _DeleteableState extends State<Deleteable>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  @override
+  void initState() {
+    _controller = AnimationController(vsync: this, value: 0);
+    _controller.animateTo(
+      1,
+      duration: widget.duration,
+      curve: Curves.ease,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final content = Row(
+      children: [
+        Expanded(child: widget.child),
+        IconButton(
+          icon: Icon(Icons.close),
+          onPressed: () async {
+            await _controller.animateTo(
+              0,
+              duration: widget.duration,
+              curve: Curves.ease,
+            );
+            widget.onDeleted();
+          },
+        )
+      ],
+    );
+    return SizeTransition(
+      sizeFactor: _controller,
+      child: content,
+      axisAlignment: 1,
     );
   }
 }
