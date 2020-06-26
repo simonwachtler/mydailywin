@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -37,8 +36,12 @@ class Data {
   Map<String, dynamic> toJson() => _$DataToJson(this);
 }
 
-void setData(VoidCallback fn) {
-  fn();
+typedef SetDataCallback = dynamic Function();
+void setData(SetDataCallback fn) async {
+  final result = fn();
+  if (result is Future) {
+    await result;
+  }
   writeData();
 }
 
@@ -47,13 +50,13 @@ Future<File> getDataFile() async {
   return File("${documentsDirectory.path}/data.json");
 }
 
-Future<void> readData() async {
+Future<Data> readData() async {
   final file = await getDataFile();
   if (await file.exists()) {
     final result = json.decode(await file.readAsString());
     data = Data.fromJson(result);
   }
-  data.entries ??= [];
+  return data;
 }
 
 void writeData() async {

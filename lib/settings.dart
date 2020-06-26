@@ -49,10 +49,12 @@ class _SettingsState extends State<Settings> {
                         child: IconButton(
                           icon: Icon(Icons.camera_alt,
                               color: Colors.white, size: 75),
-                          onPressed: () async {
-                            data.imageFilePath = (await ImagePicker()
-                                    .getImage(source: ImageSource.gallery))
-                                .path;
+                          onPressed: () {
+                            setData(() async {
+                              data.imageFilePath = (await ImagePicker()
+                                      .getImage(source: ImageSource.gallery))
+                                  .path;
+                            });
                           },
                         )),
                   ],

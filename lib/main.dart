@@ -13,10 +13,13 @@ import 'new_success.dart';
 import 'profil.dart';
 import 'screenlocker.dart';
 
-Data data = Data(null, null, null, true, false);
+Data data = Data([], null, null, true, false);
+Future<Data> firstData;
 
 void main() {
   runApp(MyApp());
+  firstData = readData();
+  firstData.then((value) => data = value);
 }
 
 final _model = ThemeModel();
@@ -84,15 +87,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (data.entries == null) {
-      readData().then((_) async {
-        if (!showingDialog && data.name == null) {
-          showingDialog = true;
-          await showNameDialog(context);
-        }
-        setState(() {});
-      });
-    }
+    firstData.then((data) async {
+      if (!showingDialog && data.name == null) {
+        showingDialog = true;
+        await showNameDialog(context);
+      }
+      setState(() {});
+    });
     return Scaffold(
       body: currentScreen(selectedScreen),
       bottomNavigationBar: BottomNavigationBar(

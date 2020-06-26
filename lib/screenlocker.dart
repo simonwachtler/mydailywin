@@ -46,7 +46,7 @@ class _ScreenlockerState extends State<Screenlocker>
   }
 
   void tryUnlock() async {
-    if (unlockInProgress || !data.screenlockerEnabled) return;
+    if (unlockInProgress || !(await firstData).screenlockerEnabled) return;
     unlockInProgress = true;
     Navigator.of(context).push(
       MaterialPageRoute(
