@@ -38,8 +38,9 @@ void initializeNotifications(BuildContext context) async {
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: (string) async {
-    print(125);
-    await Navigator.push(
+    // remove the screen locker,
+    // since it would be below the NewSuccess route
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) => NewSuccess(
@@ -47,7 +48,10 @@ void initializeNotifications(BuildContext context) async {
           morningRoutine: true,
         ),
       ),
+      (route) => route.settings.name != screenlockerRouteName,
     );
+    // lock the screen again
+    context.findAncestorStateOfType<ScreenlockerState>().tryUnlock();
   });
 }
 

@@ -18,10 +18,10 @@ class Screenlocker extends StatefulWidget {
   const Screenlocker({Key key, this.child, this.lockscreenBuilder})
       : super(key: key);
   @override
-  _ScreenlockerState createState() => _ScreenlockerState();
+  ScreenlockerState createState() => ScreenlockerState();
 }
 
-class _ScreenlockerState extends State<Screenlocker>
+class ScreenlockerState extends State<Screenlocker>
     with WidgetsBindingObserver {
   bool unlockInProgress = false;
 
@@ -45,6 +45,9 @@ class _ScreenlockerState extends State<Screenlocker>
     WidgetsBinding.instance.addObserver(this);
   }
 
+  /// Locks the screen by pushing a route and attempts to unlock with biometrics.
+  ///
+  /// If screen locking is disabled this is a no-op.
   void tryUnlock() async {
     if (unlockInProgress || !(await firstData).screenlockerEnabled) return;
     unlockInProgress = true;
@@ -53,7 +56,7 @@ class _ScreenlockerState extends State<Screenlocker>
         settings: RouteSettings(name: screenlockerRouteName),
         builder: (context) {
           return WillPopScope(
-            child: widget.lockscreenBuilder(context, doUnlock),
+            child: widget.lockscreenBuilder(context, _doUnlock),
             onWillPop: () async {
               SystemNavigator.pop();
               return false;
@@ -62,12 +65,12 @@ class _ScreenlockerState extends State<Screenlocker>
         },
       ),
     );
-    doUnlock();
+    _doUnlock();
 
     unlockInProgress = false;
   }
 
-  void doUnlock() async {
+  void _doUnlock() async {
     if (await LocalAuthentication().authenticateWithBiometrics(
         localizedReason: "Zum Entsperren bestätigen")) {
       Navigator.of(context)
