@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'animations.dart';
 import 'main.dart';
 
 class Spenden extends StatelessWidget {
@@ -7,7 +8,7 @@ class Spenden extends StatelessWidget {
     final darkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
         appBar: AppBar(title: Text("Unterstütze uns jetzt, ${data.name}!")),
-        body: ListView(
+        body: AnimatedListView(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 25.0, left: 10, right: 10),
