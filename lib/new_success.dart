@@ -106,7 +106,7 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
     return Padding(
       padding: const EdgeInsets.all(13),
       child: Form(
-        child: Column(
+        child: AnimatedColumn(
           children: <Widget>[
             for (var i = 0; i < controllers.length; i++)
               Deleteable(
