@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,37 +22,42 @@ class Entry {
   Map<String, dynamic> toJson() => _$EntryToJson(this);
 }
 
+@JsonSerializable()
+class Data {
+  List<Entry> entries;
+
+  String name;
+  String imageFilePath;
+  bool dailyNotificationsEnabled;
+  bool screenlockerEnabled;
+
+  Data(this.entries, this.name, this.imageFilePath,
+      this.dailyNotificationsEnabled, this.screenlockerEnabled);
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+  Map<String, dynamic> toJson() => _$DataToJson(this);
+}
+
+void setData(VoidCallback fn) {
+  fn();
+  writeData();
+}
+
 Future<File> getDataFile() async {
   final documentsDirectory = await getApplicationDocumentsDirectory();
   return File("${documentsDirectory.path}/data.json");
 }
 
-Future<File> getNameFile() async {
-  final documentsDirectory = await getApplicationDocumentsDirectory();
-  return File("${documentsDirectory.path}/name");
-}
-
-Future<void> readEntries() async {
+Future<void> readData() async {
   final file = await getDataFile();
-  if (!await file.exists()) {
-    entries = [];
-  } else {
+  if (await file.exists()) {
     final result = json.decode(await file.readAsString());
-    entries = List.from(result.map((e) => Entry.fromJson(e)));
+    data = Data.fromJson(result);
   }
-  final nameFile = await getNameFile();
-  if (await nameFile.exists()) {
-    name = await nameFile.readAsString();
-  }
+  data.entries ??= [];
 }
 
-void writeEntries() async {
+void writeData() async {
   final file = await getDataFile();
-  final result = json.encode(entries.map((e) => e.toJson()).toList());
+  final result = json.encode(data.toJson());
   file.writeAsString(result);
-}
-
-void writeName() async {
-  final file = await getNameFile();
-  file.writeAsString(name);
 }

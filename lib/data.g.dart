@@ -56,3 +56,24 @@ const _$EntryTypeEnumMap = {
   EntryType.Success: 'Success',
   EntryType.Grateful: 'Grateful',
 };
+
+Data _$DataFromJson(Map<String, dynamic> json) {
+  return Data(
+    (json['entries'] as List)
+        ?.map(
+            (e) => e == null ? null : Entry.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    json['name'] as String,
+    json['imageFilePath'] as String,
+    json['dailyNotificationsEnabled'] as bool,
+    json['screenlockerEnabled'] as bool,
+  );
+}
+
+Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
+      'entries': instance.entries,
+      'name': instance.name,
+      'imageFilePath': instance.imageFilePath,
+      'dailyNotificationsEnabled': instance.dailyNotificationsEnabled,
+      'screenlockerEnabled': instance.screenlockerEnabled,
+    };

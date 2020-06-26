@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -15,9 +13,7 @@ import 'new_success.dart';
 import 'profil.dart';
 import 'screenlocker.dart';
 
-List<Entry> entries;
-String name;
-File imageFile;
+Data data = Data(null, null, null, true, false);
 
 void main() {
   runApp(MyApp());
@@ -88,12 +84,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (entries == null) {
-      readEntries().then((value) async {
-        if (!showingDialog && name == null) {
+    if (data.entries == null) {
+      readData().then((_) async {
+        if (!showingDialog && data.name == null) {
           showingDialog = true;
           await showNameDialog(context);
-          writeName();
         }
         setState(() {});
       });
@@ -232,12 +227,12 @@ class _NameDialogState extends State<NameDialog> {
     return AlertDialog(
       title: Text("Hi! Wie heißt du?"),
       content: TextField(
-        onChanged: (n) => setState(() => name = n),
+        onChanged: (n) => setState(() => setData(() => data.name = n)),
       ),
       actions: [
         FlatButton(
           child: Text("Jetzt loslegen!"),
-          onPressed: name?.isNotEmpty == true
+          onPressed: data.name?.isNotEmpty == true
               ? () => Navigator.of(context).pop()
               : null,
         ),

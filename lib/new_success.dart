@@ -32,7 +32,7 @@ class NewSuccess extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 90, left: 13),
                 child: Text(
-                  'Guten Tag, $name!',
+                  'Guten Tag, ${data.name}!',
                   style: TextStyle(
                       fontSize: 25.0,
                       fontFamily: 'Abadi',
@@ -65,8 +65,9 @@ class NewSuccess extends StatelessWidget {
                 ? "Weiter"
                 : "Fertig",
             onConfirm: (contents) async {
-              entries.add(Entry(DateTime.now(), contents, type));
-              writeEntries();
+              setData(() {
+                data.entries.add(Entry(DateTime.now(), contents, type));
+              });
               if (morningRoutine && type == EntryType.Success) {
                 await Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) => NewSuccess(type: EntryType.Grateful)));

@@ -1,13 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:my_daily_success/animations.dart';
-import 'package:my_daily_success/screenlocker.dart';
 import 'package:persist_theme/ui/theme_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'main.dart';
+import 'data.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -15,12 +13,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool screenlockEnabled = false;
   @override
   void initState() {
     super.initState();
-    isScreenlockerEnabled()
-        .then((isEnabled) => setState(() => screenlockEnabled = isEnabled));
   }
 
   @override
@@ -55,9 +50,9 @@ class _SettingsState extends State<Settings> {
                           icon: Icon(Icons.camera_alt,
                               color: Colors.white, size: 75),
                           onPressed: () async {
-                            imageFile = File((await ImagePicker()
+                            data.imageFilePath = (await ImagePicker()
                                     .getImage(source: ImageSource.gallery))
-                                .path);
+                                .path;
                           },
                         )),
                   ],
@@ -72,7 +67,7 @@ class _SettingsState extends State<Settings> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(name,
+                    child: Text(data.name,
                         style: Theme.of(context).textTheme.headline4),
                   ),
                   Spacer(),
@@ -88,7 +83,8 @@ class _SettingsState extends State<Settings> {
           Padding(
             padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
             child: SwitchListTile.adaptive(
-              title: Text(screenlockEnabled ? "Aktiviert" : "Deaktiviert"),
+              title:
+                  Text(data.screenlockerEnabled ? "Aktiviert" : "Deaktiviert"),
               subtitle: Text("Biometrische Bildschirmsperre "),
               onChanged: (enabled) {
                 LocalAuthentication()
@@ -97,20 +93,15 @@ class _SettingsState extends State<Settings> {
                             "Zum ${enabled ? "Aktivieren" : "Deaktivieren"} bestätigen")
                     .then((success) async {
                   if (success) {
-                    getScreenlockFile().then((file) {
-                      if (enabled) {
-                        file.create();
-                      } else {
-                        file.delete();
-                      }
-                      setState(() {
-                        screenlockEnabled = enabled;
+                    setState(() {
+                      setData(() {
+                        data.screenlockerEnabled = enabled;
                       });
                     });
                   }
                 });
               },
-              value: screenlockEnabled,
+              value: data.screenlockerEnabled,
             ),
           ),
           Padding(

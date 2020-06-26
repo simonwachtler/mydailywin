@@ -26,7 +26,7 @@ class HallOfFame extends StatelessWidget {
             style: TextStyle(fontSize: 23.0),
           ),
         ),
-        ...filterEntries(entries)
+        ...filterEntries(data.entries)
             .entries
             .map((e) => DayWidget(entries: e.value, date: e.key))
             .toList(),

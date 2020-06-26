@@ -18,13 +18,15 @@ class Greeting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lastEntries = _filterEntries(entries);
+    final lastEntries = _filterEntries(data.entries);
     return AnimatedListView(
       children: [
         Padding(
           padding: const EdgeInsets.all(55.0),
           child: Text(
-            name?.isNotEmpty == true ? 'Guten Tag, $name!' : 'Guten Tag!',
+            data.name?.isNotEmpty == true
+                ? 'Guten Tag, ${data.name}!'
+                : 'Guten Tag!',
             style: TextStyle(
               fontSize: 38.0,
               fontFamily: 'Abadi',

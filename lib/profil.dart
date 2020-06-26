@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_daily_success/animations.dart';
 import 'package:my_daily_success/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'data.dart';
 import 'settings.dart';
 import 'spende.dart';
 
@@ -31,9 +32,9 @@ class _ProfilState extends State<Profil> {
                     height: 50,
                   ),
                   Container(
-                    child: imageFile == null
+                    child: data.imageFilePath == null
                         ? Icon(Icons.person, color: Colors.white, size: 150)
-                        : Image.file(imageFile),
+                        : Image.file(File(data.imageFilePath)),
                     height: 150,
                     width: 150,
                   ),
@@ -42,7 +43,8 @@ class _ProfilState extends State<Profil> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16, top: 115),
-              child: Text(name, style: Theme.of(context).textTheme.headline4),
+              child:
+                  Text(data.name, style: Theme.of(context).textTheme.headline4),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 126, left: 6),
@@ -50,7 +52,6 @@ class _ProfilState extends State<Profil> {
                 icon: Icon(Icons.edit),
                 onPressed: () async {
                   await showNameDialog(context);
-                  writeName();
                   setState(() {});
                 },
               ),

@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'main.dart';
 
 typedef LockscreenBuilder = Widget Function(
   BuildContext context,
@@ -47,7 +46,7 @@ class _ScreenlockerState extends State<Screenlocker>
   }
 
   void tryUnlock() async {
-    if (unlockInProgress || !await isScreenlockerEnabled()) return;
+    if (unlockInProgress || !data.screenlockerEnabled) return;
     unlockInProgress = true;
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -80,13 +79,4 @@ class _ScreenlockerState extends State<Screenlocker>
   Widget build(BuildContext context) {
     return widget.child;
   }
-}
-
-Future<File> getScreenlockFile() async {
-  final documentsDirectory = await getApplicationDocumentsDirectory();
-  return File("${documentsDirectory.path}/screenlockenabled");
-}
-
-Future<bool> isScreenlockerEnabled() async {
-  return await (await getScreenlockFile()).exists();
 }
