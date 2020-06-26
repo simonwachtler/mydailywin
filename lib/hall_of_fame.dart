@@ -66,8 +66,10 @@ class DayWidget extends StatelessWidget {
       (previousValue, element) => previousValue..addAll(element.contents),
     ).where((String c) => c.isNotEmpty);
     return Card(
+      elevation: 5,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:
+            const EdgeInsets.only(top: 23, right: 19, left: 19, bottom: 23),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
