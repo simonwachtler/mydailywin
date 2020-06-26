@@ -265,18 +265,38 @@ class NameDialog extends StatefulWidget {
 }
 
 class _NameDialogState extends State<NameDialog> {
+  TextEditingController _controller;
+  @override
+  void initState() {
+    _controller = TextEditingController(text: data.name);
+    _controller.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Hi! Wie heißt du?"),
       content: TextField(
-        onChanged: (n) => setState(() => setData(() => data.name = n)),
+        controller: _controller,
+        onChanged: (_) {
+          setState(() {});
+        },
+        onEditingComplete: () {
+          setData(() => data.name = _controller.text);
+          Navigator.of(context).pop();
+        },
       ),
       actions: [
         FlatButton(
           child: Text("Jetzt loslegen!"),
-          onPressed: data.name?.isNotEmpty == true
-              ? () => Navigator.of(context).pop()
+          onPressed: _controller.text.isNotEmpty
+              ? () {
+                  setData(() => data.name = _controller.text);
+                  Navigator.of(context).pop();
+                }
               : null,
         ),
       ],
