@@ -42,16 +42,16 @@ void setData(SetDataCallback fn) async {
   if (result is Future) {
     await result;
   }
-  writeData();
+  _writeData();
 }
 
-Future<File> getDataFile() async {
+Future<File> _getDataFile() async {
   final documentsDirectory = await getApplicationDocumentsDirectory();
   return File("${documentsDirectory.path}/data.json");
 }
 
 Future<Data> readData() async {
-  final file = await getDataFile();
+  final file = await _getDataFile();
   if (await file.exists()) {
     final result = json.decode(await file.readAsString());
     data = Data.fromJson(result);
@@ -59,8 +59,8 @@ Future<Data> readData() async {
   return data;
 }
 
-void writeData() async {
-  final file = await getDataFile();
+void _writeData() async {
+  final file = await _getDataFile();
   final result = json.encode(data.toJson());
   file.writeAsString(result);
 }
