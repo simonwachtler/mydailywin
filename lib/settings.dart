@@ -132,10 +132,14 @@ class _SettingsState extends State<Settings> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Text(
-                '\n\n                              ver 1\n\n© Debertol Michael & Wachtler Simon'),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "ver 1\n© Debertol Michael & Wachtler Simon",
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
           AboutListTile(
             child: Center(
