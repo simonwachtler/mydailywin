@@ -36,13 +36,13 @@ class Data {
   Map<String, dynamic> toJson() => _$DataToJson(this);
 }
 
-typedef SetDataCallback = dynamic Function();
-void setData(SetDataCallback fn) async {
+void setData(dynamic fn()) {
   final result = fn();
   if (result is Future) {
-    await result;
+    result.then((_) => _writeData());
+  } else {
+    _writeData();
   }
-  _writeData();
 }
 
 Future<File> _getDataFile() async {
