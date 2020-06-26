@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:my_daily_success/animations.dart';
 import 'package:persist_theme/ui/theme_widgets.dart';
@@ -80,6 +81,23 @@ class _SettingsState extends State<Settings> {
                   )
                 ],
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
+            child: SwitchListTile.adaptive(
+              title: Text(
+                  data.dailyNotificationsEnabled ? "Aktiviert" : "Deaktiviert"),
+              subtitle: Text("Tägliche Erinnerung an deine Morgenroutine"),
+              onChanged: (enabled) {
+                setState(() {
+                  setData(() {
+                    data.dailyNotificationsEnabled = enabled;
+                    _updateNotifications();
+                  });
+                });
+              },
+              value: data.dailyNotificationsEnabled,
             ),
           ),
           Padding(
@@ -168,5 +186,28 @@ Debertol Michael & Wachtler Simon
         ],
       ),
     );
+  }
+}
+
+const morningRoutineId = 1;
+void _updateNotifications() async {
+  if (data.dailyNotificationsEnabled) {
+    // TODO: when?
+    var time = Time(8, 0, 0);
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'morning_routine', 'Morgenroutine', 'Deine tägliche Morgenroutine',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.showDailyAtTime(
+      morningRoutineId,
+      'Morgenroutine',
+      'Zeit für deine tägliche Morgenroutine!',
+      time,
+      platformChannelSpecifics,
+    );
+  } else {
+    await flutterLocalNotificationsPlugin.cancel(morningRoutineId);
   }
 }

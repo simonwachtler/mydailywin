@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:persist_theme/persist_theme.dart';
@@ -20,6 +21,34 @@ void main() {
   runApp(MyApp());
   firstData = readData();
   firstData.then((value) => data = value);
+}
+
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+void initializeNotifications(BuildContext context) async {
+  if (flutterLocalNotificationsPlugin != null) return;
+
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  var initializationSettingsAndroid =
+      AndroidInitializationSettings('ic_launcher');
+  var initializationSettingsIOS = IOSInitializationSettings();
+  var initializationSettings = InitializationSettings(
+      initializationSettingsAndroid, initializationSettingsIOS);
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: (string) async {
+    print(125);
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NewSuccess(
+          type: EntryType.Success,
+          morningRoutine: true,
+        ),
+      ),
+    );
+  });
 }
 
 final _model = ThemeModel();
@@ -86,14 +115,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     firstData.then((data) async {
       if (!showingDialog && data.name == null) {
         showingDialog = true;
         await showNameDialog(context);
       }
+      initializeNotifications(context);
       setState(() {});
     });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: currentScreen(selectedScreen),
       bottomNavigationBar: BottomNavigationBar(
