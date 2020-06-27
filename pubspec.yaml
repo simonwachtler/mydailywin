@@ -55,7 +55,7 @@ flutter_icons:
   ios: true
   # Konnsch des ändern & donoch "flutter pub run flutter_launcher_icons:main" im terminal ausführen
   #                 ↓                                   (sel generiert donn die verschidenen icons)
-  image_path: "icon/1.png"
+  image_path: "assets/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
