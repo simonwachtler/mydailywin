@@ -9,6 +9,7 @@ import 'util.dart';
 class HallOfFame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final entries = filterEntries(data.entries);
     return AnimatedListView(
       padding: const EdgeInsets.all(8.0),
       children: [
@@ -22,12 +23,13 @@ class HallOfFame extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 15.0, top: 7, bottom: 15.0),
           child: Text(
-            "Ich habe schon so viel geschafft! \nIch werde auch diese Herausforderung meistern!",
+            entries.length == 0
+                ? "Wir werden dir hier deine Erfolge anzeigen. Notiere sie täglich, um sie hier anzusehen."
+                : "Ich habe schon so viel geschafft! \nIch werde auch diese Herausforderung meistern!",
             style: TextStyle(fontSize: 23.0),
           ),
         ),
-        ...filterEntries(data.entries)
-            .entries
+        ...entries.entries
             .map((e) => DayWidget(entries: e.value, date: e.key))
             .toList(),
         SizedBox(height: 100),

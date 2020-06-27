@@ -34,7 +34,9 @@ class Level extends StatelessWidget {
           padding: const EdgeInsets.all(32),
           child: Center(
             child: Text(
-              "Glückwunsch, du hast Level ${level.item1} erreicht!",
+              level.item1 == 1
+                  ? "Du befindest dich derzeit auf Level 1"
+                  : "Glückwunsch, du hast Level ${level.item1} erreicht!",
             ),
           ),
         ),
