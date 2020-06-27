@@ -42,8 +42,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Wir benötigen zugriff auf deine Fotos!!!</string>
+	<string>Genehmige den Zugriff, um dein Profilbild zu ändern!</string>
 	<key>NSFaceIDUsageDescription</key>
-<string>Why is my app authenticating using face id?</string>
+    <string>Erlaube den Zugriff, um FaceID zu nutzen!</string>
 </dict>
 </plist>

@@ -13,6 +13,7 @@ import 'lockscreen.dart';
 import 'new_success.dart';
 import 'profil.dart';
 import 'screenlocker.dart';
+import 'onboarding.dart';
 
 Data data = Data([], null, null, true, false);
 Future<Data> firstData;
@@ -26,7 +27,8 @@ void main() {
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 void initializeNotifications(BuildContext context) async {
-  if (flutterLocalNotificationsPlugin != null) return;
+  if (flutterLocalNotificationsPlugin != null ||
+      !data.dailyNotificationsEnabled) return;
 
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -36,23 +38,25 @@ void initializeNotifications(BuildContext context) async {
   var initializationSettings = InitializationSettings(
       initializationSettingsAndroid, initializationSettingsIOS);
 
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (string) async {
-    // remove the screen locker,
-    // since it would be below the NewSuccess route
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => NewSuccess(
-          type: EntryType.Success,
-          morningRoutine: true,
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onSelectNotification: (string) async {
+      // remove the screen locker,
+      // since it would be below the NewSuccess route
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NewSuccess(
+            type: EntryType.Success,
+            morningRoutine: true,
+          ),
         ),
-      ),
-      (route) => route.settings.name != screenlockerRouteName,
-    );
-    // lock the screen again
-    context.findAncestorStateOfType<ScreenlockerState>().tryUnlock();
-  });
+        (route) => route.settings.name != screenlockerRouteName,
+      );
+      // lock the screen again
+      context.findAncestorStateOfType<ScreenlockerState>().tryUnlock();
+    },
+  );
 }
 
 final _model = ThemeModel();
@@ -66,7 +70,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeModel>(
         builder: (context, model, child) {
           return MaterialApp(
-            title: "My Daily Win",
+            title: "My Daily Win!",
             theme: ThemeData(
               fontFamily: "Abadi",
               brightness: model.theme.brightness,
@@ -121,11 +125,21 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     firstData.then((data) async {
-      if (!showingDialog && data.name == null) {
-        showingDialog = true;
-        await showNameDialog(context);
+      if (showingDialog) {
+        return;
       }
-      initializeNotifications(context);
+      if (data.name == null) {
+        showingDialog = true;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FirstImpression(),
+          ),
+        );
+      } else {
+        // onboarding will initialize notifcations
+        initializeNotifications(context);
+      }
       setState(() {});
     });
     super.initState();
@@ -291,7 +305,7 @@ class _NameDialogState extends State<NameDialog> {
       ),
       actions: [
         FlatButton(
-          child: Text("Jetzt loslegen!"),
+          child: Text("Speichern"),
           onPressed: _controller.text.isNotEmpty
               ? () {
                   setData(() => data.name = _controller.text);
