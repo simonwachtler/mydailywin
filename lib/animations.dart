@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
@@ -14,7 +16,7 @@ class AnimatedListView extends StatelessWidget {
       padding: padding,
       children: [
         for (var i = 0; i < children.length; i++)
-          FadeIn(i, children[i], children[i].key)
+          FadeIn(min(i, 15), children[i], children[i].key)
       ],
     );
   }
