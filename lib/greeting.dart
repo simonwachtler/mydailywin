@@ -118,32 +118,27 @@ class GreetingBox extends StatelessWidget {
     @required this.color,
     @required this.child,
     this.onTap,
-    this.delay,
   }) : super(key: key);
 
   final Color color;
   final Widget child;
   final VoidCallback onTap;
-  final int delay;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 65.0, bottom: 8.0),
-      child: AnimatedOpacity(
-        duration: Duration(milliseconds: 1000),
-        opacity: 1,
-        child: Material(
-          elevation: 4,
-          color: color.withAlpha(150),
-          borderRadius: BorderRadius.horizontal(left: Radius.circular(8.0)),
-          child: InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(35.0),
-              child: child,
-            ),
-            onTap: onTap,
+      child: Material(
+        elevation: 4,
+        color:
+            Color.lerp(color, Theme.of(context).scaffoldBackgroundColor, .300),
+        borderRadius: BorderRadius.horizontal(left: Radius.circular(12)),
+        child: InkWell(
+          child: Padding(
+            padding: const EdgeInsets.all(35.0),
+            child: child,
           ),
+          onTap: onTap,
         ),
       ),
     );

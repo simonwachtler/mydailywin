@@ -83,7 +83,7 @@ class _ProfilState extends State<Profil> {
         ),
         ProfilBox(
           color: Colors.purple,
-          text: "JETZT ENTWICKLER UNTERSTÜTZEN! >>",
+          text: "JETZT ENTWICKLER UNTERSTÜTZEN",
           onTap: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => Spenden()));
@@ -91,11 +91,11 @@ class _ProfilState extends State<Profil> {
         ),
         ProfilBox(
           color: Colors.blue,
-          text: "GIB UNS 5 STERNE!",
+          text: "GIB UNS 5 STERNE",
         ),
         ProfilBox(
           color: Colors.green,
-          text: "SUPPORT ERHALTEN!",
+          text: "SUPPORT ERHALTEN",
           onTap: () {
             launch("https://form.jotform.com/201736647022047");
           },
@@ -117,19 +117,21 @@ class ProfilBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 3.0, top: 15),
-      child: Container(
-        width: 370,
-        child: Material(
-          color: color.withAlpha(150),
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.all(35.0),
-              child: Text(
-                text,
-                style: TextStyle(fontSize: 25, fontFamily: 'Abadi'),
-              ),
+      child: Material(
+        elevation: 4,
+        color: Color.lerp(
+          color,
+          Theme.of(context).scaffoldBackgroundColor,
+          .300,
+        ),
+        borderRadius: BorderRadius.horizontal(left: Radius.circular(12)),
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(35.0),
+            child: Text(
+              text,
+              style: TextStyle(fontSize: 25, fontFamily: 'Abadi'),
             ),
           ),
         ),
