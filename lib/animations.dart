@@ -30,6 +30,7 @@ class AnimatedColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < children.length; i++)
           FadeIn(i, children[i], children[i].key)

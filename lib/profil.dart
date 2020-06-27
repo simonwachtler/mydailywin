@@ -16,93 +16,90 @@ class Profil extends StatefulWidget {
 class _ProfilState extends State<Profil> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnimatedListView(children: [
-        Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.purple[900],
-                borderRadius:
-                    BorderRadius.only(bottomRight: Radius.circular(16)),
-              ),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Container(
-                    child: data.imageFilePath == null
-                        ? Icon(Icons.person, color: Colors.white, size: 150)
-                        : Image.file(File(data.imageFilePath)),
-                    height: 150,
-                    width: 150,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 115),
-              child:
-                  Text(data.name, style: Theme.of(context).textTheme.headline4),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 126, left: 6),
-              child: IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () async {
-                  await showNameDialog(context);
-                  setState(() {});
-                },
-              ),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 360, top: 19),
-          child: Container(
+    return AnimatedColumn(children: [
+      Row(
+        children: [
+          Container(
             decoration: BoxDecoration(
-              color: Colors.grey.withAlpha(100),
-              borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
+              color: Colors.purple[900],
+              borderRadius: BorderRadius.only(bottomRight: Radius.circular(16)),
             ),
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  width: 130,
+                  height: 50,
                 ),
-                IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () async {
-                      await Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (_) => Settings()));
-                      if (this.mounted) setState(() {});
-                    }),
+                Container(
+                  child: data.imageFilePath == null
+                      ? Icon(Icons.person, color: Colors.white, size: 150)
+                      : Image.file(File(data.imageFilePath)),
+                  height: 150,
+                  width: 150,
+                ),
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, top: 115),
+            child:
+                Text(data.name, style: Theme.of(context).textTheme.headline4),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 126, left: 6),
+            child: IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () async {
+                await showNameDialog(context);
+                setState(() {});
+              },
+            ),
+          ),
+        ],
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 360, top: 19),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey.withAlpha(100),
+            borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
+          ),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                width: 130,
+              ),
+              IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () async {
+                    await Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => Settings()));
+                    if (this.mounted) setState(() {});
+                  }),
+            ],
+          ),
         ),
-        ProfilBox(
-          color: Colors.purple,
-          text: "JETZT ENTWICKLER UNTERSTÜTZEN",
-          onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Spenden()));
-          },
-        ),
-        ProfilBox(
-          color: Colors.blue,
-          text: "GIB UNS 5 STERNE",
-        ),
-        ProfilBox(
-          color: Colors.green,
-          text: "SUPPORT ERHALTEN",
-          onTap: () {
-            launch("https://form.jotform.com/201736647022047");
-          },
-          // diese Seite verlinken:
-        ),
-      ]),
-    );
+      ),
+      ProfilBox(
+        color: Colors.purple,
+        text: "JETZT ENTWICKLER UNTERSTÜTZEN",
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => Spenden()));
+        },
+      ),
+      ProfilBox(
+        color: Colors.blue,
+        text: "GIB UNS 5 STERNE",
+      ),
+      ProfilBox(
+        color: Colors.green,
+        text: "SUPPORT ERHALTEN",
+        onTap: () {
+          launch("https://form.jotform.com/201736647022047");
+        },
+        // diese Seite verlinken:
+      ),
+    ]);
   }
 }
 
