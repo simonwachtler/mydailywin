@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeModel>(
         builder: (context, model, child) {
           return MaterialApp(
-            title: "Flutter Demo",
+            title: "My Daily Win",
             theme: ThemeData(
               fontFamily: "Abadi",
               brightness: model.theme.brightness,
