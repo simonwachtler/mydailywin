@@ -10,7 +10,11 @@ class Level extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final level = calculateLevels(
-        data.entries.fold(0, (value, entry) => value + entry.contents.length));
+      data.entries.fold(
+        0,
+        (value, entry) => value + entry.success.length + entry.grateful.length,
+      ),
+    );
     return AnimatedListView(
       children: [
         Padding(

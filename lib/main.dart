@@ -10,7 +10,7 @@ import 'greeting.dart';
 import 'hall_of_fame.dart';
 import 'level.dart';
 import 'lockscreen.dart';
-import 'new_success.dart';
+import 'new_entry.dart';
 import 'profil.dart';
 import 'screenlocker.dart';
 import 'onboarding.dart';
@@ -45,12 +45,7 @@ void initializeNotifications(BuildContext context) async {
       // since it would be below the NewSuccess route
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder: (context) => NewSuccess(
-            type: EntryType.Success,
-            morningRoutine: true,
-          ),
-        ),
+        MaterialPageRoute(builder: (context) => MorningRoutine()),
         (route) => route.settings.name != screenlockerRouteName,
       );
       // lock the screen again
@@ -220,12 +215,7 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
             labelStyle: TextStyle(color: Colors.black),
             onTap: () async {
               await Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => NewSuccess(
-                    type: EntryType.Success,
-                    morningRoutine: true,
-                  ),
-                ),
+                MaterialPageRoute(builder: (_) => MorningRoutine()),
               );
 
               widget.onEntered();
@@ -235,8 +225,9 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
             label: "Dankbarkeitsnotiz",
             labelStyle: TextStyle(color: Colors.black),
             onTap: () async {
-              await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => NewSuccess(type: EntryType.Grateful)));
+              await Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => NewGrateful()),
+              );
               widget.onEntered();
             }),
         SpeedDialChild(
@@ -244,10 +235,9 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
             label: "Erfolg",
             labelStyle: TextStyle(color: Colors.black),
             onTap: () async {
-              await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => NewSuccess(
-                        type: EntryType.Success,
-                      )));
+              await Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => NewSuccess()),
+              );
               widget.onEntered();
             }),
       ],

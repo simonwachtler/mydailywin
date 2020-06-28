@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_daily_success/edit_entry.dart';
 
 import 'animations.dart';
 import 'data.dart';
 import 'main.dart';
-import 'util.dart';
 
-class HallOfFame extends StatelessWidget {
+class HallOfFame extends StatefulWidget {
+  @override
+  _HallOfFameState createState() => _HallOfFameState();
+}
+
+class _HallOfFameState extends State<HallOfFame> {
   @override
   Widget build(BuildContext context) {
-    final entries = filterEntries(data.entries);
     return AnimatedListView(
       padding: const EdgeInsets.all(8.0),
       children: [
@@ -23,51 +27,48 @@ class HallOfFame extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 15.0, top: 7, bottom: 15.0),
           child: Text(
-            entries.length == 0
+            data.entries.length == 0
                 ? "Wir werden dir hier deine Erfolge anzeigen. Notiere sie täglich, um sie hier anzusehen."
                 : "Ich habe schon so viel geschafft! \nIch werde auch diese Herausforderung meistern!",
             style: TextStyle(fontSize: 23.0),
           ),
         ),
-        ...entries.entries
-            .map((e) => DayWidget(entries: e.value, date: e.key))
+        ...data.entries
+            .map((e) => DayWidget(
+                  entry: e,
+                  onDelete: () {
+                    setState(() {
+                      setData(() {
+                        data.entries.remove(e);
+                      });
+                    });
+                  },
+                  onReplace: (newEntry) {
+                    setState(() {
+                      setData(() {
+                        final index = data.entries.indexOf(e);
+                        data.entries.removeAt(index);
+                        data.entries.insert(index, newEntry);
+                      });
+                    });
+                  },
+                ))
             .toList(),
         SizedBox(height: 100),
       ],
     );
   }
-
-  Map<DateTime, List<Entry>> filterEntries(List<Entry> entries) {
-    final map = Map<DateTime, List<Entry>>();
-    for (var entry in entries) {
-      final date = toDate(entry.date);
-      if (map.containsKey(date)) {
-        map[date].add(entry);
-      } else {
-        map[date] = [entry];
-      }
-    }
-    return map;
-  }
 }
 
 class DayWidget extends StatelessWidget {
-  final List<Entry> entries;
-  final DateTime date;
+  final Entry entry;
+  final VoidCallback onDelete;
+  final EditingConpleteCallback onReplace;
 
-  const DayWidget({Key key, this.entries, this.date}) : super(key: key);
+  const DayWidget({Key key, this.entry, this.onDelete, this.onReplace})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final success =
-        entries.where((element) => element.type == EntryType.Success).fold(
-      <String>[],
-      (previousValue, element) => previousValue..addAll(element.contents),
-    ).where((String c) => c.isNotEmpty);
-    final grateful =
-        entries.where((element) => element.type == EntryType.Grateful).fold(
-      <String>[],
-      (previousValue, element) => previousValue..addAll(element.contents),
-    ).where((String c) => c.isNotEmpty);
     return Padding(
       padding: const EdgeInsets.only(left: 4, right: 4),
       child: Card(
@@ -80,20 +81,42 @@ class DayWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                DateFormat.MMMMd("de").format(date),
-                style: Theme.of(context).textTheme.headline4,
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      DateFormat.MMMMd("de").format(entry.date),
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+                  if (onReplace != null && onDelete != null)
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (c) => EditEntry(
+                              entry: entry,
+                              onDelete: onDelete,
+                              onReplace: onReplace,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                ],
               ),
               SizedBox(height: 8),
-              if (success.isNotEmpty)
+              if (entry.success.isNotEmpty)
                 Text("Das habe ich geschafft:",
                     style: TextStyle(fontWeight: FontWeight.bold)),
-              for (var s in success) Text(s),
+              for (var s in entry.success) Text(s),
               SizedBox(height: 8),
-              if (grateful.isNotEmpty)
+              if (entry.grateful.isNotEmpty)
                 Text("Dafür bin ich dankbar:",
                     style: TextStyle(fontWeight: FontWeight.bold)),
-              for (var g in grateful) Text(g)
+              for (var g in entry.grateful) Text(g)
             ],
           ),
         ),

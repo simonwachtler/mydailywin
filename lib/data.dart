@@ -5,18 +5,17 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'main.dart';
+import 'util.dart';
 
 part 'data.g.dart';
-
-enum EntryType { Success, Grateful }
 
 @JsonSerializable()
 class Entry {
   final DateTime date;
-  final List<String> contents;
-  final EntryType type;
+  final List<String> success;
+  final List<String> grateful;
 
-  Entry(this.date, this.contents, this.type);
+  Entry(this.date, this.success, this.grateful);
   factory Entry.fromJson(Map<String, dynamic> json) => _$EntryFromJson(json);
   Map<String, dynamic> toJson() => _$EntryToJson(this);
 }
@@ -63,4 +62,30 @@ void _writeData() async {
   final file = await _getDataFile();
   final result = json.encode(data.toJson());
   file.writeAsString(result);
+}
+
+void addSuccess(List<String> content) {
+  setData(() {
+    final now = toDate(DateTime.now());
+    final entry = data.entries
+        .firstWhere((element) => element.date == now, orElse: () => null);
+    if (entry == null) {
+      data.entries.add(Entry(now, content, []));
+    } else {
+      entry.success.addAll(content);
+    }
+  });
+}
+
+void addGrateful(List<String> content) {
+  setData(() {
+    final now = toDate(DateTime.now());
+    final entry = data.entries
+        .firstWhere((element) => element.date == now, orElse: () => null);
+    if (entry == null) {
+      data.entries.add(Entry(now, [], content));
+    } else {
+      entry.grateful.addAll(content);
+    }
+  });
 }

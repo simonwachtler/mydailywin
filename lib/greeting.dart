@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_daily_success/hall_of_fame.dart';
 import 'package:my_daily_success/main.dart';
-import 'package:tuple/tuple.dart';
 
 import 'animations.dart';
-import 'data.dart';
-import 'new_success.dart';
-import 'util.dart';
+import 'new_entry.dart';
 
 class Greeting extends StatelessWidget {
   const Greeting({
@@ -18,7 +15,6 @@ class Greeting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lastEntries = _filterEntries(data.entries);
     return AnimatedListView(
       children: [
         Padding(
@@ -48,11 +44,11 @@ class Greeting extends StatelessWidget {
             ],
           ),
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => NewSuccess(
-                      type: EntryType.Success,
-                      morningRoutine: true,
-                    )));
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => MorningRoutine(),
+              ),
+            );
           },
         ),
         GreetingBox(
@@ -82,33 +78,16 @@ class Greeting extends StatelessWidget {
           ),
           onTap: switchToMutmacher,
         ),
-        if (lastEntries != null)
+        if (data.entries.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: DayWidget(
-              entries: lastEntries.item2,
-              date: lastEntries.item1,
-            ),
+            child: DayWidget(entry: data.entries.last),
           ),
         SizedBox(
           height: 100,
         )
       ],
     );
-  }
-
-  Tuple2<DateTime, List<Entry>> _filterEntries(List<Entry> entries) {
-    Tuple2<DateTime, List<Entry>> tuple;
-    if (entries == null) return null;
-    for (var entry in entries) {
-      final date = toDate(entry.date);
-      if (tuple?.item1?.isBefore(date) != false) {
-        tuple = Tuple2(date, [entry]);
-      } else if (tuple.item1.isAtSameMomentAs(date)) {
-        tuple.item2.add(entry);
-      }
-    }
-    return tuple;
   }
 }
 

@@ -5,22 +5,64 @@ import 'data.dart';
 import 'main.dart';
 
 class NewSuccess extends StatelessWidget {
-  final String text;
-  final bool morningRoutine;
-  final EntryType type;
-
-  const NewSuccess({Key key, this.text, this.morningRoutine = false, this.type})
-      : super(key: key);
-  String getText() {
-    switch (type) {
-      case EntryType.Success:
-        return "Was ist dir gestern gut gelungen – Erfolge, Anerkennung:";
-      case EntryType.Grateful:
-        return "Wofür bist Du dankbar?";
-      default:
-        throw Error();
-    }
+  @override
+  Widget build(BuildContext context) {
+    return _NewEntry(
+      text: "Was ist dir gestern gut gelungen – Erfolge, Anerkennung:",
+      confirmText: "Fertig",
+      onConfirm: (contents) {
+        addSuccess(contents);
+        Navigator.pop(context);
+      },
+    );
   }
+}
+
+class NewGrateful extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _NewEntry(
+      text: "Wofür bist Du dankbar?",
+      confirmText: "Fertig",
+      onConfirm: (contents) {
+        addGrateful(contents);
+        Navigator.pop(context);
+      },
+    );
+  }
+}
+
+class MorningRoutine extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _NewEntry(
+      text:
+          "Guten Morgen!\nWas ist dir gestern gut gelungen – Erfolge, Anerkennung:",
+      confirmText: "Weiter",
+      onConfirm: (contents) async {
+        addSuccess(contents);
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (c) => NewGrateful(),
+          ),
+        );
+        Navigator.pop(context);
+      },
+    );
+  }
+}
+
+class _NewEntry extends StatelessWidget {
+  final String text, confirmText;
+  final ConfirmationCallback onConfirm;
+
+  const _NewEntry({
+    Key key,
+    this.text,
+    this.confirmText,
+    this.onConfirm,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +96,7 @@ class NewSuccess extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 70, left: 13),
             child: Text(
-              getText(),
+              text,
               style: TextStyle(
                 fontSize: 25.0,
                 fontFamily: 'Abadi',
@@ -62,22 +104,9 @@ class NewSuccess extends StatelessWidget {
               ),
             ),
           ),
-          NewSuccessForm(
-            confirmText: morningRoutine && type == EntryType.Success
-                ? "Weiter"
-                : "Fertig",
-            onConfirm: (contents) async {
-              setData(() {
-                data.entries.add(Entry(DateTime.now(), contents, type));
-              });
-              if (morningRoutine && type == EntryType.Success) {
-                await Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => NewSuccess(type: EntryType.Grateful)));
-                Navigator.of(context).pop();
-              } else {
-                Navigator.of(context).pop();
-              }
-            },
+          _NewEntryForm(
+            confirmText: confirmText,
+            onConfirm: onConfirm,
           )
         ],
       ),
@@ -87,18 +116,18 @@ class NewSuccess extends StatelessWidget {
 
 typedef ConfirmationCallback = void Function(List<String> contents);
 
-class NewSuccessForm extends StatefulWidget {
+class _NewEntryForm extends StatefulWidget {
   final String confirmText;
   final ConfirmationCallback onConfirm;
 
-  const NewSuccessForm({Key key, this.confirmText, this.onConfirm})
+  const _NewEntryForm({Key key, this.confirmText, this.onConfirm})
       : super(key: key);
 
   @override
-  _NewSuccessFormState createState() => _NewSuccessFormState();
+  _NewEntryFormState createState() => _NewEntryFormState();
 }
 
-class _NewSuccessFormState extends State<NewSuccessForm> {
+class _NewEntryFormState extends State<_NewEntryForm> {
   final _formKey = GlobalKey<FormState>();
   final List<TextEditingController> controllers =
       List.generate(5, (_) => TextEditingController());
