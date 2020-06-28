@@ -19,7 +19,7 @@ class Level extends StatelessWidget {
             child: Text(
               'Guten Tag, ${data.name}!',
               style: TextStyle(
-                  fontSize: 25.0,
+                  fontSize: 29.0,
                   fontFamily: 'Abadi',
                   fontWeight: FontWeight.bold,
                   color: Colors.grey),
@@ -31,7 +31,7 @@ class Level extends StatelessWidget {
           child: PercentageWidget(percentage: level.item2),
         ),
         Padding(
-          padding: const EdgeInsets.all(32),
+          padding: const EdgeInsets.only(left: 32, right: 32),
           child: Center(
             child: Text(
               level.item1 == 1
@@ -44,11 +44,11 @@ class Level extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                "\nSo startest du durch:",
+                "\n\nSo startest du durch:",
                 style: TextStyle(fontSize: 26, fontFamily: "Abadi"),
               ),
               Text(
-                "\nNotiere täglich deine Erfolge \nund du wirst schon bald ein neues \nLevel erreicht haben!",
+                "\nNotiere täglich deine Erfolge \nund du wirst schon bald das nächste \nLevel erreicht haben!",
                 style: TextStyle(fontSize: 20),
                 textAlign: TextAlign.center,
               ),

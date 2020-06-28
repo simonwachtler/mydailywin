@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'animations.dart';
 import 'main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Spenden extends StatelessWidget {
   @override
@@ -15,12 +16,14 @@ class Spenden extends StatelessWidget {
               child: Card(
                 elevation: 10,
                 child: ListTile(
-                  title: Text("Spendiere jetzt einen Kaffee!"),
-                  subtitle: Text("Betrag: 1,99€"),
-                  leading: Image.asset(darkMode
-                      ? "assets/coffee-white.png"
-                      : "assets/coffee-black.png"),
-                ),
+                    title: Text("Spendiere jetzt einen Kaffee!"),
+                    subtitle: Text("Betrag: 1,99€"),
+                    leading: Image.asset(darkMode
+                        ? "assets/coffee-white.png"
+                        : "assets/coffee-black.png"),
+                    onTap: () {
+                      launch("https://paypal.me/wachtlers/1,99");
+                    }),
               ),
             ),
             Padding(
@@ -57,7 +60,10 @@ class Spenden extends StatelessWidget {
                     subtitle: Text("Hier geht's zur Website!"),
                     leading: Image.asset(darkMode
                         ? "assets/Sparschwein-white.png"
-                        : "assets/Sparschwein-black.png")),
+                        : "assets/Sparschwein-black.png"),
+                    onTap: () {
+                      launch("https://paypal.me/wachtlers");
+                    }),
               ),
             ),
             Padding(

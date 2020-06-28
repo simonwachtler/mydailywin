@@ -14,7 +14,7 @@ class HallOfFame extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 15.0, top: 35),
+          padding: const EdgeInsets.only(left: 15.0, top: 85),
           child: Text(
             "Ich schaffe das!",
             style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold),
@@ -68,29 +68,34 @@ class DayWidget extends StatelessWidget {
       <String>[],
       (previousValue, element) => previousValue..addAll(element.contents),
     ).where((String c) => c.isNotEmpty);
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding:
-            const EdgeInsets.only(top: 23, right: 19, left: 19, bottom: 23),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              DateFormat.MMMMd("de").format(date),
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            SizedBox(height: 8),
-            if (success.isNotEmpty)
-              Text("Das habe ich geschafft:",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-            for (var s in success) Text(s),
-            SizedBox(height: 8),
-            if (grateful.isNotEmpty)
-              Text("Dafür bin ich dankbar:",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-            for (var g in grateful) Text(g)
-          ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 4, right: 4),
+      child: Card(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        elevation: 5,
+        child: Padding(
+          padding:
+              const EdgeInsets.only(top: 23, right: 15, left: 15, bottom: 23),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                DateFormat.MMMMd("de").format(date),
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              SizedBox(height: 8),
+              if (success.isNotEmpty)
+                Text("Das habe ich geschafft:",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              for (var s in success) Text(s),
+              SizedBox(height: 8),
+              if (grateful.isNotEmpty)
+                Text("Dafür bin ich dankbar:",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              for (var g in grateful) Text(g)
+            ],
+          ),
         ),
       ),
     );

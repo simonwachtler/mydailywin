@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedListView(
+      body: AnimatedColumn(
         children: [
           Row(
             children: [
@@ -134,7 +134,7 @@ class _SettingsState extends State<Settings> {
           ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(top: 38.0),
               child: Text(
                 "ver 1\n© Debertol Michael & Wachtler Simon",
                 textAlign: TextAlign.center,

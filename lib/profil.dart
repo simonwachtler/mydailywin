@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_daily_success/animations.dart';
 import 'package:my_daily_success/main.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'main.dart';
 import 'settings.dart';
 import 'spende.dart';
 
@@ -40,18 +40,49 @@ class _ProfilState extends State<Profil> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, top: 115),
-            child:
-                Text(data.name, style: Theme.of(context).textTheme.headline4),
+            padding: const EdgeInsets.only(top: 129, left: 16),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.withAlpha(50),
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                      width: 170,
+                      height: 60,
+                      child: Center(
+                        child: Text(data.name,
+                            style: Theme.of(context).textTheme.headline4),
+                      )),
+                ],
+              ),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 126, left: 6),
-            child: IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () async {
-                await showNameDialog(context);
-                setState(() {});
-              },
+            padding: const EdgeInsets.only(top: 129, left: 7),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.withAlpha(50),
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+              ),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    width: 50,
+                    height: 60,
+                    child: Center(
+                      child: IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () async {
+                          await showNameDialog(context);
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -81,7 +112,7 @@ class _ProfilState extends State<Profil> {
       ),
       ProfilBox(
         color: Colors.purple,
-        text: "JETZT ENTWICKLER UNTERSTÜTZEN",
+        text: "JETZT ENTWICKLER UNTERSTÜTZEN!",
         onTap: () {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => Spenden()));
@@ -89,15 +120,21 @@ class _ProfilState extends State<Profil> {
       ),
       ProfilBox(
         color: Colors.blue,
-        text: "GIB UNS 5 STERNE",
+        text: "GIB UNS 5 STERNE!",
       ),
       ProfilBox(
         color: Colors.green,
-        text: "SUPPORT ERHALTEN",
+        text: "SUPPORT ERHALTEN!",
         onTap: () {
           launch("https://form.jotform.com/201736647022047");
         },
-        // diese Seite verlinken:
+      ),
+      ProfilBox(
+        color: Colors.orange,
+        text: "FOLGE UNS!",
+        onTap: () {
+          launch("https://www.instagram.com");
+        },
       ),
     ]);
   }
@@ -113,7 +150,7 @@ class ProfilBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 3.0, top: 15),
+      padding: EdgeInsets.only(left: 9.0, top: 17),
       child: Material(
         elevation: 4,
         color: Color.lerp(

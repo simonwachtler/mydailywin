@@ -41,6 +41,8 @@ class NewSuccess extends StatelessWidget {
                 ),
               ),
               Spacer(),
+              Image.asset('assets/win-grey.png', width: 65),
+              Spacer(),
               IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
@@ -136,20 +138,26 @@ class _NewSuccessFormState extends State<NewSuccessForm> {
             SizedBox(
               height: 20,
             ),
-            RaisedButton(
-              child: Text(
-                widget.confirmText,
-              ),
-              onPressed: controllers.any((c) => c.text.isNotEmpty)
-                  ? () {
-                      final contents = controllers
-                          .map((c) => c.text)
-                          .where((t) => t.isNotEmpty)
-                          .toList();
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18),
+              child: RaisedButton(
+                color: Colors.blue,
+                elevation: 10,
+                child: Text(
+                  widget.confirmText,
+                  style: TextStyle(fontSize: 16),
+                ),
+                onPressed: controllers.any((c) => c.text.isNotEmpty)
+                    ? () {
+                        final contents = controllers
+                            .map((c) => c.text)
+                            .where((t) => t.isNotEmpty)
+                            .toList();
 
-                      widget.onConfirm(contents);
-                    }
-                  : null,
+                        widget.onConfirm(contents);
+                      }
+                    : null,
+              ),
             )
           ],
         ),
