@@ -196,7 +196,6 @@ Debertol Michael & Wachtler Simon
 const morningRoutineId = 1;
 void _updateNotifications() async {
   if (data.dailyNotificationsEnabled) {
-    // TODO: when?
     var time = Time(8, 0, 0);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'morning_routine', 'Morgenroutine', 'Deine tägliche Morgenroutine',
