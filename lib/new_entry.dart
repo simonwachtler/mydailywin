@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_daily_success/animations.dart';
+import 'package:my_daily_win/animations.dart';
 
 import 'data.dart';
 import 'main.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_daily_success/edit_entry.dart';
+import 'package:my_daily_win/edit_entry.dart';
 
 import 'animations.dart';
 import 'data.dart';

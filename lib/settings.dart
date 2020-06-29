@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:my_daily_success/animations.dart';
+import 'package:my_daily_win/animations.dart';
 import 'package:persist_theme/ui/theme_widgets.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'main.dart';
 import 'data.dart';

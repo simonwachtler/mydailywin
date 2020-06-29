@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_daily_success/animations.dart';
-import 'package:my_daily_success/settings.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
+import 'package:my_daily_win/animations.dart';
+import 'package:my_daily_win/settings.dart';
 
 import 'main.dart';
 import 'data.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:persist_theme/persist_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
+// import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'data.dart';
 import 'greeting.dart';

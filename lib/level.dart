@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:my_daily_success/animations.dart';
+import 'package:my_daily_win/animations.dart';
 import 'package:tuple/tuple.dart';
 
 import 'main.dart';

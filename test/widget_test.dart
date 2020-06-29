@@ -6,7 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_daily_success/level.dart';
+import 'package:my_daily_win/level.dart';
 
 import 'package:tuple/tuple.dart';
 

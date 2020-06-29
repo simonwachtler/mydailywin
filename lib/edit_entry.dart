@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_daily_success/data.dart';
-import 'package:my_daily_success/new_entry.dart';
+import 'package:my_daily_win/data.dart';
+import 'package:my_daily_win/new_entry.dart';
 
 import 'animations.dart';
 

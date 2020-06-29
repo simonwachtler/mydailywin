@@ -1,4 +1,4 @@
-package com.example.my_daily_success
+package com.example.my_daily_win
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterFragmentActivity

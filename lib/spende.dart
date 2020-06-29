@@ -22,7 +22,8 @@ class Spenden extends StatelessWidget {
                         ? "assets/coffee-white.png"
                         : "assets/coffee-black.png"),
                     onTap: () {
-                      launch("https://paypal.me/wachtlers/1,99");
+                      launch(
+                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YBGW9QXH8UM3Q&source=url");
                     }),
               ),
             ),
@@ -35,7 +36,11 @@ class Spenden extends StatelessWidget {
                     subtitle: Text("Betrag: 0,97€/Monat"),
                     leading: Image.asset(darkMode
                         ? "assets/goenner-white.png"
-                        : "assets/goenner-black.png")),
+                        : "assets/goenner-black.png"),
+                    onTap: () {
+                      launch(
+                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DFBK2QCD7EF6C&source=url");
+                    }),
               ),
             ),
             Padding(
@@ -43,12 +48,15 @@ class Spenden extends StatelessWidget {
               child: Card(
                 elevation: 10,
                 child: ListTile(
-                  title: Text("Werde jetzt Freund!"),
-                  subtitle: Text("Betrag: 2,97/Monat"),
-                  leading: Image.asset(darkMode
-                      ? "assets/herz-white.png"
-                      : "assets/herz-black.png"),
-                ),
+                    title: Text("Werde jetzt Freund!"),
+                    subtitle: Text("Betrag: 2,97/Monat"),
+                    leading: Image.asset(darkMode
+                        ? "assets/herz-white.png"
+                        : "assets/herz-black.png"),
+                    onTap: () {
+                      launch(
+                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5ZCCEN697H3W4&source=url");
+                    }),
               ),
             ),
             Padding(
@@ -62,7 +70,8 @@ class Spenden extends StatelessWidget {
                         ? "assets/Sparschwein-white.png"
                         : "assets/Sparschwein-black.png"),
                     onTap: () {
-                      launch("https://paypal.me/wachtlers");
+                      launch(
+                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6Z2Q5BDH9GLWS&source=url");
                     }),
               ),
             ),
@@ -95,11 +104,16 @@ class Spenden extends StatelessWidget {
               child: Card(
                 elevation: 10,
                 child: ListTile(
-                    title: Text("Werde jetzt Gönner!"),
-                    subtitle: Text("Betrag: 0,97€/Monat"),
+                    title: Text("Herzliches Dankeschön!"),
+                    subtitle: Text(
+                        "Wir, Michael & Simon, bedanken uns für \nIhre liebenswerte Unterstützung!"),
                     leading: Image.asset(darkMode
-                        ? "assets/goenner-white.png"
-                        : "assets/goenner-black.png")),
+                        ? "assets/herz-white.png"
+                        : "assets/herz-black.png"),
+                    onTap: () {
+                      launch(
+                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FQTWZSRWSUXKN&source=url");
+                    }),
               ),
             ),
           ],
@@ -108,7 +122,8 @@ class Spenden extends StatelessWidget {
 }
 
 _launchURL() async {
-  const url = 'https://flutter.io';
+  const url =
+      'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FQTWZSRWSUXKN&source=url';
   if (await canLaunch(url)) {
     await launch(url);
   } else {
