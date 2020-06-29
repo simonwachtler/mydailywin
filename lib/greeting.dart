@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_daily_success/hall_of_fame.dart';
 import 'package:my_daily_success/main.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'animations.dart';
 import 'new_entry.dart';

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:my_daily_success/animations.dart';
 import 'package:my_daily_success/main.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'main.dart';
 import 'settings.dart';

@@ -18,7 +18,14 @@ class _FirstImpressionState extends State<FirstImpression> {
     return Scaffold(
       body: AnimatedColumn(
         children: [
-          Image.asset('assets/win-grey.png'),
+          Padding(
+            padding: const EdgeInsets.only(top: 118.0),
+            child: Image.asset(
+              'assets/win-grey.png',
+              height: 220,
+              width: 250,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(bottom: 1),
             child: Text(
@@ -76,12 +83,18 @@ class _OnboardingState extends State<Onboarding> {
       body: AnimatedColumn(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 70),
+            padding: const EdgeInsets.only(top: 118.0),
+            child: Image.asset(
+              'assets/rakete.png',
+              height: 220,
+              width: 250,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 1, left: 100),
             child: Text(
               "So funktioniert's:",
-              style: TextStyle(
-                fontSize: 20,
-              ),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
@@ -93,8 +106,7 @@ class _OnboardingState extends State<Onboarding> {
           ),
           SwitchListTile.adaptive(
             title: Text("Am Morgen erinnern"),
-            subtitle:
-                Text("Ich möchte am Morgen ans Eintragen erinnert werden"),
+            subtitle: Text("Ich möchte morgens ans Eintragen erinnert werden"),
             value: data.dailyNotificationsEnabled,
             onChanged: (enabled) {
               setState(() {
@@ -104,13 +116,18 @@ class _OnboardingState extends State<Onboarding> {
               });
             },
           ),
-          RaisedButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              await initializeNotifications(context);
-              updateNotifications();
-            },
-            child: Text("Los geht's!"),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: RaisedButton(
+              elevation: 7,
+              color: Colors.blue,
+              onPressed: () async {
+                Navigator.pop(context);
+                await initializeNotifications(context);
+                updateNotifications();
+              },
+              child: Text("Los geht's!"),
+            ),
           )
         ],
       ),

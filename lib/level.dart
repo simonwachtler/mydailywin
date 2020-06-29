@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:my_daily_success/animations.dart';
 import 'package:tuple/tuple.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'main.dart';
 
