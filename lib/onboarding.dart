@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_daily_success/animations.dart';
 import 'package:my_daily_success/settings.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'main.dart';
 import 'data.dart';
@@ -17,36 +18,45 @@ class _FirstImpressionState extends State<FirstImpression> {
     return Scaffold(
       body: AnimatedColumn(
         children: [
+          Image.asset('assets/win-grey.png'),
           Padding(
-            padding: const EdgeInsets.only(top: 170),
+            padding: const EdgeInsets.only(bottom: 1),
             child: Text(
-              "Willkommen bei\nMy Daily Win!",
+              "Herzlich Willkommen \nbei My Daily Win!",
               style: Theme.of(context).textTheme.headline4,
               textAlign: TextAlign.center,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text("Bevor wir loslegen: Wie heißt du?"),
+            padding: const EdgeInsets.only(top: 30),
+            child: Center(
+                child: Text("Bevor wir gleich loslegen: Dein Vorname, bitte!")),
           ),
           Padding(
             padding: const EdgeInsets.all(16),
             child: TextField(
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
               controller: _controller,
               onChanged: (n) => setState(() {}),
             ),
           ),
-          RaisedButton(
-            onPressed: _controller.text.isNotEmpty
-                ? () {
-                    setData(() => data.name = _controller.text);
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Onboarding()),
-                    );
-                  }
-                : null,
-            child: Text("Jetzt loslegen!"),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: RaisedButton(
+              elevation: 7,
+              color: Colors.blue,
+              onPressed: _controller.text.isNotEmpty
+                  ? () {
+                      setData(() => data.name = _controller.text);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Onboarding()),
+                      );
+                    }
+                  : null,
+              child: Text("Jetzt loslegen!"),
+            ),
           ),
         ],
       ),
