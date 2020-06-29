@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_daily_win/animations.dart';
 
+import 'animations.dart';
 import 'data.dart';
 import 'main.dart';
 

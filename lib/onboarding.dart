@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_daily_win/animations.dart';
-import 'package:my_daily_win/settings.dart';
 
+import 'animations.dart';
 import 'main.dart';
 import 'data.dart';
+import 'settings.dart';
 
 class FirstImpression extends StatefulWidget {
   @override

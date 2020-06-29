@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_daily_win/hall_of_fame.dart';
-import 'package:my_daily_win/main.dart';
 
 import 'animations.dart';
+import 'hall_of_fame.dart';
+import 'main.dart';
 import 'new_entry.dart';
 
 class Greeting extends StatelessWidget {

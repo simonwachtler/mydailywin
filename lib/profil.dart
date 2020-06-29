@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:my_daily_win/animations.dart';
-import 'package:my_daily_win/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'animations.dart';
 import 'main.dart';
 import 'settings.dart';
 import 'spende.dart';

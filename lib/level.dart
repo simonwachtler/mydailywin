@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:my_daily_win/animations.dart';
 import 'package:tuple/tuple.dart';
 
+import 'animations.dart';
 import 'main.dart';
 
 class Level extends StatelessWidget {
