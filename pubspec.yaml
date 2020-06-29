@@ -34,8 +34,6 @@ dependencies:
   image_picker: ^0.6.7+2
   tuple: ^1.0.3
   local_auth: ^0.6.2+3
-  simple_animations: ^2.2.1
-  supercharged: ^1.6.0
   flutter_local_notifications: ^1.4.4+1
   flutter_vibrate: ^1.0.0
 

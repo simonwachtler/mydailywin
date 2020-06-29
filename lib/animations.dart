@@ -1,8 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:simple_animations/simple_animations.dart';
-import 'package:supercharged/supercharged.dart';
 
 class AnimatedListView extends StatelessWidget {
   final List<Widget> children;
@@ -39,9 +37,7 @@ class AnimatedColumn extends StatelessWidget {
   }
 }
 
-enum _AniProps { opacity, translateX }
-
-class FadeIn extends StatelessWidget {
+class FadeIn extends StatefulWidget {
   final int delay;
   final Widget child;
   final Key key;
@@ -49,24 +45,49 @@ class FadeIn extends StatelessWidget {
   FadeIn(this.delay, this.child, this.key);
 
   @override
-  Widget build(BuildContext context) {
-    final tween = MultiTween<_AniProps>()
-      ..add(_AniProps.opacity, 0.0.tweenTo(1.0))
-      ..add(_AniProps.translateX, 30.0.tweenTo(0.0));
+  _FadeInState createState() => _FadeInState();
+}
 
-    return PlayAnimation<MultiTweenValues<_AniProps>>(
-      key: key,
-      delay: (25 * delay).milliseconds,
-      duration: 350.milliseconds,
-      tween: tween,
-      child: child,
+class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  Animation _opacity, _offset;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 350),
+    );
+    final curvedAnimation = CurvedAnimation(
+      parent: _controller,
       curve: Curves.ease,
-      builder: (context, child, value) => Opacity(
-        opacity: value.get(_AniProps.opacity),
-        child: Transform.translate(
-          offset: Offset(value.get(_AniProps.translateX), 0),
-          child: child,
-        ),
+    );
+    _opacity = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+    _offset = Tween<double>(begin: 30, end: 0).animate(curvedAnimation);
+    Future.delayed(
+      Duration(milliseconds: 30 * widget.delay),
+    ).then(
+      (_) => _controller.forward(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _opacity,
+      child: AnimatedBuilder(
+        animation: _controller,
+        child: widget.child,
+        builder: (context, child) {
+          return Transform.translate(
+            offset: Offset(
+              _offset.value,
+              0,
+            ),
+            child: child,
+          );
+        },
       ),
     );
   }
