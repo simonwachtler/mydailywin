@@ -20,6 +20,7 @@ class _ProfilState extends State<Profil> {
       Row(
         children: [
           Container(
+            clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               color: Colors.purple[900],
               borderRadius: BorderRadius.only(bottomRight: Radius.circular(16)),
@@ -42,6 +43,7 @@ class _ProfilState extends State<Profil> {
           Padding(
             padding: const EdgeInsets.only(top: 129, left: 16),
             child: Container(
+              clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 color: Colors.grey.withAlpha(50),
                 borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -62,6 +64,7 @@ class _ProfilState extends State<Profil> {
           Padding(
             padding: const EdgeInsets.only(top: 129, left: 7),
             child: Container(
+              clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 color: Colors.grey.withAlpha(50),
                 borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -90,6 +93,7 @@ class _ProfilState extends State<Profil> {
       Padding(
         padding: const EdgeInsets.only(left: 360, top: 19),
         child: Container(
+          clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             color: Colors.grey.withAlpha(100),
             borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
@@ -152,6 +156,7 @@ class ProfilBox extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 9.0, top: 17),
       child: Material(
+        clipBehavior: Clip.hardEdge,
         elevation: 4,
         color: Color.lerp(
           color,

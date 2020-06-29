@@ -34,6 +34,7 @@ class _SettingsState extends State<Settings> {
               ),
               Spacer(),
               Container(
+                clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   color: Colors.purple[900],
                   borderRadius:
@@ -66,6 +67,7 @@ class _SettingsState extends State<Settings> {
           Padding(
             padding: const EdgeInsets.only(top: 33, left: 12, right: 12),
             child: Card(
+              clipBehavior: Clip.hardEdge,
               child: Row(
                 children: <Widget>[
                   Padding(

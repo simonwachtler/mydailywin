@@ -108,6 +108,7 @@ class GreetingBox extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 65.0, bottom: 8.0),
       child: Material(
+        clipBehavior: Clip.hardEdge,
         elevation: 4,
         color:
             Color.lerp(color, Theme.of(context).scaffoldBackgroundColor, .300),

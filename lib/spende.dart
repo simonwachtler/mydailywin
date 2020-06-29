@@ -14,6 +14,7 @@ class Spenden extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 25.0, left: 10, right: 10),
               child: Card(
+                clipBehavior: Clip.hardEdge,
                 elevation: 10,
                 child: ListTile(
                     title: Text("Spendiere jetzt einen Kaffee!"),
@@ -30,6 +31,7 @@ class Spenden extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 15.0, left: 10, right: 10),
               child: Card(
+                clipBehavior: Clip.hardEdge,
                 elevation: 10,
                 child: ListTile(
                     title: Text("Werde jetzt Gönner!"),
@@ -46,6 +48,7 @@ class Spenden extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 15.0, left: 10, right: 10),
               child: Card(
+                clipBehavior: Clip.hardEdge,
                 elevation: 10,
                 child: ListTile(
                     title: Text("Werde jetzt Freund!"),
@@ -62,6 +65,7 @@ class Spenden extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 15.0, left: 10, right: 10),
               child: Card(
+                clipBehavior: Clip.hardEdge,
                 elevation: 10,
                 child: ListTile(
                     title: Text("Individuelle Spende!"),

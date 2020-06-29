@@ -72,6 +72,7 @@ class DayWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 4, right: 4),
       child: Card(
+        clipBehavior: Clip.hardEdge,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         elevation: 5,
