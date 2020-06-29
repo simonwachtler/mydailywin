@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_daily_success/animations.dart';
+import 'package:my_daily_success/settings.dart';
 
 import 'main.dart';
 import 'data.dart';
@@ -94,9 +95,10 @@ class _OnboardingState extends State<Onboarding> {
             },
           ),
           RaisedButton(
-            onPressed: () {
-              initializeNotifications(context);
+            onPressed: () async {
               Navigator.pop(context);
+              await initializeNotifications(context);
+              updateNotifications();
             },
             child: Text("Los geht's!"),
           )

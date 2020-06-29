@@ -26,7 +26,7 @@ void main() {
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-void initializeNotifications(BuildContext context) async {
+Future<void> initializeNotifications(BuildContext context) async {
   if (flutterLocalNotificationsPlugin != null ||
       !data.dailyNotificationsEnabled) return;
 

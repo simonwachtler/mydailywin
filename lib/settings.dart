@@ -93,7 +93,7 @@ class _SettingsState extends State<Settings> {
                 setState(() {
                   setData(() {
                     data.dailyNotificationsEnabled = enabled;
-                    _updateNotifications();
+                    updateNotifications();
                   });
                 });
               },
@@ -194,7 +194,7 @@ Debertol Michael & Wachtler Simon
 }
 
 const morningRoutineId = 1;
-void _updateNotifications() async {
+void updateNotifications() async {
   if (data.dailyNotificationsEnabled) {
     var time = Time(8, 0, 0);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
