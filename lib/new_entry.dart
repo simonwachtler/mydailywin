@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_daily_success/animations.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'data.dart';
 import 'main.dart';

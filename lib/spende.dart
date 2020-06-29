@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'animations.dart';
 import 'main.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class Spenden extends StatelessWidget {
   @override
@@ -67,26 +68,26 @@ class Spenden extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 45.0, left: 15),
+              padding: const EdgeInsets.only(top: 45.0, left: 28, bottom: 10),
               child: Text(
-                "Jetzt sicher unterstützen mit",
+                "Jetzt uns sicher unterstützen mit",
                 style: TextStyle(
-                    fontFamily: 'Abadi', fontSize: 18, color: Colors.grey[700]),
+                    fontFamily: 'Abadi',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[700]),
               ),
             ),
             Row(
               children: <Widget>[
-                SizedBox(width: 10, height: 75),
-                Image.asset(
-                  "assets/applepay.png",
-                  height: 60,
-                  width: 80,
-                ),
-                SizedBox(width: 10),
-                Image.asset(
-                  "assets/Google_Pay.png",
-                  height: 60,
-                  width: 80,
+                GestureDetector(
+                  onTap: _launchURL,
+                  child: Image.asset(
+                    'assets/paypal.png', // On click should redirect to an URL
+                    width: 180.0,
+                    height: 60.0,
+                    //Image.asset("assets/paypal.png", height: 60, width: 180,
+                  ),
                 ),
               ],
             ),
@@ -104,5 +105,14 @@ class Spenden extends StatelessWidget {
             ),
           ],
         ));
+  }
+}
+
+_launchURL() async {
+  const url = 'https://flutter.io';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
