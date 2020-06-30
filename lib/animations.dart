@@ -21,14 +21,19 @@ class AnimatedListView extends StatelessWidget {
 }
 
 class AnimatedColumn extends StatelessWidget {
+  final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
   final List<Widget> children;
 
-  const AnimatedColumn({Key key, this.children}) : super(key: key);
+  const AnimatedColumn(
+      {Key key, this.children, this.mainAxisAlignment, this.crossAxisAlignment})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
       children: [
         for (var i = 0; i < children.length; i++)
           FadeIn(i, children[i], children[i].key)
@@ -70,6 +75,12 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
     ).then(
       (_) => _controller.forward(),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override

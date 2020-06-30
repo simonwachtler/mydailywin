@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:persist_theme/persist_theme.dart';
 import 'package:provider/provider.dart';
 // import 'package:flutter_vibrate/flutter_vibrate.dart';
@@ -15,6 +14,7 @@ import 'new_entry.dart';
 import 'profil.dart';
 import 'screenlocker.dart';
 import 'onboarding.dart';
+import 'speed_dial/flutter_speed_dial.dart';
 
 Data data = Data([], null, null, true, false);
 Future<Data> firstData;
@@ -34,7 +34,7 @@ Future<void> initializeNotifications(BuildContext context) async {
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   var initializationSettingsAndroid =
-      AndroidInitializationSettings('icon_launcher');
+      AndroidInitializationSettings('ic_launcher');
   var initializationSettingsIOS = IOSInitializationSettings();
   var initializationSettings = InitializationSettings(
       initializationSettingsAndroid, initializationSettingsIOS);
@@ -190,25 +190,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class SpeedDialAdd extends StatefulWidget {
+class SpeedDialAdd extends StatelessWidget {
   final VoidCallback onEntered;
 
   const SpeedDialAdd({
     Key key,
     this.onEntered,
   }) : super(key: key);
-
-  @override
-  _SpeedDialAddState createState() => _SpeedDialAddState();
-}
-
-class _SpeedDialAddState extends State<SpeedDialAdd> {
-  bool isExpanded = false;
-  @override
   Widget build(BuildContext context) {
     return SpeedDial(
       overlayColor: Theme.of(context).scaffoldBackgroundColor,
-      child: Icon(isExpanded ? Icons.close : Icons.add),
+      childOnFold: Icon(Icons.add, key: ValueKey("add")),
+      childOnUnfold: Icon(Icons.close, key: ValueKey("close")),
       children: [
         SpeedDialChild(
             child: Icon(Icons.wb_sunny),
@@ -218,8 +211,7 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
               await Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => MorningRoutine()),
               );
-
-              widget.onEntered();
+              onEntered();
             }),
         SpeedDialChild(
             child: Icon(Icons.tag_faces),
@@ -229,7 +221,7 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
               await Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => NewGrateful()),
               );
-              widget.onEntered();
+              onEntered();
             }),
         SpeedDialChild(
             child: Icon(Icons.grade),
@@ -239,19 +231,9 @@ class _SpeedDialAddState extends State<SpeedDialAdd> {
               await Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => NewSuccess()),
               );
-              widget.onEntered();
+              onEntered();
             }),
       ],
-      onOpen: () {
-        setState(() {
-          isExpanded = true;
-        });
-      },
-      onClose: () {
-        setState(() {
-          isExpanded = false;
-        });
-      },
     );
   }
 }
