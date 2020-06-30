@@ -83,7 +83,10 @@ class _NewEntry extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Image.asset('assets/win-grey.png', width: 65),
+              Padding(
+                padding: const EdgeInsets.only(top: 55),
+                child: Image.asset('assets/win-grey.png', width: 65),
+              ),
               Spacer(),
               IconButton(
                 icon: Icon(Icons.close),

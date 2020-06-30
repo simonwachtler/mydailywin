@@ -65,12 +65,10 @@ class _ProfilState extends State<Profil> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 129, left: 7),
-              child: Container(
+              child: Material(
                 clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withAlpha(50),
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                ),
+                color: Colors.grey.withAlpha(50),
+                borderRadius: BorderRadius.all(Radius.circular(16)),
                 child: Column(
                   children: <Widget>[
                     SizedBox(
