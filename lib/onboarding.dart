@@ -15,7 +15,7 @@ class _FirstImpressionState extends State<FirstImpression> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedColumn(
+      body: AnimatedListView(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 118.0),
@@ -90,12 +90,9 @@ class _OnboardingState extends State<Onboarding> {
               width: 250,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 1, left: 100),
-            child: Text(
-              "So funktioniert's:",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
+          Text(
+            "So funktioniert's:",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
           Padding(
             padding: const EdgeInsets.all(16),
