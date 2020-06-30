@@ -106,6 +106,7 @@ class Spenden extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 40.0, left: 10, right: 10),
               child: Card(
+                clipBehavior: Clip.hardEdge,
                 elevation: 10,
                 child: ListTile(
                     title: Text("Herzliches Dankeschön!"),
