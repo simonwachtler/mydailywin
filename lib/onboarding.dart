@@ -53,12 +53,13 @@ class _FirstImpressionState extends State<FirstImpression> {
               elevation: 7,
               color: Colors.blue,
               onPressed: _controller.text.isNotEmpty
-                  ? () {
+                  ? () async {
                       setData(() => data.name = _controller.text);
-                      Navigator.pushReplacement(
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Onboarding()),
                       );
+                      Navigator.pop(context);
                     }
                   : null,
               child: Text("Jetzt loslegen!"),

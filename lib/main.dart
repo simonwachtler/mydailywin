@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       if (data.name == null) {
         showingDialog = true;
-        Navigator.push(
+        await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => FirstImpression(),
