@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:camera/camera.dart';
+import 'package:path/path.dart' show join;
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:persist_theme/persist_theme.dart';
@@ -19,7 +23,13 @@ import 'speed_dial/flutter_speed_dial.dart';
 Data data = Data([], null, null, true, false);
 Future<Data> firstData;
 
-void main() {
+List<CameraDescription> cameras;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final cameras = await availableCameras();
+  final firstCamera = cameras.first;
+
   runApp(MyApp());
   firstData = readData();
   firstData.then((value) => data = value);

@@ -45,5 +45,7 @@
 	<string>Genehmige den Zugriff, um dein Profilbild zu ändern!</string>
 	<key>NSFaceIDUsageDescription</key>
     <string>Erlaube den Zugriff, um FaceID zu nutzen!</string>
+	<key>NSCameraUsageDescription</key>
+<string>Genehmige Zugriff auf deine Kamera, um ein Foto aufzunehmen!</string>
 </dict>
 </plist>
