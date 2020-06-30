@@ -92,29 +92,22 @@ class _ProfilState extends State<Profil> {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 360, top: 19),
-          child: Container(
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
+        Row(
+          children: [
+            Spacer(),
+            Material(
+              clipBehavior: Clip.hardEdge,
               color: Colors.grey.withAlpha(100),
               borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
+              child: IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () async {
+                    await Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => Settings()));
+                    if (this.mounted) setState(() {});
+                  }),
             ),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  width: 130,
-                ),
-                IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () async {
-                      await Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (_) => Settings()));
-                      if (this.mounted) setState(() {});
-                    }),
-              ],
-            ),
-          ),
+          ],
         ),
         ProfilBox(
           color: Colors.purple,
