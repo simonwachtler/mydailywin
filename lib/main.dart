@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:camera/camera.dart';
@@ -26,9 +28,11 @@ Future<Data> firstData;
 List<CameraDescription> cameras;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
+  if (Platform.isAndroid || Platform.isIOS) {
+    WidgetsFlutterBinding.ensureInitialized();
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
+  }
 
   runApp(MyApp());
   firstData = readData();
