@@ -180,7 +180,8 @@ class _EditEntryState extends State<EditEntry> {
                     .where((t) => t.isNotEmpty)
                     .toList();
 
-                final entry = Entry(widget.entry.date, success, grateful);
+                final entry = Entry(
+                    widget.entry.date, success, grateful, widget.entry.images);
                 if (entry.grateful.isEmpty && entry.success.isEmpty) {
                   widget.onDelete();
                 } else {
