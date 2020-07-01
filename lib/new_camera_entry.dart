@@ -22,6 +22,7 @@ class _NewCameraEntryState extends State<NewCameraEntry> {
         cameras.first,
         // Define the resolution to use.
         ResolutionPreset.medium,
+        enableAudio: false,
       );
 
       // Next, initialize the controller. This returns a Future.
@@ -40,13 +41,25 @@ class _NewCameraEntryState extends State<NewCameraEntry> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final deviceRatio = size.width / size.height;
     return FutureBuilder(
       future: _initializeControllerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // If the Future is complete, display the preview.
           return Scaffold(
-            body: CameraPreview(_controller),
+            body: Transform.scale(
+              scale: _controller.value.aspectRatio / deviceRatio,
+              child: Center(
+                child: AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: Center(
+                    child: CameraPreview(_controller),
+                  ),
+                ),
+              ),
+            ),
             floatingActionButton: FloatingActionButton(
               child: Icon(Icons.camera_alt),
               // Provide an onPressed callback.
