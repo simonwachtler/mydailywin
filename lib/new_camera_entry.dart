@@ -25,7 +25,9 @@ class _NewCameraEntryState extends State<NewCameraEntry> {
       );
 
       // Next, initialize the controller. This returns a Future.
-      _initializeControllerFuture = _controller.initialize();
+      setState(() {
+        _initializeControllerFuture = _controller.initialize();
+      });
     });
   }
 
