@@ -16,7 +16,7 @@ class Profil extends StatefulWidget {
 class _ProfilState extends State<Profil> {
   @override
   Widget build(BuildContext context) {
-    return AnimatedColumn(
+    return AnimatedListView(
       children: [
         Row(
           children: [
@@ -42,29 +42,24 @@ class _ProfilState extends State<Profil> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 129, left: 16),
-              child: Container(
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withAlpha(50),
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                        width: 170,
-                        height: 60,
-                        child: Center(
-                          child: Text(data.name,
-                              style: Theme.of(context).textTheme.headline4),
-                        )),
-                  ],
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 129, left: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withAlpha(50),
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(data.name,
+                        style: Theme.of(context).textTheme.headline4),
+                  ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 129, left: 7),
+              padding: const EdgeInsets.only(top: 129, left: 7, right: 7),
               child: Material(
                 clipBehavior: Clip.hardEdge,
                 color: Colors.grey.withAlpha(50),
@@ -134,7 +129,6 @@ class _ProfilState extends State<Profil> {
           },
         ),
       ],
-      crossAxisAlignment: CrossAxisAlignment.stretch,
     );
   }
 }
@@ -149,7 +143,7 @@ class ProfilBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 9.0, top: 17),
+      padding: EdgeInsets.only(left: 9.0, top: 8, bottom: 9),
       child: Material(
         clipBehavior: Clip.hardEdge,
         elevation: 4,
