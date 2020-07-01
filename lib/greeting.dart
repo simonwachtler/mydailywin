@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'animations.dart';
 import 'hall_of_fame.dart';
@@ -15,6 +16,7 @@ class Greeting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Vibrate.feedback(FeedbackType.light);
     return AnimatedListView(
       children: [
         Padding(
