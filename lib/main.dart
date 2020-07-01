@@ -256,7 +256,6 @@ Future<void> showNameDialog(BuildContext context) {
   return showDialog(
     context: context,
     builder: (_) => NameDialog(),
-    barrierDismissible: false,
   );
 }
 
@@ -291,6 +290,12 @@ class _NameDialogState extends State<NameDialog> {
         },
       ),
       actions: [
+        FlatButton(
+          child: Text("Abbrechen"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         FlatButton(
           child: Text("Speichern"),
           onPressed: _controller.text.isNotEmpty
