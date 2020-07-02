@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -40,6 +42,10 @@ class _HallOfFameState extends State<HallOfFame> {
                     setState(() {
                       setData(() {
                         data.entries.remove(e);
+                        // delete all image files from disk
+                        for (var image in e.images) {
+                          File(image.path).delete();
+                        }
                       });
                     });
                   },
@@ -47,8 +53,14 @@ class _HallOfFameState extends State<HallOfFame> {
                     setState(() {
                       setData(() {
                         final index = data.entries.indexOf(e);
-                        data.entries.removeAt(index);
-                        data.entries.insert(index, newEntry);
+                        data.entries[index] = newEntry;
+                        // delete all deleted image's files from disk
+                        for (var image in e.images) {
+                          if (!newEntry.images
+                              .any((i) => i.path == image.path)) {
+                            File(image.path).delete();
+                          }
+                        }
                       });
                     });
                   },
@@ -117,7 +129,16 @@ class DayWidget extends StatelessWidget {
               if (entry.grateful.isNotEmpty)
                 Text("Dafür bin ich dankbar:",
                     style: TextStyle(fontWeight: FontWeight.bold)),
-              for (var g in entry.grateful) Text(g)
+              for (var g in entry.grateful) Text(g),
+              if (entry.images?.isNotEmpty == true) ...[
+                Text("Meine Kameranotizen:",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                for (var i in entry.images)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Image.file(File(i.path)),
+                  )
+              ]
             ],
           ),
         ),

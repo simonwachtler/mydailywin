@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_daily_win/new_camera_entry.dart';
 
 import 'animations.dart';
 import 'data.dart';
@@ -22,6 +25,8 @@ class EditEntry extends StatefulWidget {
 class _EditEntryState extends State<EditEntry> {
   List<TextEditingController> _successControllers;
   List<TextEditingController> _gratefulControllers;
+  List<ImageEntry> imageEntries;
+  
   @override
   void initState() {
     _successControllers = widget.entry.success
@@ -30,6 +35,7 @@ class _EditEntryState extends State<EditEntry> {
     _gratefulControllers = widget.entry.grateful
         .map((e) => TextEditingController(text: e))
         .toList();
+    imageEntries = widget.entry.images?.toList() ?? [];
     super.initState();
   }
 
@@ -97,7 +103,7 @@ class _EditEntryState extends State<EditEntry> {
             ),
           ),
           for (var i = 0; i < _successControllers.length; i++)
-            Deleteable(
+            DeleteableTile(
               key: ValueKey(_successControllers[i]),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -135,7 +141,7 @@ class _EditEntryState extends State<EditEntry> {
             ),
           ),
           for (var i = 0; i < _gratefulControllers.length; i++)
-            Deleteable(
+            DeleteableTile(
               key: ValueKey(_gratefulControllers[i]),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -161,8 +167,76 @@ class _EditEntryState extends State<EditEntry> {
                 () => _gratefulControllers.add(TextEditingController())),
           ),
           Padding(
+            key: ValueKey("title - Kameranotizen"),
+            padding: const EdgeInsets.only(top: 70, left: 13),
+            child: Text(
+              "Kameranotizen",
+              style: TextStyle(
+                fontSize: 25.0,
+                fontFamily: 'Abadi',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          for (final image in imageEntries)
+            Deleteable(
+              key: ValueKey(image.path),
+              builder: (context, onDelete) => Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                              "${image.length} ${image.length == 1 ? "Eintrag" : "Einträge"}",
+                              style: Theme.of(context).textTheme.subtitle1),
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () async {
+                              final result = await showLengthDialog(context);
+                              if (result != null) {
+                                image.length = result;
+                              }
+                            },
+                          ),
+                          Spacer(),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () async {
+                              await onDelete();
+                              setState(() {
+                                imageEntries.remove(image);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Image.file(File(image.path)),
+                  ],
+                ),
+              ),
+            ),
+          IconButton(
+            key: ValueKey("add - image"),
+            icon: Icon(Icons.add),
+            onPressed: () async {
+              final imageEntry = await Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => NewCameraEntry()),
+              );
+              if (imageEntry != null) {
+                setState(() {
+                  imageEntries.add(imageEntry);
+                });
+              }
+            },
+          ),
+          Padding(
             key: ValueKey("save"),
-            padding: const EdgeInsets.only(left: 18.0, right: 18),
+            padding: const EdgeInsets.all(18),
             child: RaisedButton(
               color: Colors.blue,
               elevation: 10,
@@ -180,8 +254,11 @@ class _EditEntryState extends State<EditEntry> {
                     .where((t) => t.isNotEmpty)
                     .toList();
 
-                final entry = Entry(widget.entry.date, success, grateful);
-                if (entry.grateful.isEmpty && entry.success.isEmpty) {
+                final entry =
+                    Entry(widget.entry.date, success, grateful, imageEntries);
+                if (entry.grateful.isEmpty &&
+                    entry.success.isEmpty &&
+                    entry.images.isEmpty) {
                   widget.onDelete();
                 } else {
                   widget.onReplace(entry);
@@ -189,7 +266,7 @@ class _EditEntryState extends State<EditEntry> {
                 Navigator.pop(context);
               },
             ),
-          )
+          ),
         ],
       ),
     );
@@ -204,13 +281,7 @@ Future<bool> showConfirmationDialog(BuildContext context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(title),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text(content),
-            ],
-          ),
-        ),
+        content: content != null ? Text(content) : null,
         actions: <Widget>[
           FlatButton(
             child: Text('Abbrechen'),

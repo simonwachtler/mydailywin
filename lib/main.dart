@@ -1,10 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:camera/camera.dart';
-import 'package:path/path.dart' show join;
-import 'package:path_provider/path_provider.dart';
+import 'package:my_daily_win/new_camera_entry.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:persist_theme/persist_theme.dart';
@@ -25,15 +21,7 @@ import 'speed_dial/flutter_speed_dial.dart';
 Data data = Data([], null, null, true, false);
 Future<Data> firstData;
 
-List<CameraDescription> cameras;
-
 void main() async {
-  if (Platform.isAndroid || Platform.isIOS) {
-    WidgetsFlutterBinding.ensureInitialized();
-    final cameras = await availableCameras();
-    final firstCamera = cameras.first;
-  }
-
   runApp(MyApp());
   firstData = readData();
   firstData.then((value) => data = value);
@@ -245,6 +233,19 @@ class SpeedDialAdd extends StatelessWidget {
               await Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => NewSuccess()),
               );
+              onEntered();
+            }),
+        SpeedDialChild(
+            child: Icon(Icons.camera_alt),
+            label: "Kameranotiz",
+            labelStyle: TextStyle(color: Colors.black),
+            onTap: () async {
+              final imageEntry = await Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => NewCameraEntry()),
+              );
+              if (imageEntry != null) {
+                addImage(imageEntry);
+              }
               onEntered();
             }),
       ],

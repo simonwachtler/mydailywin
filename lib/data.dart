@@ -14,10 +14,22 @@ class Entry {
   final DateTime date;
   final List<String> success;
   final List<String> grateful;
+  final List<ImageEntry> images;
 
-  Entry(this.date, this.success, this.grateful);
+  Entry(this.date, this.success, this.grateful, this.images);
   factory Entry.fromJson(Map<String, dynamic> json) => _$EntryFromJson(json);
   Map<String, dynamic> toJson() => _$EntryToJson(this);
+}
+
+@JsonSerializable()
+class ImageEntry {
+  final String path;
+  int length;
+
+  ImageEntry(this.path, this.length);
+  factory ImageEntry.fromJson(Map<String, dynamic> json) =>
+      _$ImageEntryFromJson(json);
+  Map<String, dynamic> toJson() => _$ImageEntryToJson(this);
 }
 
 @JsonSerializable()
@@ -70,7 +82,7 @@ void addSuccess(List<String> content) {
     final entry = data.entries
         .firstWhere((element) => element.date == now, orElse: () => null);
     if (entry == null) {
-      data.entries.add(Entry(now, content, []));
+      data.entries.add(Entry(now, content, [], null));
     } else {
       entry.success.addAll(content);
     }
@@ -83,9 +95,22 @@ void addGrateful(List<String> content) {
     final entry = data.entries
         .firstWhere((element) => element.date == now, orElse: () => null);
     if (entry == null) {
-      data.entries.add(Entry(now, [], content));
+      data.entries.add(Entry(now, [], content, null));
     } else {
       entry.grateful.addAll(content);
+    }
+  });
+}
+
+void addImage(ImageEntry imageEntry){
+  setData(() {
+    final now = toDate(DateTime.now());
+    final entry = data.entries
+        .firstWhere((element) => element.date == now, orElse: () => null);
+    if (entry == null) {
+      data.entries.add(Entry(now, [], [], [imageEntry]));
+    } else {
+      entry.images.add(imageEntry);
     }
   });
 }

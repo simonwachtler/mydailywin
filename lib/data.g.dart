@@ -11,6 +11,10 @@ Entry _$EntryFromJson(Map<String, dynamic> json) {
     json['date'] == null ? null : DateTime.parse(json['date'] as String),
     (json['success'] as List)?.map((e) => e as String)?.toList(),
     (json['grateful'] as List)?.map((e) => e as String)?.toList(),
+    (json['images'] as List)
+        ?.map((e) =>
+            e == null ? null : ImageEntry.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -18,6 +22,20 @@ Map<String, dynamic> _$EntryToJson(Entry instance) => <String, dynamic>{
       'date': instance.date?.toIso8601String(),
       'success': instance.success,
       'grateful': instance.grateful,
+      'images': instance.images,
+    };
+
+ImageEntry _$ImageEntryFromJson(Map<String, dynamic> json) {
+  return ImageEntry(
+    json['path'] as String,
+    json['length'] as int,
+  );
+}
+
+Map<String, dynamic> _$ImageEntryToJson(ImageEntry instance) =>
+    <String, dynamic>{
+      'path': instance.path,
+      'length': instance.length,
     };
 
 Data _$DataFromJson(Map<String, dynamic> json) {

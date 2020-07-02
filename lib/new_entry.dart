@@ -143,7 +143,7 @@ class _NewEntryFormState extends State<_NewEntryForm> {
         child: AnimatedColumn(
           children: <Widget>[
             for (var i = 0; i < controllers.length; i++)
-              Deleteable(
+              DeleteableTile(
                 key: ValueKey(controllers[i]),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -199,15 +199,44 @@ class _NewEntryFormState extends State<_NewEntryForm> {
   }
 }
 
-class Deleteable extends StatefulWidget {
+class DeleteableTile extends StatelessWidget {
   final Widget child;
   final VoidCallback onDeleted;
+
+  const DeleteableTile({Key key, this.onDeleted, this.child}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Deleteable(
+      builder: (context, onDelete) => Row(
+        children: [
+          Expanded(child: child),
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () async {
+              await onDelete();
+              onDeleted();
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+typedef DeleteableBuilder = Widget Function(
+  BuildContext context,
+  FutureVoidCallback onDelete,
+);
+
+typedef FutureVoidCallback = Future<void> Function();
+
+class Deleteable extends StatefulWidget {
+  final DeleteableBuilder builder;
   final Duration duration;
 
   const Deleteable(
       {Key key,
-      this.child,
-      this.onDeleted,
+      this.builder,
       this.duration = const Duration(milliseconds: 500)})
       : super(key: key);
   @override
@@ -236,25 +265,15 @@ class _DeleteableState extends State<Deleteable>
 
   @override
   Widget build(BuildContext context) {
-    final content = Row(
-      children: [
-        Expanded(child: widget.child),
-        IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () async {
-            await _controller.animateTo(
-              0,
-              duration: widget.duration,
-              curve: Curves.ease,
-            );
-            widget.onDeleted();
-          },
-        )
-      ],
-    );
     return SizeTransition(
       sizeFactor: _controller,
-      child: content,
+      child: widget.builder(context, () async {
+        await _controller.animateTo(
+          0,
+          duration: widget.duration,
+          curve: Curves.ease,
+        );
+      }),
       axisAlignment: 1,
     );
   }

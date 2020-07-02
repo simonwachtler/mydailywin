@@ -46,14 +46,16 @@ class FadeIn extends StatefulWidget {
   final int delay;
   final Widget child;
   final Key key;
+  final bool alwaysKeepAlive;
 
-  FadeIn(this.delay, this.child, this.key);
+  FadeIn(this.delay, this.child, this.key, {this.alwaysKeepAlive = true});
 
   @override
   _FadeInState createState() => _FadeInState();
 }
 
-class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
+class _FadeInState extends State<FadeIn>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   AnimationController _controller;
   Animation _opacity, _offset;
 
@@ -85,6 +87,7 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return FadeTransition(
       opacity: _opacity,
       child: AnimatedBuilder(
@@ -102,4 +105,7 @@ class _FadeInState extends State<FadeIn> with SingleTickerProviderStateMixin {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.alwaysKeepAlive;
 }
