@@ -102,7 +102,7 @@ void addGrateful(List<String> content) {
   });
 }
 
-void addImage(ImageEntry imageEntry){
+void addImage(ImageEntry imageEntry) {
   setData(() {
     final now = toDate(DateTime.now());
     final entry = data.entries

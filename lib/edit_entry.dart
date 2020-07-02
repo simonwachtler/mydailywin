@@ -26,7 +26,7 @@ class _EditEntryState extends State<EditEntry> {
   List<TextEditingController> _successControllers;
   List<TextEditingController> _gratefulControllers;
   List<ImageEntry> imageEntries;
-  
+
   @override
   void initState() {
     _successControllers = widget.entry.success
