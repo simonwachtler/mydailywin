@@ -211,7 +211,7 @@ class DeleteableTile extends StatelessWidget {
         children: [
           Expanded(child: child),
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: Icon(Icons.close),
             onPressed: () async {
               await onDelete();
               onDeleted();
