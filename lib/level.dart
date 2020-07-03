@@ -16,7 +16,8 @@ class Level extends StatelessWidget {
             value +
             entry.success.length +
             entry.grateful.length +
-            entry.images.fold(0, (value, entry) => value + entry.length),
+            (entry.images?.fold(0, (value, entry) => value + entry.length) ??
+                0),
       ),
     );
     return AnimatedListView(
