@@ -44,6 +44,7 @@ class _NewCameraEntryState extends State<NewCameraEntry> {
       if (result != null) {
         Navigator.pop(context, ImageEntry(imageFile.path, result));
       } else {
+        imageFile.delete();
         Navigator.pop(context);
       }
     }
