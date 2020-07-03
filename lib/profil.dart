@@ -129,7 +129,7 @@ class _ProfilState extends State<Profil> {
             color: Colors.orange,
             text: "FOLGE UNS!",
             onTap: () {
-              launch("https://www.instagram.com");
+              launch("https://www.instagram.com/mydaily.win");
             },
           ),
         ],
