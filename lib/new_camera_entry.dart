@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'screenlocker.dart';
 
 import 'data.dart';
 
@@ -29,7 +30,17 @@ class _NewCameraEntryState extends State<NewCameraEntry> {
       setState(() {
         imageFile = File(file.path);
       });
-      final result = await showLengthDialog(context);
+      // remove the screen locker,
+      // since it would be below the dialog
+      context.findAncestorStateOfType<ScreenlockerState>().popLockscreen();
+
+      // show the dialog
+      final resultFuture = showLengthDialog(context);
+
+      // lock the screen again
+      context.findAncestorStateOfType<ScreenlockerState>().tryUnlock();
+
+      final result = await resultFuture;
       if (result != null) {
         Navigator.pop(context, ImageEntry(imageFile.path, result));
       } else {

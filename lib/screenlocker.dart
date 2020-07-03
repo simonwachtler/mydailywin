@@ -73,9 +73,16 @@ class ScreenlockerState extends State<Screenlocker>
   void _doUnlock() async {
     if (await LocalAuthentication().authenticateWithBiometrics(
         localizedReason: "Zum Entsperren bestätigen")) {
-      Navigator.of(context)
-          .popUntil((route) => route.settings.name != screenlockerRouteName);
+      popLockscreen();
     }
+  }
+
+  /// Pop the current lockscreen
+  ///
+  /// This unlocks the app!
+  void popLockscreen() {
+    Navigator.of(context)
+        .popUntil((route) => route.settings.name != screenlockerRouteName);
   }
 
   @override

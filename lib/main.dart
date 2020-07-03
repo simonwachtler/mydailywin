@@ -46,11 +46,13 @@ Future<void> initializeNotifications(BuildContext context) async {
     onSelectNotification: (string) async {
       // remove the screen locker,
       // since it would be below the NewSuccess route
-      Navigator.pushAndRemoveUntil(
+      context.findAncestorStateOfType<ScreenlockerState>().popLockscreen();
+
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MorningRoutine()),
-        (route) => route.settings.name != screenlockerRouteName,
       );
+
       // lock the screen again
       context.findAncestorStateOfType<ScreenlockerState>().tryUnlock();
     },
@@ -68,23 +70,26 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeModel>(
         builder: (context, model, child) {
           return MaterialApp(
-            title: "My Daily Win!",
-            theme: ThemeData(
-              fontFamily: "Abadi",
-              brightness: model.theme.brightness,
-            ),
+            theme: model.theme,
             home: Screenlocker(
-              child: MyHomePage(),
+              child: MaterialApp(
+                title: "My Daily Win!",
+                theme: ThemeData(
+                  fontFamily: "Abadi",
+                  brightness: model.theme.brightness,
+                ),
+                home: MyHomePage(),
+                localizationsDelegates: [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: [Locale("de")],
+              ),
               lockscreenBuilder: (context, onRetry) => LockScreen(
                 onRetry: onRetry,
               ),
             ),
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: [Locale("de")],
           );
         },
       ),
