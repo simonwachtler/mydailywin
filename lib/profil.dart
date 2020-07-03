@@ -117,6 +117,10 @@ class _ProfilState extends State<Profil> {
           ProfilBox(
             color: Colors.blue,
             text: "GIB UNS 5 STERNE!",
+            onTap: () {
+              if (Platform.isAndroid)
+                launch("market://details?id=com.mydailywin");
+            },
           ),
           ProfilBox(
             color: Colors.green,
