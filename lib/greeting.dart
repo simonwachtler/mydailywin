@@ -57,12 +57,19 @@ class Greeting extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "TÄGLICHE REFLEXION:",
+                "NEUSES LEVEL ERREICHEN:",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Text("Positive Stimmung!"),
+              Text("Jetzt neuen Erfolg notieren"),
             ],
           ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => NewSuccess(),
+              ),
+            );
+          },
         ),
         GreetingBox(
           color: Colors.pink,
