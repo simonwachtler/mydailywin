@@ -90,7 +90,7 @@ class _SettingsState extends State<Settings> {
             child: SwitchListTile.adaptive(
               title: Text(
                   data.dailyNotificationsEnabled ? "Aktiviert" : "Deaktiviert"),
-              subtitle: Text("Tägliche Erinnerung an deine Morgenroutine"),
+              subtitle: Text("Morgens ans Eintragen erinnern"),
               onChanged: (enabled) {
                 setState(() {
                   setData(() {
