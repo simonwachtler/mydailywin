@@ -45,7 +45,7 @@ class Level extends StatelessWidget {
             child: Text(
               level.item1 == 1
                   ? "Du befindest dich derzeit auf Level 1"
-                  : "Glückwunsch, du hast Level ${level.item1} erreicht!",
+                  : "Glückwunsch, du hast Level ${level.item1 ?? "∞"} erreicht!",
             ),
           ),
         ),
@@ -85,10 +85,10 @@ class PercentageWidget extends StatelessWidget {
         width: 200,
         child: CustomPaint(
           painter: PercentageArc(
-              Theme.of(context).scaffoldBackgroundColor, percentage),
+              Theme.of(context).scaffoldBackgroundColor, percentage ?? 1),
           child: Center(
             child: Text(
-              "${(percentage * 100).toInt()} %",
+              "${percentage != null ? (percentage * 100).toInt() : "∞"} %",
               style: TextStyle(
                 fontSize: 45,
                 fontFamily: 'Abadi',
@@ -134,14 +134,15 @@ class PercentageArc extends CustomPainter {
   }
 }
 
-Tuple2<int, double> calculateLevels(int entries, {int previousLevel = 0}) {
-  var neededEntries = 10 * previousLevel;
-
-  if (entries < neededEntries) {
-    final percentage = entries / neededEntries;
-    return Tuple2(previousLevel, percentage);
-  } else {
-    entries -= neededEntries;
-    return calculateLevels(entries, previousLevel: previousLevel + 1);
+Tuple2<int, double> calculateLevels(int entries) {
+  // There are so many entries, there was an integer overflow!
+  if (entries.isNegative) {
+    return Tuple2(null, null);
   }
+  final level = ((-1 + sqrt(entries / 10 * 8 + 1)) / 2).floor() + 1;
+  final entriesNeededForLower = level * (level - 1) / 2 * 10;
+  final entriesNeededForHigher = (level + 1) * level / 2 * 10;
+  final percentage = (entries - entriesNeededForLower) /
+      (entriesNeededForHigher - entriesNeededForLower);
+  return Tuple2(level.floor(), percentage);
 }
