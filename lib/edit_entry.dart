@@ -198,7 +198,9 @@ class _EditEntryState extends State<EditEntry> {
                             onPressed: () async {
                               final result = await showLengthDialog(context);
                               if (result != null) {
-                                image.length = result;
+                                setState(() {
+                                  image.length = result;
+                                });
                               }
                             },
                           ),
