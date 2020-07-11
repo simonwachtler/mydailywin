@@ -65,12 +65,12 @@ class ScreenlockerState extends State<Screenlocker>
         },
       ),
     );
-    _doUnlock();
+    await _doUnlock();
 
     unlockInProgress = false;
   }
 
-  void _doUnlock() async {
+  Future<void> _doUnlock() async {
     if (await LocalAuthentication().authenticateWithBiometrics(
         localizedReason: "Zum Entsperren bestätigen")) {
       popLockscreen();
