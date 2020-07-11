@@ -11,6 +11,9 @@ typedef LockscreenBuilder = Widget Function(
 
 const screenlockerRouteName = "screenlocker";
 
+DateTime lastInteraction;
+bool isScreenLocked = false;
+
 class Screenlocker extends StatefulWidget {
   final Widget child;
   final LockscreenBuilder lockscreenBuilder;
@@ -43,28 +46,44 @@ class ScreenlockerState extends State<Screenlocker>
     tryUnlock();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    periodicalCheck();
+  }
+
+  void periodicalCheck() {
+    Future.delayed(Duration(seconds: 5), () {
+      if (!isScreenLocked) tryUnlock();
+      periodicalCheck();
+    });
   }
 
   /// Locks the screen by pushing a route and attempts to unlock with biometrics.
   ///
-  /// If screen locking is disabled this is a no-op.
+  /// If screen locking is disabled or less than 30 seconds have passed since
+  /// the last interaction this is a no-op.
   void tryUnlock() async {
-    if (unlockInProgress || !(await firstData).screenlockerEnabled) return;
+    if (unlockInProgress ||
+        (lastInteraction != null &&
+            DateTime.now().difference(lastInteraction) <
+                Duration(seconds: 30)) ||
+        !(await firstData).screenlockerEnabled) return;
     unlockInProgress = true;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        settings: RouteSettings(name: screenlockerRouteName),
-        builder: (context) {
-          return WillPopScope(
-            child: widget.lockscreenBuilder(context, _doUnlock),
-            onWillPop: () async {
-              SystemNavigator.pop();
-              return false;
-            },
-          );
-        },
-      ),
-    );
+    if (!isScreenLocked) {
+      isScreenLocked = true;
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          settings: RouteSettings(name: screenlockerRouteName),
+          builder: (context) {
+            return WillPopScope(
+              child: widget.lockscreenBuilder(context, _doUnlock),
+              onWillPop: () async {
+                SystemNavigator.pop();
+                return false;
+              },
+            );
+          },
+        ),
+      );
+    }
     await _doUnlock();
 
     unlockInProgress = false;
@@ -73,6 +92,8 @@ class ScreenlockerState extends State<Screenlocker>
   Future<void> _doUnlock() async {
     if (await LocalAuthentication().authenticateWithBiometrics(
         localizedReason: "Zum Entsperren bestätigen")) {
+      // unlocking counts as an interaction
+      lastInteraction = DateTime.now();
       popLockscreen();
     }
   }
@@ -83,10 +104,19 @@ class ScreenlockerState extends State<Screenlocker>
   void popLockscreen() {
     Navigator.of(context)
         .popUntil((route) => route.settings.name != screenlockerRouteName);
+    isScreenLocked = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return Listener(
+      child: widget.child,
+      onPointerDown: (_) {
+        lastInteraction = DateTime.now();
+      },
+      onPointerMove: (_) {
+        lastInteraction = DateTime.now();
+      },
+    );
   }
 }
