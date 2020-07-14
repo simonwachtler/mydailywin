@@ -5,7 +5,7 @@ import 'hall_of_fame.dart';
 import 'main.dart';
 import 'new_entry.dart';
 
-class Greeting extends StatelessWidget {
+class Greeting extends StatefulWidget {
   const Greeting({
     Key key,
     this.switchToMutmacher,
@@ -13,6 +13,11 @@ class Greeting extends StatelessWidget {
 
   final VoidCallback switchToMutmacher;
 
+  @override
+  _GreetingState createState() => _GreetingState();
+}
+
+class _GreetingState extends State<Greeting> {
   @override
   Widget build(BuildContext context) {
     return AnimatedListView(
@@ -43,12 +48,13 @@ class Greeting extends StatelessWidget {
               Text("Perfekt in den Tag starten!"),
             ],
           ),
-          onTap: () {
-            Navigator.of(context).push(
+          onTap: () async {
+            await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => MorningRoutine(),
               ),
             );
+            setState(() {});
           },
         ),
         GreetingBox(
@@ -63,12 +69,13 @@ class Greeting extends StatelessWidget {
               Text("Jetzt neuen Erfolg notieren"),
             ],
           ),
-          onTap: () {
-            Navigator.of(context).push(
+          onTap: () async {
+            await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => NewSuccess(),
               ),
             );
+            setState(() {});
           },
         ),
         GreetingBox(
@@ -83,7 +90,7 @@ class Greeting extends StatelessWidget {
               Text("Ja, ich schaffe es!"),
             ],
           ),
-          onTap: switchToMutmacher,
+          onTap: widget.switchToMutmacher,
         ),
         if (data.entries.isNotEmpty)
           Padding(
