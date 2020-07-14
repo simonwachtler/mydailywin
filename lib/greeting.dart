@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'animations.dart';
+import 'data.dart';
 import 'hall_of_fame.dart';
 import 'main.dart';
 import 'new_entry.dart';
@@ -20,6 +23,7 @@ class Greeting extends StatefulWidget {
 class _GreetingState extends State<Greeting> {
   @override
   Widget build(BuildContext context) {
+    final entry = data.entries.isNotEmpty ? data.entries.last : null;
     return AnimatedListView(
       children: [
         Padding(
@@ -92,10 +96,40 @@ class _GreetingState extends State<Greeting> {
           ),
           onTap: widget.switchToMutmacher,
         ),
-        if (data.entries.isNotEmpty)
+        if (entry != null)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: DayWidget(entry: data.entries.last),
+            child: DayWidget(
+              entry: entry,
+              // TODO: clean up: code duplication
+              onDelete: () {
+                setState(() {
+                  setData(() {
+                    data.entries.remove(entry);
+                    // delete all image files from disk
+                    entry.images.forEach((image) {
+                      File(image.path).delete();
+                    });
+                  });
+                });
+              },
+              onReplace: (newEntry) {
+                setState(
+                  () {
+                    setData(() {
+                      final index = data.entries.indexOf(entry);
+                      data.entries[index] = newEntry;
+                      // delete all deleted image's files from disk
+                      entry.images?.forEach((image) {
+                        if (!newEntry.images.any((i) => i.path == image.path)) {
+                          File(image.path).delete();
+                        }
+                      });
+                    });
+                  },
+                );
+              },
+            ),
           ),
         SizedBox(
           height: 100,
