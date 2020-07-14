@@ -36,35 +36,39 @@ class _HallOfFameState extends State<HallOfFame> {
           ),
         ),
         ...data.entries
-            .map((e) => DayWidget(
-                  entry: e,
-                  onDelete: () {
-                    setState(() {
-                      setData(() {
-                        data.entries.remove(e);
-                        // delete all image files from disk
-                        for (var image in e.images) {
-                          File(image.path).delete();
-                        }
+            .map(
+              (e) => DayWidget(
+                entry: e,
+                onDelete: () {
+                  setState(() {
+                    setData(() {
+                      data.entries.remove(e);
+                      // delete all image files from disk
+                      e.images.forEach((image) {
+                        File(image.path).delete();
                       });
                     });
-                  },
-                  onReplace: (newEntry) {
-                    setState(() {
+                  });
+                },
+                onReplace: (newEntry) {
+                  setState(
+                    () {
                       setData(() {
                         final index = data.entries.indexOf(e);
                         data.entries[index] = newEntry;
                         // delete all deleted image's files from disk
-                        for (var image in e.images) {
+                        e.images?.forEach((image) {
                           if (!newEntry.images
                               .any((i) => i.path == image.path)) {
                             File(image.path).delete();
                           }
-                        }
+                        });
                       });
-                    });
-                  },
-                ))
+                    },
+                  );
+                },
+              ),
+            )
             .toList(),
         SizedBox(height: 100),
       ],
