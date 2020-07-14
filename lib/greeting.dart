@@ -67,7 +67,7 @@ class _GreetingState extends State<Greeting> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "NEUSES LEVEL ERREICHEN:",
+                "NEUES LEVEL ERREICHEN:",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text("Jetzt neuen Erfolg notieren"),
