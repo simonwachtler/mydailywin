@@ -2,15 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
+import 'package:provider/provider.dart';
 
 import 'animations.dart';
-import 'main.dart';
+import 'data.dart';
 
 class Level extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<DataModel>();
     final level = calculateLevels(
-      data.entries.fold(
+      model.entries.fold(
         0,
         (value, entry) =>
             value +
@@ -26,7 +28,7 @@ class Level extends StatelessWidget {
           padding: const EdgeInsets.only(top: 90),
           child: Center(
             child: Text(
-              'Guten Tag, ${data.name}!',
+              'Guten Tag, ${model.name}!',
               style: TextStyle(
                   fontSize: 29.0,
                   fontFamily: 'Abadi',

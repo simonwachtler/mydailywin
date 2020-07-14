@@ -2,20 +2,19 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
 import 'animations.dart';
+import 'data.dart';
 import 'main.dart';
 import 'settings.dart';
 import 'spende.dart';
 
-class Profil extends StatefulWidget {
-  @override
-  _ProfilState createState() => _ProfilState();
-}
-
-class _ProfilState extends State<Profil> {
+class Profil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<DataModel>();
+
     // https://github.com/flutter/flutter/issues/14842
     return MediaQuery.removePadding(
       context: context,
@@ -36,9 +35,9 @@ class _ProfilState extends State<Profil> {
                       height: 50,
                     ),
                     Container(
-                      child: data.imageFilePath == null
+                      child: model.imageFilePath == null
                           ? Icon(Icons.person, color: Colors.white, size: 150)
-                          : Image.file(File(data.imageFilePath)),
+                          : Image.file(File(model.imageFilePath)),
                       height: 150,
                       width: 150,
                     ),
@@ -55,7 +54,7 @@ class _ProfilState extends State<Profil> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(data.name,
+                      child: Text(model.name,
                           style: Theme.of(context).textTheme.headline4),
                     ),
                   ),
@@ -75,9 +74,8 @@ class _ProfilState extends State<Profil> {
                         child: Center(
                           child: IconButton(
                             icon: Icon(Icons.edit),
-                            onPressed: () async {
-                              await showNameDialog(context);
-                              setState(() {});
+                            onPressed: () {
+                              showNameDialog(context);
                             },
                           ),
                         ),
@@ -98,10 +96,9 @@ class _ProfilState extends State<Profil> {
                     BorderRadius.horizontal(left: Radius.circular(16)),
                 child: IconButton(
                     icon: Icon(Icons.settings),
-                    onPressed: () async {
-                      await Navigator.of(context)
+                    onPressed: () {
+                      Navigator.of(context)
                           .push(MaterialPageRoute(builder: (_) => Settings()));
-                      if (this.mounted) setState(() {});
                     }),
               ),
             ],

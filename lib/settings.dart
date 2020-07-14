@@ -3,24 +3,16 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:persist_theme/ui/theme_widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import 'animations.dart';
 import 'main.dart';
 import 'data.dart';
 
-class Settings extends StatefulWidget {
-  @override
-  _SettingsState createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<DataModel>();
     return Scaffold(
       body: AnimatedColumn(
         children: [
@@ -46,19 +38,18 @@ class _SettingsState extends State<Settings> {
                       height: 30,
                     ),
                     Padding(
-                        padding: const EdgeInsets.only(
-                            right: 50, bottom: 50, left: 20, top: 20),
-                        child: IconButton(
-                          icon: Icon(Icons.camera_alt,
-                              color: Colors.white, size: 75),
-                          onPressed: () {
-                            setData(() async {
-                              data.imageFilePath = (await ImagePicker()
-                                      .getImage(source: ImageSource.gallery))
-                                  .path;
-                            });
-                          },
-                        )),
+                      padding: const EdgeInsets.only(
+                          right: 50, bottom: 50, left: 20, top: 20),
+                      child: IconButton(
+                        icon: Icon(Icons.camera_alt,
+                            color: Colors.white, size: 75),
+                        onPressed: () async {
+                          model.imageFilePath = (await ImagePicker()
+                                  .getImage(source: ImageSource.gallery))
+                              .path;
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -72,7 +63,7 @@ class _SettingsState extends State<Settings> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(data.name,
+                    child: Text(model.name,
                         style: Theme.of(context).textTheme.headline4),
                   ),
                   Spacer(),
@@ -88,25 +79,22 @@ class _SettingsState extends State<Settings> {
           Padding(
             padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
             child: SwitchListTile.adaptive(
-              title: Text(
-                  data.dailyNotificationsEnabled ? "Aktiviert" : "Deaktiviert"),
+              title: Text(model.dailyNotificationsEnabled
+                  ? "Aktiviert"
+                  : "Deaktiviert"),
               subtitle: Text("Morgens ans Eintragen erinnern"),
               onChanged: (enabled) {
-                setState(() {
-                  setData(() {
-                    data.dailyNotificationsEnabled = enabled;
-                    updateNotifications();
-                  });
-                });
+                model.dailyNotificationsEnabled = enabled;
+                updateNotifications(enabled);
               },
-              value: data.dailyNotificationsEnabled,
+              value: model.dailyNotificationsEnabled,
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
             child: SwitchListTile.adaptive(
               title:
-                  Text(data.screenlockerEnabled ? "Aktiviert" : "Deaktiviert"),
+                  Text(model.screenlockerEnabled ? "Aktiviert" : "Deaktiviert"),
               subtitle: Text("Biometrische Bildschirmsperre "),
               onChanged: (enabled) {
                 LocalAuthentication()
@@ -115,15 +103,11 @@ class _SettingsState extends State<Settings> {
                             "Zum ${enabled ? "Aktivieren" : "Deaktivieren"} bestätigen")
                     .then((success) async {
                   if (success) {
-                    setState(() {
-                      setData(() {
-                        data.screenlockerEnabled = enabled;
-                      });
-                    });
+                    model.screenlockerEnabled = enabled;
                   }
                 });
               },
-              value: data.screenlockerEnabled,
+              value: model.screenlockerEnabled,
             ),
           ),
           Padding(
@@ -196,8 +180,8 @@ Debertol Michael & Wachtler Simon
 }
 
 const morningRoutineId = 1;
-void updateNotifications() async {
-  if (data.dailyNotificationsEnabled) {
+void updateNotifications(bool enabled) async {
+  if (enabled) {
     var time = Time(8, 0, 0);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'morning_routine', 'Morgenroutine', 'Deine tägliche Morgenroutine',

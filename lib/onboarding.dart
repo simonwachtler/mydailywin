@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import 'animations.dart';
 import 'main.dart';
@@ -60,13 +61,12 @@ class _FirstImpressionState extends State<FirstImpression> {
                 elevation: 7,
                 color: Colors.blue,
                 onPressed: _controller.text.isNotEmpty
-                    ? () async {
-                        setData(() => data.name = _controller.text);
-                        await Navigator.push(
+                    ? () {
+                        context.read<DataModel>().name = _controller.text;
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => Onboarding()),
                         );
-                        Navigator.pop(context);
                       }
                     : null,
                 child: Text("Jetzt loslegen!"),
@@ -79,14 +79,10 @@ class _FirstImpressionState extends State<FirstImpression> {
   }
 }
 
-class Onboarding extends StatefulWidget {
-  @override
-  _OnboardingState createState() => _OnboardingState();
-}
-
-class _OnboardingState extends State<Onboarding> {
+class Onboarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<DataModel>();
     return WillPopScope(
       onWillPop: () async {
         SystemNavigator.pop();
@@ -118,13 +114,9 @@ class _OnboardingState extends State<Onboarding> {
               title: Text("Am Morgen erinnern"),
               subtitle:
                   Text("Ich möchte morgens ans Eintragen erinnert werden"),
-              value: data.dailyNotificationsEnabled,
+              value: model.dailyNotificationsEnabled,
               onChanged: (enabled) {
-                setState(() {
-                  setData(() {
-                    data.dailyNotificationsEnabled = enabled;
-                  });
-                });
+                model.dailyNotificationsEnabled = enabled;
               },
             ),
             Padding(
@@ -135,7 +127,7 @@ class _OnboardingState extends State<Onboarding> {
                 onPressed: () async {
                   Navigator.pop(context);
                   await initializeNotifications(context);
-                  updateNotifications();
+                  updateNotifications(model.dailyNotificationsEnabled);
                 },
                 child: Text("Los geht's!"),
               ),

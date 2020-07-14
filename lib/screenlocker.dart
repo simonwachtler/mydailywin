@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:provider/provider.dart';
 
-import 'main.dart';
+import 'data.dart';
 
 typedef LockscreenBuilder = Widget Function(
   BuildContext context,
@@ -27,6 +28,7 @@ class Screenlocker extends StatefulWidget {
 class ScreenlockerState extends State<Screenlocker>
     with WidgetsBindingObserver {
   bool unlockInProgress = false;
+  bool wasLoading = true;
 
   @override
   void dispose() {
@@ -43,10 +45,19 @@ class ScreenlockerState extends State<Screenlocker>
 
   @override
   void initState() {
-    tryUnlock();
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     periodicalCheck();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!context.read<DataModel>().loading && wasLoading) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        tryUnlock();
+      });
+    }
+    super.didChangeDependencies();
   }
 
   void periodicalCheck() {
@@ -65,7 +76,9 @@ class ScreenlockerState extends State<Screenlocker>
         (lastInteraction != null &&
             DateTime.now().difference(lastInteraction) <
                 Duration(seconds: 30)) ||
-        !(await firstData).screenlockerEnabled) return;
+        !context.read<DataModel>().screenlockerEnabled) {
+      return;
+    }
     unlockInProgress = true;
     if (!isScreenLocked) {
       isScreenLocked = true;
@@ -109,6 +122,7 @@ class ScreenlockerState extends State<Screenlocker>
 
   @override
   Widget build(BuildContext context) {
+    context.watch<DataModel>();
     return Listener(
       child: widget.child,
       onPointerDown: (_) {

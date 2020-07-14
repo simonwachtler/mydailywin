@@ -18,20 +18,15 @@ import 'screenlocker.dart';
 import 'onboarding.dart';
 import 'speed_dial/flutter_speed_dial.dart';
 
-Data data = Data([], null, null, true, false);
-Future<Data> firstData;
-
 void main() async {
   runApp(MyApp());
-  firstData = readData();
-  firstData.then((value) => data = value);
 }
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 Future<void> initializeNotifications(BuildContext context) async {
   if (flutterLocalNotificationsPlugin != null ||
-      !data.dailyNotificationsEnabled) return;
+      !context.read<DataModel>().dailyNotificationsEnabled) return;
 
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -69,25 +64,28 @@ class MyApp extends StatelessWidget {
       create: (_) => _model..init(),
       child: Consumer<ThemeModel>(
         builder: (context, model, child) {
-          return MaterialApp(
-            theme: model.theme,
-            home: Screenlocker(
-              child: MaterialApp(
-                title: "My Daily Win!",
-                theme: ThemeData(
-                  fontFamily: "Abadi",
-                  brightness: model.theme.brightness,
+          return ChangeNotifierProvider(
+            create: (_) => DataModel()..load(),
+            child: MaterialApp(
+              theme: model.theme,
+              home: Screenlocker(
+                child: MaterialApp(
+                  title: "My Daily Win!",
+                  theme: ThemeData(
+                    fontFamily: "Abadi",
+                    brightness: model.theme.brightness,
+                  ),
+                  home: MyHomePage(),
+                  localizationsDelegates: [
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: [Locale("de")],
                 ),
-                home: MyHomePage(),
-                localizationsDelegates: [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: [Locale("de")],
-              ),
-              lockscreenBuilder: (context, onRetry) => LockScreen(
-                onRetry: onRetry,
+                lockscreenBuilder: (context, onRetry) => LockScreen(
+                  onRetry: onRetry,
+                ),
               ),
             ),
           );
@@ -126,72 +124,88 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final model = context.read<DataModel>();
+    if (showingDialog || model.loading) {
+      return;
+    }
+    if (model.name == null) {
+      showingDialog = true;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FirstImpression(),
+        ),
+      );
+    } else {
+      // onboarding will initialize notifcations
+      initializeNotifications(context);
+    }
+  }
+
+  @override
   void initState() {
-    firstData.then((data) async {
-      if (showingDialog) {
-        return;
-      }
-      if (data.name == null) {
-        showingDialog = true;
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FirstImpression(),
-          ),
-        );
-      } else {
-        // onboarding will initialize notifcations
-        initializeNotifications(context);
-      }
-      setState(() {});
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: currentScreen(selectedScreen),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-            ),
-            title: Text("Startseite"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.show_chart,
-            ),
-            title: Text("Level"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.grade,
-            ),
-            title: Text("Mutmacher"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
-            title: Text("Profil"),
-          ),
-        ],
-        currentIndex: selectedScreen,
-        selectedItemColor: Colors.blue[800],
-        unselectedItemColor: Colors.grey,
-        onTap: (index) {
-          setState(() {
-            selectedScreen = index;
-          });
-        },
+    final model = context.watch<DataModel>();
+    return AnimatedCrossFade(
+      duration: Duration(milliseconds: 500),
+      crossFadeState:
+          model.loading ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      firstChild: Scaffold(
+        key: ValueKey(1),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
-      floatingActionButton: SpeedDialAdd(
-        onEntered: () {
-          if (mounted) setState(() {});
-        },
+      secondChild: Scaffold(
+        key: ValueKey(2),
+        body: currentScreen(selectedScreen),
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              title: Text("Startseite"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.show_chart,
+              ),
+              title: Text("Level"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.grade,
+              ),
+              title: Text("Mutmacher"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              title: Text("Profil"),
+            ),
+          ],
+          currentIndex: selectedScreen,
+          selectedItemColor: Colors.blue[800],
+          unselectedItemColor: Colors.grey,
+          onTap: (index) {
+            setState(() {
+              selectedScreen = index;
+            });
+          },
+        ),
+        floatingActionButton: SpeedDialAdd(
+          onEntered: () {
+            if (mounted) setState(() {});
+          },
+        ),
       ),
     );
   }
@@ -249,7 +263,7 @@ class SpeedDialAdd extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => NewCameraEntry()),
               );
               if (imageEntry != null) {
-                addImage(imageEntry);
+                context.read<DataModel>().addImage(imageEntry);
               }
               onEntered();
             }),
@@ -274,11 +288,16 @@ class _NameDialogState extends State<NameDialog> {
   TextEditingController _controller;
   @override
   void initState() {
-    _controller = TextEditingController(text: data.name);
+    _controller = TextEditingController(text: context.read<DataModel>().name);
     _controller.addListener(() {
       setState(() {});
     });
     super.initState();
+  }
+
+  void finish() {
+    context.read<DataModel>().name = _controller.text;
+    Navigator.of(context).pop();
   }
 
   @override
@@ -290,10 +309,7 @@ class _NameDialogState extends State<NameDialog> {
         onChanged: (_) {
           setState(() {});
         },
-        onEditingComplete: () {
-          setData(() => data.name = _controller.text);
-          Navigator.of(context).pop();
-        },
+        onEditingComplete: finish,
       ),
       actions: [
         FlatButton(
@@ -304,12 +320,7 @@ class _NameDialogState extends State<NameDialog> {
         ),
         FlatButton(
           child: Text("Speichern"),
-          onPressed: _controller.text.isNotEmpty
-              ? () {
-                  setData(() => data.name = _controller.text);
-                  Navigator.of(context).pop();
-                }
-              : null,
+          onPressed: _controller.text.isNotEmpty ? finish : null,
         ),
       ],
     );

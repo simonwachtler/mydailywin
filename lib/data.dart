@@ -1,10 +1,11 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'main.dart';
 import 'util.dart';
 
 part 'data.g.dart';
@@ -32,10 +33,112 @@ class ImageEntry {
   Map<String, dynamic> toJson() => _$ImageEntryToJson(this);
 }
 
-@JsonSerializable()
-class Data {
-  List<Entry> entries;
+class DataModel extends ChangeNotifier {
+  Data _data;
+  bool loading = true;
 
+  UnmodifiableListView get entries => UnmodifiableListView(_data.entries);
+  String get name => _data.name;
+  String get imageFilePath => _data.imageFilePath;
+  bool get dailyNotificationsEnabled => _data.dailyNotificationsEnabled;
+  bool get screenlockerEnabled => _data.screenlockerEnabled;
+
+  void load() async {
+    _data = await readData();
+    loading = false;
+    notifyListeners();
+  }
+
+  void _dataChanged() {
+    notifyListeners();
+    _writeData();
+  }
+
+  void _writeData() async {
+    final file = await _getDataFile();
+    final result = json.encode(_data.toJson());
+    file.writeAsString(result);
+  }
+
+  void addSuccess(List<String> content) {
+    final now = toDate(DateTime.now());
+    final entry = _data.entries
+        .firstWhere((element) => element.date == now, orElse: () => null);
+    if (entry == null) {
+      _data.entries.add(Entry(now, content, [], null));
+    } else {
+      entry.success.addAll(content);
+    }
+    _dataChanged();
+  }
+
+  void addGrateful(List<String> content) {
+    final now = toDate(DateTime.now());
+    final entry = _data.entries
+        .firstWhere((element) => element.date == now, orElse: () => null);
+    if (entry == null) {
+      _data.entries.add(Entry(now, [], content, null));
+    } else {
+      entry.grateful.addAll(content);
+    }
+    _dataChanged();
+  }
+
+  void addImage(ImageEntry imageEntry) {
+    final now = toDate(DateTime.now());
+    final entry = _data.entries
+        .firstWhere((element) => element.date == now, orElse: () => null);
+    if (entry == null) {
+      _data.entries.add(Entry(now, [], [], [imageEntry]));
+    } else {
+      entry.images.add(imageEntry);
+    }
+    _dataChanged();
+  }
+
+  void removeEntry(int index) {
+    final entry = _data.entries.removeAt(index);
+    entry.images?.forEach((image) {
+      File(image.path).delete();
+    });
+    _dataChanged();
+  }
+
+  void replaceEntry(int index, Entry newEntry) {
+    final oldEntry = _data.entries[index];
+    _data.entries[index] = newEntry;
+    oldEntry.images?.forEach((image) {
+      if (!newEntry.images.any((i) => i.path == image.path)) {
+        File(image.path).delete();
+      }
+    });
+    _dataChanged();
+  }
+
+  set name(String name) {
+    _data.name = name;
+    notifyListeners();
+  }
+
+  set imageFilePath(String imageFilePath) {
+    _data.imageFilePath = imageFilePath;
+    _dataChanged();
+  }
+
+  set dailyNotificationsEnabled(bool dailyNotificationsEnabled) {
+    _data.dailyNotificationsEnabled = dailyNotificationsEnabled;
+    _dataChanged();
+  }
+
+  set screenlockerEnabled(bool screenlockerEnabled) {
+    _data.screenlockerEnabled = screenlockerEnabled;
+    _dataChanged();
+  }
+}
+
+@JsonSerializable()
+class Data extends ChangeNotifier {
+  final List<Entry> entries;
   String name;
   String imageFilePath;
   bool dailyNotificationsEnabled;
@@ -43,17 +146,9 @@ class Data {
 
   Data(this.entries, this.name, this.imageFilePath,
       this.dailyNotificationsEnabled, this.screenlockerEnabled);
+
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
   Map<String, dynamic> toJson() => _$DataToJson(this);
-}
-
-void setData(dynamic fn()) {
-  final result = fn();
-  if (result is Future) {
-    result.then((_) => _writeData());
-  } else {
-    _writeData();
-  }
 }
 
 Future<File> _getDataFile() async {
@@ -63,54 +158,10 @@ Future<File> _getDataFile() async {
 
 Future<Data> readData() async {
   final file = await _getDataFile();
+  Data data;
   if (await file.exists()) {
     final result = json.decode(await file.readAsString());
     data = Data.fromJson(result);
   }
-  return data;
-}
-
-void _writeData() async {
-  final file = await _getDataFile();
-  final result = json.encode(data.toJson());
-  file.writeAsString(result);
-}
-
-void addSuccess(List<String> content) {
-  setData(() {
-    final now = toDate(DateTime.now());
-    final entry = data.entries
-        .firstWhere((element) => element.date == now, orElse: () => null);
-    if (entry == null) {
-      data.entries.add(Entry(now, content, [], null));
-    } else {
-      entry.success.addAll(content);
-    }
-  });
-}
-
-void addGrateful(List<String> content) {
-  setData(() {
-    final now = toDate(DateTime.now());
-    final entry = data.entries
-        .firstWhere((element) => element.date == now, orElse: () => null);
-    if (entry == null) {
-      data.entries.add(Entry(now, [], content, null));
-    } else {
-      entry.grateful.addAll(content);
-    }
-  });
-}
-
-void addImage(ImageEntry imageEntry) {
-  setData(() {
-    final now = toDate(DateTime.now());
-    final entry = data.entries
-        .firstWhere((element) => element.date == now, orElse: () => null);
-    if (entry == null) {
-      data.entries.add(Entry(now, [], [], [imageEntry]));
-    } else {
-      entry.images.add(imageEntry);
-    }
-  });
+  return data ?? Data([], null, null, true, false);
 }

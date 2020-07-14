@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'animations.dart';
 import 'data.dart';
-import 'main.dart';
 
 class NewSuccess extends StatelessWidget {
   @override
@@ -11,7 +11,7 @@ class NewSuccess extends StatelessWidget {
       text: "Was ist dir gestern gut gelungen – Erfolge, Anerkennung:",
       confirmText: "Fertig",
       onConfirm: (contents) {
-        addSuccess(contents);
+        context.read<DataModel>().addSuccess(contents);
         Navigator.pop(context);
       },
     );
@@ -25,7 +25,7 @@ class NewGrateful extends StatelessWidget {
       text: "Wofür bist Du dankbar?",
       confirmText: "Fertig",
       onConfirm: (contents) {
-        addGrateful(contents);
+        context.read<DataModel>().addGrateful(contents);
         Navigator.pop(context);
       },
     );
@@ -40,14 +40,13 @@ class MorningRoutine extends StatelessWidget {
           "Guten Morgen!\nWas ist dir gestern gut gelungen – Erfolge, Anerkennung:",
       confirmText: "Weiter",
       onConfirm: (contents) async {
-        addSuccess(contents);
-        await Navigator.push(
+        context.read<DataModel>().addSuccess(contents);
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (c) => NewGrateful(),
           ),
         );
-        Navigator.pop(context);
       },
     );
   }
@@ -74,7 +73,7 @@ class _NewEntry extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 90, left: 13),
                 child: Text(
-                  'Guten Tag, ${data.name}!',
+                  'Guten Tag, ${context.watch<DataModel>().name}!',
                   style: TextStyle(
                       fontSize: 25.0,
                       fontFamily: 'Abadi',

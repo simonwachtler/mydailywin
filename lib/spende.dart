@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'animations.dart';
-import 'main.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'animations.dart';
+import 'data.dart';
 
 class Spenden extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final darkMode = Theme.of(context).brightness == Brightness.dark;
+    final model = context.watch<DataModel>();
     return Scaffold(
-        appBar: AppBar(title: Text("Unterstütze uns jetzt, ${data.name}!")),
+        appBar: AppBar(title: Text("Unterstütze uns jetzt, ${model.name}!")),
         body: AnimatedListView(
           children: <Widget>[
             Padding(

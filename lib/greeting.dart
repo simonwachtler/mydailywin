@@ -1,14 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'animations.dart';
 import 'data.dart';
 import 'hall_of_fame.dart';
-import 'main.dart';
 import 'new_entry.dart';
 
-class Greeting extends StatefulWidget {
+class Greeting extends StatelessWidget {
   const Greeting({
     Key key,
     this.switchToMutmacher,
@@ -17,20 +15,15 @@ class Greeting extends StatefulWidget {
   final VoidCallback switchToMutmacher;
 
   @override
-  _GreetingState createState() => _GreetingState();
-}
-
-class _GreetingState extends State<Greeting> {
-  @override
   Widget build(BuildContext context) {
-    final entry = data.entries.isNotEmpty ? data.entries.last : null;
+    final model = context.watch<DataModel>();
     return AnimatedListView(
       children: [
         Padding(
           padding: const EdgeInsets.all(55.0),
           child: Text(
-            data.name?.isNotEmpty == true
-                ? 'Guten Tag, ${data.name}!'
+            model.name?.isNotEmpty == true
+                ? 'Guten Tag, ${model.name}!'
                 : 'Guten Tag!',
             style: TextStyle(
               fontSize: 38.0,
@@ -53,12 +46,11 @@ class _GreetingState extends State<Greeting> {
             ],
           ),
           onTap: () async {
-            await Navigator.of(context).push(
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => MorningRoutine(),
               ),
             );
-            setState(() {});
           },
         ),
         GreetingBox(
@@ -74,12 +66,11 @@ class _GreetingState extends State<Greeting> {
             ],
           ),
           onTap: () async {
-            await Navigator.of(context).push(
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => NewSuccess(),
               ),
             );
-            setState(() {});
           },
         ),
         GreetingBox(
@@ -94,41 +85,13 @@ class _GreetingState extends State<Greeting> {
               Text("Ja, ich schaffe es!"),
             ],
           ),
-          onTap: widget.switchToMutmacher,
+          onTap: switchToMutmacher,
         ),
-        if (entry != null)
+        if (model.entries.length != 0)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: DayWidget(
-              entry: entry,
-              // TODO: clean up: code duplication
-              onDelete: () {
-                setState(() {
-                  setData(() {
-                    data.entries.remove(entry);
-                    // delete all image files from disk
-                    entry.images.forEach((image) {
-                      File(image.path).delete();
-                    });
-                  });
-                });
-              },
-              onReplace: (newEntry) {
-                setState(
-                  () {
-                    setData(() {
-                      final index = data.entries.indexOf(entry);
-                      data.entries[index] = newEntry;
-                      // delete all deleted image's files from disk
-                      entry.images?.forEach((image) {
-                        if (!newEntry.images.any((i) => i.path == image.path)) {
-                          File(image.path).delete();
-                        }
-                      });
-                    });
-                  },
-                );
-              },
+              index: model.entries.length - 1,
             ),
           ),
         SizedBox(
