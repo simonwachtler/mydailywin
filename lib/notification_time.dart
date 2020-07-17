@@ -21,10 +21,9 @@ class NotificationTimeWidget extends StatelessWidget {
         icon: Icon(Icons.edit),
         onPressed: () async {
           final newTime = await showTimePicker(
-              context: context,
-              initialTime: model.notificationTime.toTimeOfDay(),
-              helpText: "Zeit auswählen",
-              cancelText: "Abbrechen");
+            context: context,
+            initialTime: model.notificationTime.toTimeOfDay(),
+          );
           if (newTime == null) return;
           model.setNotificationTime(newTime);
           updateNotifications(

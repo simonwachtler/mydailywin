@@ -76,17 +76,17 @@ class MyApp extends StatelessWidget {
                     brightness: model.theme.brightness,
                   ),
                   home: MyHomePage(),
-                  localizationsDelegates: [
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  supportedLocales: [Locale("de")],
                 ),
                 lockscreenBuilder: (context, onRetry) => LockScreen(
                   onRetry: onRetry,
                 ),
               ),
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: [Locale("de")],
             ),
           );
         },
@@ -276,6 +276,7 @@ class SpeedDialAdd extends StatelessWidget {
 
 Future<void> showNameDialog(BuildContext context) {
   return showDialog(
+    useRootNavigator: false,
     context: context,
     builder: (_) => NameDialog(),
   );
