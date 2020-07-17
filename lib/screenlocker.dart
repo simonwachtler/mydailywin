@@ -12,9 +12,6 @@ typedef LockscreenBuilder = Widget Function(
 
 const screenlockerRouteName = "screenlocker";
 
-DateTime lastInteraction;
-bool isScreenLocked = false;
-
 class Screenlocker extends StatefulWidget {
   final Widget child;
   final LockscreenBuilder lockscreenBuilder;
@@ -29,6 +26,8 @@ class ScreenlockerState extends State<Screenlocker>
     with WidgetsBindingObserver {
   bool unlockInProgress = false;
   bool wasLoading = true;
+  DateTime lastInteraction;
+  bool isScreenLocked = false;
 
   @override
   void dispose() {
