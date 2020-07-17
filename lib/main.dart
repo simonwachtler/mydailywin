@@ -132,12 +132,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     if (model.name == null) {
       showingDialog = true;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => FirstImpression(),
-        ),
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FirstImpression(),
+          ),
+        );
+      });
     } else {
       // onboarding will initialize notifcations
       initializeNotifications(context);
