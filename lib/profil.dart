@@ -115,8 +115,12 @@ class Profil extends StatelessWidget {
             color: Colors.blue,
             text: "GIB UNS 5 STERNE!",
             onTap: () {
-              if (Platform.isAndroid)
+              if (Platform.isAndroid) {
                 launch("market://details?id=com.mydailywin");
+              } else if (Platform.isIOS) {
+                launch(
+                    "https://apps.apple.com/app/id1522047675?action=write-review");
+              }
             },
           ),
           ProfilBox(
