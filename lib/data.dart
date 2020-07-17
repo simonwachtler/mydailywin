@@ -48,7 +48,7 @@ class DataModel extends ChangeNotifier {
 
   void load() async {
     // Backwards compatibility
-    _data = (await readData())..notificationTime = _data.notificationTime;
+    _data = (await readData())..notificationTime ??= _data.notificationTime;
     loading = false;
     notifyListeners();
   }
