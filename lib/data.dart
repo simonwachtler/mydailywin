@@ -121,7 +121,7 @@ class DataModel extends ChangeNotifier {
 
   set name(String name) {
     _data.name = name;
-    notifyListeners();
+    _dataChanged();
   }
 
   set imageFilePath(String imageFilePath) {
