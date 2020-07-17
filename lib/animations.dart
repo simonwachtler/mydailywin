@@ -48,7 +48,11 @@ class FadeIn extends StatefulWidget {
   final Key key;
   final bool alwaysKeepAlive;
 
-  FadeIn({this.delay= 0, @required this.child, this.key, this.alwaysKeepAlive = true});
+  FadeIn(
+      {this.delay = 0,
+      @required this.child,
+      this.key,
+      this.alwaysKeepAlive = true});
 
   @override
   _FadeInState createState() => _FadeInState();
