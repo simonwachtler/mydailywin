@@ -118,6 +118,7 @@ class ScreenlockerState extends State<Screenlocker>
     Navigator.of(context)
         .popUntil((route) => route.settings.name != screenlockerRouteName);
     isScreenLocked = false;
+    unlockInProgress = false;
   }
 
   @override
