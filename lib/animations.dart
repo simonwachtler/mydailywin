@@ -14,7 +14,7 @@ class AnimatedListView extends StatelessWidget {
       padding: padding,
       children: [
         for (var i = 0; i < children.length; i++)
-          FadeIn(min(i, 15), children[i], children[i].key)
+          FadeIn(delay: min(i, 15), child: children[i], key: children[i].key)
       ],
     );
   }
@@ -36,7 +36,7 @@ class AnimatedColumn extends StatelessWidget {
       mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
       children: [
         for (var i = 0; i < children.length; i++)
-          FadeIn(i, children[i], children[i].key)
+          FadeIn(delay: i, child: children[i], key: children[i].key)
       ],
     );
   }
@@ -48,7 +48,7 @@ class FadeIn extends StatefulWidget {
   final Key key;
   final bool alwaysKeepAlive;
 
-  FadeIn(this.delay, this.child, this.key, {this.alwaysKeepAlive = true});
+  FadeIn({this.delay= 0, @required this.child, this.key, this.alwaysKeepAlive = true});
 
   @override
   _FadeInState createState() => _FadeInState();

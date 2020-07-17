@@ -50,8 +50,7 @@ class AnimatedChild extends AnimatedWidget {
     if (labelWidget != null) return labelWidget;
 
     return FadeIn(
-      0,
-      GestureDetector(
+      child: GestureDetector(
         onTap: _performAction,
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
@@ -70,7 +69,7 @@ class AnimatedChild extends AnimatedWidget {
           child: Text(label, style: labelStyle),
         ),
       ),
-      ValueKey(this.index),
+      key: ValueKey(this.index),
     );
   }
 
@@ -100,8 +99,8 @@ class AnimatedChild extends AnimatedWidget {
           buildLabel(),
           if (animation.value != 0)
             FadeIn(
-              index,
-              Container(
+              delay: index,
+              child: Container(
                 width: 62.0,
                 height: animation.value,
                 padding: EdgeInsets.only(bottom: 62.0 - animation.value),
@@ -119,7 +118,7 @@ class AnimatedChild extends AnimatedWidget {
                   ),
                 ),
               ),
-              ValueKey(index),
+              key: ValueKey(index),
             )
         ],
       ),
