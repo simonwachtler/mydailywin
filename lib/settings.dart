@@ -61,20 +61,25 @@ class Settings extends StatelessWidget {
             padding: const EdgeInsets.only(top: 33, left: 12, right: 12),
             child: Card(
               clipBehavior: Clip.hardEdge,
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(model.name,
-                        style: Theme.of(context).textTheme.headline4),
-                  ),
-                  Spacer(),
-                  Icon(
-                    Icons.person,
-                    size: 70,
-                    color: Colors.grey.shade300,
-                  )
-                ],
+              child: InkWell(
+                onTap: () {
+                  showNameDialog(context);
+                },
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(model.name,
+                          style: Theme.of(context).textTheme.headline4),
+                    ),
+                    Spacer(),
+                    Icon(
+                      Icons.person,
+                      size: 70,
+                      color: Colors.grey.shade300,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
