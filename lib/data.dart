@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -34,7 +36,7 @@ class ImageEntry {
 }
 
 class DataModel extends ChangeNotifier {
-  Data _data;
+  Data _data = Data();
   bool loading = true;
 
   UnmodifiableListView get entries => UnmodifiableListView(_data.entries);
@@ -42,9 +44,11 @@ class DataModel extends ChangeNotifier {
   String get imageFilePath => _data.imageFilePath;
   bool get dailyNotificationsEnabled => _data.dailyNotificationsEnabled;
   bool get screenlockerEnabled => _data.screenlockerEnabled;
+  NotificationTime get notificationTime => _data.notificationTime;
 
   void load() async {
-    _data = await readData();
+    // Backwards compatibility
+    _data = (await readData())..notificationTime = _data.notificationTime;
     loading = false;
     notifyListeners();
   }
@@ -130,6 +134,11 @@ class DataModel extends ChangeNotifier {
     _dataChanged();
   }
 
+  setNotificationTime(TimeOfDay time) {
+    _data.notificationTime = NotificationTime(time.hour, time.minute);
+    _dataChanged();
+  }
+
   set screenlockerEnabled(bool screenlockerEnabled) {
     _data.screenlockerEnabled = screenlockerEnabled;
     _dataChanged();
@@ -137,18 +146,41 @@ class DataModel extends ChangeNotifier {
 }
 
 @JsonSerializable()
-class Data extends ChangeNotifier {
-  final List<Entry> entries;
+class Data {
+  List<Entry> entries = [];
   String name;
   String imageFilePath;
-  bool dailyNotificationsEnabled;
-  bool screenlockerEnabled;
+  bool dailyNotificationsEnabled = true;
+  bool screenlockerEnabled = false;
+  NotificationTime notificationTime = NotificationTime(8, 0);
 
-  Data(this.entries, this.name, this.imageFilePath,
-      this.dailyNotificationsEnabled, this.screenlockerEnabled);
+  Data();
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
   Map<String, dynamic> toJson() => _$DataToJson(this);
+}
+
+@JsonSerializable()
+class NotificationTime {
+  final int hour, minute;
+
+  const NotificationTime(this.hour, this.minute);
+
+  factory NotificationTime.fromJson(Map<String, dynamic> json) =>
+      _$NotificationTimeFromJson(json);
+  Map<String, dynamic> toJson() => _$NotificationTimeToJson(this);
+
+  Time toTime() {
+    return Time(hour, minute);
+  }
+
+  DateTime toDateTime() {
+    return DateTime(1970, 1, 1, hour, minute);
+  }
+
+  TimeOfDay toTimeOfDay() {
+    return TimeOfDay(hour: hour, minute: minute);
+  }
 }
 
 Future<File> _getDataFile() async {
@@ -163,5 +195,5 @@ Future<Data> readData() async {
     final result = json.decode(await file.readAsString());
     data = Data.fromJson(result);
   }
-  return data ?? Data([], null, null, true, false);
+  return data ?? Data();
 }

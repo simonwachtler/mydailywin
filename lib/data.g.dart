@@ -39,16 +39,19 @@ Map<String, dynamic> _$ImageEntryToJson(ImageEntry instance) =>
     };
 
 Data _$DataFromJson(Map<String, dynamic> json) {
-  return Data(
-    (json['entries'] as List)
+  return Data()
+    ..entries = (json['entries'] as List)
         ?.map(
             (e) => e == null ? null : Entry.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['name'] as String,
-    json['imageFilePath'] as String,
-    json['dailyNotificationsEnabled'] as bool,
-    json['screenlockerEnabled'] as bool,
-  );
+        ?.toList()
+    ..name = json['name'] as String
+    ..imageFilePath = json['imageFilePath'] as String
+    ..dailyNotificationsEnabled = json['dailyNotificationsEnabled'] as bool
+    ..screenlockerEnabled = json['screenlockerEnabled'] as bool
+    ..notificationTime = json['notificationTime'] == null
+        ? null
+        : NotificationTime.fromJson(
+            json['notificationTime'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -57,4 +60,18 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'imageFilePath': instance.imageFilePath,
       'dailyNotificationsEnabled': instance.dailyNotificationsEnabled,
       'screenlockerEnabled': instance.screenlockerEnabled,
+      'notificationTime': instance.notificationTime,
+    };
+
+NotificationTime _$NotificationTimeFromJson(Map<String, dynamic> json) {
+  return NotificationTime(
+    json['hour'] as int,
+    json['minute'] as int,
+  );
+}
+
+Map<String, dynamic> _$NotificationTimeToJson(NotificationTime instance) =>
+    <String, dynamic>{
+      'hour': instance.hour,
+      'minute': instance.minute,
     };

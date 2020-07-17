@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_daily_win/notification_time.dart';
 import 'package:provider/provider.dart';
 
 import 'animations.dart';
@@ -119,6 +120,18 @@ class Onboarding extends StatelessWidget {
                 model.dailyNotificationsEnabled = enabled;
               },
             ),
+            AnimatedCrossFade(
+              duration: Duration(milliseconds: 300),
+              sizeCurve: Curves.ease,
+              crossFadeState: model.dailyNotificationsEnabled
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              firstChild: Padding(
+                padding: const EdgeInsets.only(left: 24),
+                child: NotificationTimeWidget(),
+              ),
+              secondChild: Container(),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
@@ -127,7 +140,10 @@ class Onboarding extends StatelessWidget {
                 onPressed: () async {
                   Navigator.pop(context);
                   await initializeNotifications(context);
-                  updateNotifications(model.dailyNotificationsEnabled);
+                  updateNotifications(
+                    model.dailyNotificationsEnabled,
+                    model.notificationTime.toTime(),
+                  );
                 },
                 child: Text("Los geht's!"),
               ),

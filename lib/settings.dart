@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:my_daily_win/notification_time.dart';
 import 'package:persist_theme/ui/theme_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class Settings extends StatelessWidget {
       body: AnimatedColumn(
         children: [
           Row(
+            key: ValueKey(0),
             children: [
               IconButton(
                 icon: Icon(Icons.chevron_left),
@@ -85,10 +87,25 @@ class Settings extends StatelessWidget {
               subtitle: Text("Morgens ans Eintragen erinnern"),
               onChanged: (enabled) {
                 model.dailyNotificationsEnabled = enabled;
-                updateNotifications(enabled);
+                updateNotifications(
+                  enabled,
+                  model.notificationTime.toTime(),
+                );
               },
               value: model.dailyNotificationsEnabled,
             ),
+          ),
+          AnimatedCrossFade(
+            duration: Duration(milliseconds: 300),
+            sizeCurve: Curves.ease,
+            crossFadeState: model.dailyNotificationsEnabled
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+            firstChild: Padding(
+              padding: const EdgeInsets.only(left: 24, right: 12),
+              child: NotificationTimeWidget(),
+            ),
+            secondChild: Container(),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
@@ -180,9 +197,11 @@ Debertol Michael & Wachtler Simon
 }
 
 const morningRoutineId = 1;
-void updateNotifications(bool enabled) async {
+void updateNotifications(bool enabled, Time time) async {
+  // if notifications are not yet initialized, do nothing
+  // we will call this again when we have initialized
+  if (flutterLocalNotificationsPlugin == null) return;
   if (enabled) {
-    var time = Time(8, 0, 0);
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'morning_routine', 'Morgenroutine', 'Deine tägliche Morgenroutine',
         importance: Importance.Max, priority: Priority.High);
