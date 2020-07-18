@@ -10,7 +10,20 @@ import 'animations.dart';
 import 'main.dart';
 import 'data.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
+  @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  Future<bool> canCheckBiometrics;
+
+  @override
+  void initState() {
+    canCheckBiometrics = LocalAuthentication().canCheckBiometrics;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<DataModel>();
@@ -112,24 +125,32 @@ class Settings extends StatelessWidget {
             ),
             secondChild: Container(),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
-            child: SwitchListTile.adaptive(
-              title:
-                  Text(model.screenlockerEnabled ? "Aktiviert" : "Deaktiviert"),
-              subtitle: Text("Biometrische Bildschirmsperre "),
-              onChanged: (enabled) {
-                LocalAuthentication()
-                    .authenticateWithBiometrics(
-                        localizedReason:
-                            "Zum ${enabled ? "Aktivieren" : "Deaktivieren"} bestätigen")
-                    .then((success) async {
-                  if (success) {
-                    model.screenlockerEnabled = enabled;
-                  }
-                });
-              },
-              value: model.screenlockerEnabled,
+          FutureBuilder(
+            future: canCheckBiometrics,
+            builder: (context, snapshot) => Padding(
+              padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
+              child: SwitchListTile.adaptive(
+                title: Text(
+                  snapshot.hasData && snapshot.data
+                      ? model.screenlockerEnabled ? "Aktiviert" : "Deaktiviert"
+                      : "Nicht verfügbar",
+                ),
+                subtitle: Text("Biometrische Bildschirmsperre "),
+                onChanged: snapshot.hasData && snapshot.data
+                    ? (enabled) {
+                        LocalAuthentication()
+                            .authenticateWithBiometrics(
+                                localizedReason:
+                                    "Zum ${enabled ? "Aktivieren" : "Deaktivieren"} bestätigen")
+                            .then((success) async {
+                          if (success) {
+                            model.screenlockerEnabled = enabled;
+                          }
+                        });
+                      }
+                    : null,
+                value: model.screenlockerEnabled,
+              ),
             ),
           ),
           Padding(
