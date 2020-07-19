@@ -5,7 +5,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:persist_theme/persist_theme.dart';
 import 'package:provider/provider.dart';
-// import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 import 'data.dart';
 import 'greeting.dart';
@@ -19,7 +18,7 @@ import 'onboarding.dart';
 import 'speed_dial/flutter_speed_dial.dart';
 
 void main() async {
-  runApp(MyApp());
+  runApp(ProvidersApp());
 }
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -54,43 +53,48 @@ Future<void> initializeNotifications(BuildContext context) async {
   );
 }
 
-final _model = ThemeModel();
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class ProvidersApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider<ThemeModel>(
-      create: (_) => _model..init(),
-      child: Consumer<ThemeModel>(
-        builder: (context, model, child) {
-          return ChangeNotifierProvider(
-            create: (_) => DataModel()..load(),
-            child: MaterialApp(
-              theme: model.theme,
-              home: Screenlocker(
-                child: MaterialApp(
-                  title: "My Daily Win!",
-                  theme: ThemeData(
-                    fontFamily: "Abadi",
-                    brightness: model.theme.brightness,
-                  ),
-                  home: MyHomePage(),
-                ),
-                lockscreenBuilder: (context, onRetry) => LockScreen(
-                  onRetry: onRetry,
-                ),
-              ),
-              localizationsDelegates: [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: [Locale("de")],
-            ),
-          );
-        },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ThemeModel>(create: (_) => ThemeModel()),
+        ChangeNotifierProvider(create: (_) => DataModel()..load()),
+      ],
+      child: App(),
+    );
+  }
+}
+
+class App extends StatelessWidget {
+  const App({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<ThemeModel>();
+    return MaterialApp(
+      theme: model.theme,
+      home: Screenlocker(
+        child: MaterialApp(
+          title: "My Daily Win!",
+          theme: ThemeData(
+            fontFamily: "Abadi",
+            brightness: model.theme.brightness,
+          ),
+          home: MyHomePage(),
+        ),
+        lockscreenBuilder: (context, onRetry) => LockScreen(
+          onRetry: onRetry,
+        ),
       ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [Locale("de")],
     );
   }
 }
