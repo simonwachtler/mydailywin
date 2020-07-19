@@ -64,12 +64,22 @@ class DataModel extends ChangeNotifier {
     file.writeAsString(result);
   }
 
+  void _addEntry(Entry entry) {
+    _data.entries.insert(0, entry);
+    // should already be sorted, but the user might have manually changed their date
+    _sortEntries();
+  }
+
+  void _sortEntries() {
+    _data.entries.sort((a, b) => -a.date.compareTo(b.date));
+  }
+
   void addSuccess(List<String> content) {
     final now = toDate(DateTime.now());
     final entry = _data.entries
         .firstWhere((element) => element.date == now, orElse: () => null);
     if (entry == null) {
-      _data.entries.add(Entry(now, content, [], null));
+      _addEntry(Entry(now, content, [], null));
     } else {
       entry.success.addAll(content);
     }
@@ -81,7 +91,7 @@ class DataModel extends ChangeNotifier {
     final entry = _data.entries
         .firstWhere((element) => element.date == now, orElse: () => null);
     if (entry == null) {
-      _data.entries.add(Entry(now, [], content, null));
+      _addEntry(Entry(now, [], content, null));
     } else {
       entry.grateful.addAll(content);
     }
@@ -93,7 +103,7 @@ class DataModel extends ChangeNotifier {
     final entry = _data.entries
         .firstWhere((element) => element.date == now, orElse: () => null);
     if (entry == null) {
-      _data.entries.add(Entry(now, [], [], [imageEntry]));
+      _addEntry(Entry(now, [], [], [imageEntry]));
     } else {
       entry.images.add(imageEntry);
     }
@@ -112,10 +122,11 @@ class DataModel extends ChangeNotifier {
     final oldEntry = _data.entries[index];
     _data.entries[index] = newEntry;
     oldEntry.images?.forEach((image) {
-      if (!newEntry.images.any((i) => i.path == image.path)) {
+      if (newEntry.images?.any((i) => i.path == image.path) != true) {
         File(image.path).delete();
       }
     });
+    _sortEntries();
     _dataChanged();
   }
 
