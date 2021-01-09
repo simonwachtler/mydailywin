@@ -231,7 +231,7 @@ class SpeedDialAdd extends StatelessWidget {
       children: [
         SpeedDialChild(
             child: Icon(Icons.wb_sunny),
-            label: "Start in den Tag",
+            label: "Erfolgsroutine starten",
             labelStyle: TextStyle(color: Colors.black),
             onTap: () async {
               await Navigator.of(context).push(

@@ -8,7 +8,7 @@ class NewSuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _NewEntry(
-      text: "Was ist dir gestern gut gelungen – Erfolge, Anerkennung:",
+      text: "Was ist dir heute gut gelungen – Erfolge, Anerkennung:",
       confirmText: "Fertig",
       onConfirm: (contents) {
         context.read<DataModel>().addSuccess(contents);
@@ -37,7 +37,7 @@ class MorningRoutine extends StatelessWidget {
   Widget build(BuildContext context) {
     return _NewEntry(
       text:
-          "Guten Morgen!\nWas ist dir gestern gut gelungen – Erfolge, Anerkennung:",
+          "Guten Tag!\nWas ist dir heute gut gelungen – Erfolge, Anerkennung:",
       confirmText: "Weiter",
       onConfirm: (contents) async {
         context.read<DataModel>().addSuccess(contents);

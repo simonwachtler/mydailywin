@@ -38,10 +38,10 @@ class Greeting extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "MORGEN-ROUTINE: ",
+                "TÄGLICHE ROUTINE: ",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              Text("Perfekt in den Tag starten!"),
+              Text("Halte täglich deine Erfolge fest!"),
             ],
           ),
           onTap: () async {
@@ -88,9 +88,9 @@ class Greeting extends StatelessWidget {
         ),
         if (model.entries.length != 0)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 19.0),
             child: DayWidget(
-              index: model.entries.length - 1,
+              index: 0,
             ),
           ),
         SizedBox(

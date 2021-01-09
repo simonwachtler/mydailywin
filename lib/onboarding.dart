@@ -112,9 +112,9 @@ class Onboarding extends StatelessWidget {
               ),
             ),
             SwitchListTile.adaptive(
-              title: Text("Am Morgen erinnern"),
+              title: Text("Täglich erinnern"),
               subtitle:
-                  Text("Ich möchte morgens ans Eintragen erinnert werden"),
+                  Text("Ich möchte täglich ans Eintragen erinnert werden"),
               value: model.dailyNotificationsEnabled,
               onChanged: (enabled) {
                 model.dailyNotificationsEnabled = enabled;

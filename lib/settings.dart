@@ -107,7 +107,7 @@ class _SettingsState extends State<Settings> {
               title: Text(model.dailyNotificationsEnabled
                   ? "Aktiviert"
                   : "Deaktiviert"),
-              subtitle: Text("Morgens ans Eintragen erinnern"),
+              subtitle: Text("Täglich ans Eintragen erinnern"),
               onChanged: (enabled) {
                 model.dailyNotificationsEnabled = enabled;
                 updateNotifications(
@@ -137,7 +137,9 @@ class _SettingsState extends State<Settings> {
               child: SwitchListTile.adaptive(
                 title: Text(
                   snapshot.hasData && snapshot.data
-                      ? model.screenlockerEnabled ? "Aktiviert" : "Deaktiviert"
+                      ? model.screenlockerEnabled
+                          ? "Aktiviert"
+                          : "Deaktiviert"
                       : "Nicht verfügbar",
                 ),
                 subtitle: Text("Biometrische Bildschirmsperre "),
@@ -254,15 +256,15 @@ void updateNotifications(bool enabled, Time time) async {
   if (flutterLocalNotificationsPlugin == null) return;
   if (enabled) {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'morning_routine', 'Morgenroutine', 'Deine tägliche Morgenroutine',
+        'morning_routine', 'Tägliche Routine', 'Deine tägliche Routine',
         importance: Importance.Max, priority: Priority.High);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
       morningRoutineId,
-      'Morgenroutine',
-      'Zeit für deine tägliche Morgenroutine!',
+      'Tägliche Routine',
+      'Zeit für deine tägliche Routine!',
       time,
       platformChannelSpecifics,
     );
