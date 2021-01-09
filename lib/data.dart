@@ -39,7 +39,8 @@ class DataModel extends ChangeNotifier {
   Data _data = Data();
   bool loading = true;
 
-  UnmodifiableListView get entries => UnmodifiableListView(_data.entries);
+  UnmodifiableListView<Entry> get entries =>
+      UnmodifiableListView(_data.entries);
   String get name => _data.name;
   String get imageFilePath => _data.imageFilePath;
   bool get dailyNotificationsEnabled => _data.dailyNotificationsEnabled;
@@ -53,13 +54,18 @@ class DataModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setData(Data data) {
+    _data = data;
+    _dataChanged();
+  }
+
   void _dataChanged() {
     notifyListeners();
     _writeData();
   }
 
   void _writeData() async {
-    final file = await _getDataFile();
+    final file = await getDataFile();
     final result = json.encode(_data.toJson());
     file.writeAsString(result);
   }
@@ -194,13 +200,13 @@ class NotificationTime {
   }
 }
 
-Future<File> _getDataFile() async {
+Future<File> getDataFile() async {
   final documentsDirectory = await getApplicationDocumentsDirectory();
   return File("${documentsDirectory.path}/data.json");
 }
 
 Future<Data> readData() async {
-  final file = await _getDataFile();
+  final file = await getDataFile();
   Data data;
   if (await file.exists()) {
     final result = json.decode(await file.readAsString());

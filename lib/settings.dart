@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:local_auth/local_auth.dart';
@@ -5,6 +8,8 @@ import 'package:my_daily_win/notification_time.dart';
 import 'package:persist_theme/ui/theme_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
+import 'package:file_picker/file_picker.dart';
 
 import 'animations.dart';
 import 'main.dart';
@@ -161,6 +166,26 @@ class _SettingsState extends State<Settings> {
               ],
             ),
           ),
+          ListTile(
+              title: Text("Daten exportieren "),
+              onTap: () async {
+                Share.shareFiles([(await getDataFile()).path]);
+              }),
+          ListTile(
+              title: Text("Daten importieren"),
+              onTap: () async {
+                FilePickerResult result = await FilePicker.platform.pickFiles();
+                if (result != null) {
+                  File file = File(result.files.single.path);
+
+                  final previousImagePath = model.imageFilePath;
+                  model.setData(
+                      Data.fromJson(json.decode(await file.readAsString())));
+                  model.imageFilePath = previousImagePath;
+                  updateNotifications(model.dailyNotificationsEnabled,
+                      model.notificationTime.toTime());
+                }
+              }),
           Center(
             child: Padding(
               padding: const EdgeInsets.only(top: 38.0),
