@@ -27,7 +27,6 @@ class Greeting extends StatelessWidget {
                 : 'Guten Tag!',
             style: TextStyle(
               fontSize: 38.0,
-              fontFamily: 'Abadi',
               fontWeight: FontWeight.bold,
               color: Colors.grey,
             ),

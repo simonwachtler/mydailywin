@@ -170,7 +170,9 @@ class ProfilBox extends StatelessWidget {
             padding: const EdgeInsets.all(35.0),
             child: Text(
               text,
-              style: TextStyle(fontSize: 25, fontFamily: 'Abadi'),
+              style: TextStyle(
+                fontSize: 25,
+              ),
             ),
           ),
         ),

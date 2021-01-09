@@ -87,7 +87,6 @@ class Spenden extends StatelessWidget {
               child: Text(
                 "Jetzt uns sicher unterstützen mit",
                 style: TextStyle(
-                    fontFamily: 'Abadi',
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.grey[700]),

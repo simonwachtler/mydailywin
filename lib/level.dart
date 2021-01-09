@@ -31,7 +31,6 @@ class Level extends StatelessWidget {
               'Guten Tag, ${model.name}!',
               style: TextStyle(
                   fontSize: 29.0,
-                  fontFamily: 'Abadi',
                   fontWeight: FontWeight.bold,
                   color: Colors.grey),
             ),
@@ -93,7 +92,6 @@ class PercentageWidget extends StatelessWidget {
               "${percentage != null ? (percentage * 100).toInt() : "∞"} %",
               style: TextStyle(
                 fontSize: 45,
-                fontFamily: 'Abadi',
                 fontWeight: FontWeight.bold,
               ),
             ),

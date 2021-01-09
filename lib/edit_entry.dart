@@ -55,7 +55,6 @@ class _EditEntryState extends State<EditEntry> {
                         " bearbeiten",
                     style: TextStyle(
                         fontSize: 25.0,
-                        fontFamily: 'Abadi',
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                   ),
@@ -97,7 +96,6 @@ class _EditEntryState extends State<EditEntry> {
               "Erfolge",
               style: TextStyle(
                 fontSize: 25.0,
-                fontFamily: 'Abadi',
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -135,7 +133,6 @@ class _EditEntryState extends State<EditEntry> {
               "Dankbarkeitsnotizen",
               style: TextStyle(
                 fontSize: 25.0,
-                fontFamily: 'Abadi',
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -173,7 +170,6 @@ class _EditEntryState extends State<EditEntry> {
               "Kameranotizen",
               style: TextStyle(
                 fontSize: 25.0,
-                fontFamily: 'Abadi',
                 fontWeight: FontWeight.bold,
               ),
             ),

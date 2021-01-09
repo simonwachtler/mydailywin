@@ -80,7 +80,6 @@ class App extends StatelessWidget {
         child: MaterialApp(
           title: "My Daily Win!",
           theme: ThemeData(
-            fontFamily: "Abadi",
             brightness: model.theme.brightness,
           ),
           home: MyHomePage(),

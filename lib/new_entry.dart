@@ -76,7 +76,6 @@ class _NewEntry extends StatelessWidget {
                   'Guten Tag, ${context.watch<DataModel>().name}!',
                   style: TextStyle(
                       fontSize: 25.0,
-                      fontFamily: 'Abadi',
                       fontWeight: FontWeight.bold,
                       color: Colors.grey),
                 ),
@@ -101,7 +100,6 @@ class _NewEntry extends StatelessWidget {
               text,
               style: TextStyle(
                 fontSize: 25.0,
-                fontFamily: 'Abadi',
                 fontWeight: FontWeight.bold,
               ),
             ),
