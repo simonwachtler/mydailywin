@@ -17,32 +17,54 @@ class _HallOfFameState extends State<HallOfFame> {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<DataModel>();
-    return AnimatedListView(
-      padding: const EdgeInsets.all(8.0),
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0, top: 85),
-          child: Text(
-            "Ich schaffe das!",
-            style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold),
+    return LayoutBuilder(builder: (context, constraints) {
+      final itemsPerRow = constraints.maxWidth > 700
+          ? constraints.maxWidth > 1150
+              ? 3
+              : 2
+          : 1;
+      print(constraints.maxWidth);
+
+      return AnimatedListView(
+        padding: const EdgeInsets.all(8.0),
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, top: 85),
+            child: Text(
+              "Ich schaffe das!",
+              style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0, top: 7, bottom: 15.0),
-          child: Text(
-            model.entries.length == 0
-                ? "Wir werden dir hier deine Erfolge anzeigen. Notiere sie täglich, um sie hier anzusehen."
-                : "Ich habe schon so viel geschafft! \nIch werde auch diese Herausforderung meistern!",
-            style: TextStyle(fontSize: 23.0),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, top: 7, bottom: 15.0),
+            child: Text(
+              model.entries.length == 0
+                  ? "Wir werden dir hier deine Erfolge anzeigen. Notiere sie täglich, um sie hier anzusehen."
+                  : "Ich habe schon so viel geschafft! \nIch werde auch diese Herausforderung meistern!",
+              style: TextStyle(fontSize: 23.0),
+            ),
           ),
-        ),
-        for (var i = 0; i < model.entries.length; i++)
-          DayWidget(
-            index: i,
-          ),
-        SizedBox(height: 100),
-      ],
-    );
+          if (itemsPerRow > 1)
+            for (var i = 0;
+                i < ((model.entries.length) / itemsPerRow).ceil();
+                i++)
+              IntrinsicHeight(
+                child: Row(
+                    children: List.generate(
+                        itemsPerRow,
+                        (index) => Expanded(
+                              child: DayWidget(index: i * itemsPerRow + index),
+                            ))),
+              )
+          else
+            for (var i = 0; i < model.entries.length; i++)
+              DayWidget(
+                index: i,
+              ),
+          SizedBox(height: 100),
+        ],
+      );
+    });
   }
 }
 
@@ -53,14 +75,17 @@ class DayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<DataModel>();
+    if (model.entries.length <= index) {
+      return SizedBox();
+    }
     final entry = model.entries[index];
     return Padding(
-      padding: const EdgeInsets.only(left: 4, right: 4),
+      padding: const EdgeInsets.only(left: 4, right: 4, bottom: 10),
       child: Card(
         clipBehavior: Clip.hardEdge,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-        elevation: 5,
+        elevation: 12,
         child: Padding(
           padding:
               const EdgeInsets.only(top: 23, right: 15, left: 15, bottom: 23),
