@@ -33,3 +33,7 @@
 
 ## flutter_local_notification plugin rules
 -keep class com.dexterous.** { *; }
+
+# This fixes a startup crash on Android.
+# For reference, see: https://github.com/flutter/flutter/issues/58479#issuecomment-644528466
+-keep class androidx.lifecycle.** { *; }
