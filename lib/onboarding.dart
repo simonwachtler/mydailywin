@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'animations.dart';
 import 'main.dart';
 import 'data.dart';
+import 'new_entry.dart';
 import 'settings.dart';
 
 class FirstImpression extends StatefulWidget {
@@ -144,8 +145,10 @@ class Onboarding extends StatelessWidget {
                     model.dailyNotificationsEnabled,
                     model.notificationTime.toTime(),
                   );
-                },
-                child: Text("Los geht's!"),
+Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => MorningRoutine()),
+              );                },
+                child: Text("Los geht's! Füge deinen ersten Eintrag hinzu!"),
               ),
             )
           ],
