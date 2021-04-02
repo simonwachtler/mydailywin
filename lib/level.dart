@@ -3,25 +3,43 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 import 'package:provider/provider.dart';
+import 'package:confetti/confetti.dart';
 
 import 'animations.dart';
 import 'data.dart';
 
-class Level extends StatelessWidget {
+class Level extends StatefulWidget {
+  @override
+  _LevelState createState() => _LevelState();
+}
+
+class _LevelState extends State<Level> {
+  ConfettiController _confettiController;
+
+  @override
+  void initState() {
+    _confettiController = ConfettiController(
+      duration: Duration(
+        seconds: 5,
+      ),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = context.watch<DataModel>();
-    final level = calculateLevels(
-      model.entries.fold(
-        0,
-        (value, entry) =>
-            value +
-            entry.success.length +
-            entry.grateful.length +
-            (entry.images?.fold(0, (value, entry) => value + entry.length) ??
-                0),
-      ),
-    );
+    final level = calculateLevelsFromEntries(model.entries);
+    if (model.showNewLevelCelebration) {
+      _confettiController.play();
+      model.showNewLevelCelebration = false;
+    }
     return AnimatedListView(
       children: [
         Padding(
@@ -43,10 +61,14 @@ class Level extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 32, right: 32),
           child: Center(
-            child: Text(
-              level.item1 == 1
-                  ? "Du befindest dich derzeit auf Level 1"
-                  : "Glückwunsch, du hast Level ${level.item1 ?? "∞"} erreicht!",
+            child: ConfettiWidget(
+              blastDirectionality: BlastDirectionality.explosive,
+              confettiController: _confettiController,
+              child: Text(
+                level.item1 == 1
+                    ? "Du befindest dich derzeit auf Level 1"
+                    : "Glückwunsch, du hast Level ${level.item1 ?? "∞"} erreicht!",
+              ),
             ),
           ),
         ),
@@ -132,6 +154,18 @@ class PercentageArc extends CustomPainter {
   bool shouldRepaint(PercentageArc oldDelegate) {
     return oldDelegate.percentage != percentage;
   }
+}
+
+Tuple2<int, double> calculateLevelsFromEntries(List<Entry> entries) {
+  final numberOfEntries = entries.fold(
+    0,
+    (value, entry) =>
+        value +
+        entry.success.length +
+        entry.grateful.length +
+        (entry.images?.fold(0, (value, entry) => value + entry.length) ?? 0),
+  );
+  return calculateLevels(numberOfEntries);
 }
 
 Tuple2<int, double> calculateLevels(int entries) {

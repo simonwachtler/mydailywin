@@ -33,7 +33,7 @@ Future<void> initializeNotifications(BuildContext context) async {
       AndroidInitializationSettings('ic_launcher');
   var initializationSettingsIOS = IOSInitializationSettings();
   var initializationSettings = InitializationSettings(
-    android:  initializationSettingsAndroid,iOS: initializationSettingsIOS);
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
@@ -104,17 +104,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int selectedScreen = 0;
   bool showingDialog = false;
 
-  Widget currentScreen(int index) {
-    switch (index) {
+  Widget currentScreen(DataModel model) {
+    switch (model.selectedScreen) {
       case 0:
         return Greeting(
           switchToMutmacher: () {
-            setState(() {
-              selectedScreen = 2;
-            });
+            model.selectedScreen = 2;
           },
         );
       case 1:
@@ -169,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       secondChild: Scaffold(
         key: ValueKey(2),
-        body: currentScreen(selectedScreen),
+        body: currentScreen(model),
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
@@ -197,13 +194,11 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text("Profil"),
             ),
           ],
-          currentIndex: selectedScreen,
+          currentIndex: model.selectedScreen,
           selectedItemColor: Colors.blue[800],
           unselectedItemColor: Colors.grey,
           onTap: (index) {
-            setState(() {
-              selectedScreen = index;
-            });
+            model.selectedScreen = index;
           },
         ),
         floatingActionButton: SpeedDialAdd(

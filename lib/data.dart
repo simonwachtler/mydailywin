@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:my_daily_win/level.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'util.dart';
@@ -46,6 +47,10 @@ class DataModel extends ChangeNotifier {
   bool get dailyNotificationsEnabled => _data.dailyNotificationsEnabled;
   bool get screenlockerEnabled => _data.screenlockerEnabled;
   NotificationTime get notificationTime => _data.notificationTime;
+  int get selectedScreen => _data.selectedScreen;
+  bool get showNewLevelCelebration => _data.showNewLevelCelebration;
+
+  int level;
 
   void load() async {
     // Backwards compatibility
@@ -60,6 +65,13 @@ class DataModel extends ChangeNotifier {
   }
 
   void _dataChanged() {
+    final newLevel = calculateLevelsFromEntries(_data.entries).item1;
+    if (level != null && level < newLevel) {
+      level = newLevel;
+      selectedScreen = 1;
+      _data.showNewLevelCelebration = true;
+    }
+    level = newLevel;
     notifyListeners();
     _writeData();
   }
@@ -160,6 +172,15 @@ class DataModel extends ChangeNotifier {
     _data.screenlockerEnabled = screenlockerEnabled;
     _dataChanged();
   }
+
+  set selectedScreen(int selectedScreen) {
+    _data.selectedScreen = selectedScreen;
+    _dataChanged();
+  }
+
+  set showNewLevelCelebration(bool show) {
+    _data.showNewLevelCelebration = show;
+  }
 }
 
 @JsonSerializable()
@@ -170,6 +191,10 @@ class Data {
   bool dailyNotificationsEnabled = true;
   bool screenlockerEnabled = false;
   NotificationTime notificationTime = NotificationTime(20, 0);
+  @JsonKey(ignore: true)
+  int selectedScreen = 0;
+  @JsonKey(ignore: true)
+  bool showNewLevelCelebration = false;
 
   Data();
 
@@ -183,12 +208,14 @@ class NotificationTime {
 
   const NotificationTime(this.hour, this.minute);
 
-  factory NotificationTime.fromJson(Map<String, dynamic> json) => _$NotificationTimeFromJson(json);
+  factory NotificationTime.fromJson(Map<String, dynamic> json) =>
+      _$NotificationTimeFromJson(json);
   Map<String, dynamic> toJson() => _$NotificationTimeToJson(this);
 
   Time toTime() {
     return Time(hour, minute);
   }
+
   DateTime toDateTime() {
     return DateTime(1970, 1, 1, hour, minute);
   }
