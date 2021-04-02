@@ -27,7 +27,9 @@ class Spenden extends StatelessWidget {
                         : "assets/coffee-black.png"),
                     onTap: () {
                       launch(
-                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YBGW9QXH8UM3Q&source=url");
+                        "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YBGW9QXH8UM3Q&source=url",
+                        forceSafariVC: false,
+                      );
                     }),
               ),
             ),
@@ -44,7 +46,9 @@ class Spenden extends StatelessWidget {
                         : "assets/goenner-black.png"),
                     onTap: () {
                       launch(
-                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DFBK2QCD7EF6C&source=url");
+                        "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DFBK2QCD7EF6C&source=url",
+                        forceSafariVC: false,
+                      );
                     }),
               ),
             ),
@@ -61,7 +65,9 @@ class Spenden extends StatelessWidget {
                         : "assets/herz-black.png"),
                     onTap: () {
                       launch(
-                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5ZCCEN697H3W4&source=url");
+                        "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5ZCCEN697H3W4&source=url",
+                        forceSafariVC: false,
+                      );
                     }),
               ),
             ),
@@ -78,7 +84,9 @@ class Spenden extends StatelessWidget {
                         : "assets/Sparschwein-black.png"),
                     onTap: () {
                       launch(
-                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6Z2Q5BDH9GLWS&source=url");
+                        "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6Z2Q5BDH9GLWS&source=url",
+                        forceSafariVC: false,
+                      );
                     }),
               ),
             ),
@@ -95,7 +103,12 @@ class Spenden extends StatelessWidget {
             Row(
               children: <Widget>[
                 GestureDetector(
-                  onTap: _launchURL,
+                  onTap: () {
+                    launch(
+                      "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FQTWZSRWSUXKN&source=url",
+                      forceSafariVC: false,
+                    );
+                  },
                   child: Image.asset(
                     'assets/paypal.png', // On click should redirect to an URL
                     width: 180.0,
@@ -119,21 +132,13 @@ class Spenden extends StatelessWidget {
                         : "assets/herz-black.png"),
                     onTap: () {
                       launch(
-                          "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FQTWZSRWSUXKN&source=url");
+                        "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FQTWZSRWSUXKN&source=url",
+                        forceSafariVC: false,
+                      );
                     }),
               ),
             ),
           ],
         ));
-  }
-}
-
-_launchURL() async {
-  const url =
-      'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FQTWZSRWSUXKN&source=url';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
   }
 }

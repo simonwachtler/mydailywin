@@ -103,15 +103,14 @@ class Profil extends StatelessWidget {
               ),
             ],
           ),
-          if (!Platform.isIOS)
-            ProfilBox(
-              color: Colors.purple,
-              text: "JETZT ENTWICKLER UNTERSTÜTZEN!",
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Spenden()));
-              },
-            ),
+          ProfilBox(
+            color: Colors.purple,
+            text: "JETZT ENTWICKLER UNTERSTÜTZEN!",
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Spenden()));
+            },
+          ),
           ProfilBox(
             color: Colors.blue,
             text: "GIB UNS 5 STERNE!",
