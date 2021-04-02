@@ -169,7 +169,7 @@ class Data {
   String imageFilePath;
   bool dailyNotificationsEnabled = true;
   bool screenlockerEnabled = false;
-  NotificationTime notificationTime = NotificationTime(8, 0);
+  NotificationTime notificationTime = NotificationTime(20, 0);
 
   Data();
 
@@ -183,14 +183,12 @@ class NotificationTime {
 
   const NotificationTime(this.hour, this.minute);
 
-  factory NotificationTime.fromJson(Map<String, dynamic> json) =>
-      _$NotificationTimeFromJson(json);
+  factory NotificationTime.fromJson(Map<String, dynamic> json) => _$NotificationTimeFromJson(json);
   Map<String, dynamic> toJson() => _$NotificationTimeToJson(this);
 
   Time toTime() {
     return Time(hour, minute);
   }
-
   DateTime toDateTime() {
     return DateTime(1970, 1, 1, hour, minute);
   }
