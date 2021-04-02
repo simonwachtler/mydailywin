@@ -101,8 +101,8 @@ SPEC CHECKSUMS:
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  flutter_local_notifications: 9e4738ce2471c5af910d961a6b7eadcf57c50186
-  image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+  image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
   local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   SDWebImage: 0b2ba0d56479bf6a45ecddbfd5558bea93150d25

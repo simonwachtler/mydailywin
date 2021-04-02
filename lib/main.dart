@@ -33,7 +33,7 @@ Future<void> initializeNotifications(BuildContext context) async {
       AndroidInitializationSettings('ic_launcher');
   var initializationSettingsIOS = IOSInitializationSettings();
   var initializationSettings = InitializationSettings(
-      initializationSettingsAndroid, initializationSettingsIOS);
+    android:  initializationSettingsAndroid,iOS: initializationSettingsIOS);
 
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
