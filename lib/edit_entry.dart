@@ -192,10 +192,10 @@ class _EditEntryState extends State<EditEntry> {
                           IconButton(
                             icon: Icon(Icons.edit),
                             onPressed: () async {
-                              final result = await showLengthDialog(context);
+                              final result = await showLengthDialog(context, false);
                               if (result != null) {
                                 setState(() {
-                                  image.length = result;
+                                  image.length = result.item1;
                                 });
                               }
                             },
@@ -227,7 +227,7 @@ class _EditEntryState extends State<EditEntry> {
               );
               if (imageEntry != null) {
                 setState(() {
-                  imageEntries.add(imageEntry);
+                  imageEntries.add(imageEntry.item1);
                 });
               }
             },

@@ -263,7 +263,9 @@ class SpeedDialAdd extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => NewCameraEntry()),
               );
               if (imageEntry != null) {
-                context.read<DataModel>().addImage(imageEntry);
+                context
+                    .read<DataModel>()
+                    .addImage(imageEntry.item1, imageEntry.item2);
               }
               onEntered();
             }),

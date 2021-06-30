@@ -92,36 +92,33 @@ class DataModel extends ChangeNotifier {
     _data.entries.sort((a, b) => -a.date.compareTo(b.date));
   }
 
-  void addSuccess(List<String> content) {
-    final now = toDate(DateTime.now());
+  void addSuccess(List<String> content, DateTime date) {
     final entry = _data.entries
-        .firstWhere((element) => element.date == now, orElse: () => null);
+        .firstWhere((element) => element.date == date, orElse: () => null);
     if (entry == null) {
-      _addEntry(Entry(now, content, [], null));
+      _addEntry(Entry(date, content, [], null));
     } else {
       entry.success.addAll(content);
     }
     _dataChanged();
   }
 
-  void addGrateful(List<String> content) {
-    final now = toDate(DateTime.now());
+  void addGrateful(List<String> content, DateTime date) {
     final entry = _data.entries
-        .firstWhere((element) => element.date == now, orElse: () => null);
+        .firstWhere((element) => element.date == date, orElse: () => null);
     if (entry == null) {
-      _addEntry(Entry(now, [], content, null));
+      _addEntry(Entry(date, [], content, null));
     } else {
       entry.grateful.addAll(content);
     }
     _dataChanged();
   }
 
-  void addImage(ImageEntry imageEntry) {
-    final now = toDate(DateTime.now());
+  void addImage(ImageEntry imageEntry, DateTime date) {
     final entry = _data.entries
-        .firstWhere((element) => element.date == now, orElse: () => null);
+        .firstWhere((element) => element.date == date, orElse: () => null);
     if (entry == null) {
-      _addEntry(Entry(now, [], [], [imageEntry]));
+      _addEntry(Entry(date, [], [], [imageEntry]));
     } else {
       entry.images.add(imageEntry);
     }

@@ -260,7 +260,8 @@ void updateNotifications(bool enabled, Time time) async {
         importance: Importance.max, priority: Priority.high);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-      android:  androidPlatformChannelSpecifics,iOS: iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
       morningRoutineId,
       'Tägliche Routine',

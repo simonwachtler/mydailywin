@@ -145,9 +145,10 @@ class Onboarding extends StatelessWidget {
                     model.dailyNotificationsEnabled,
                     model.notificationTime.toTime(),
                   );
-Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => MorningRoutine()),
-              );                },
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => MorningRoutine()),
+                  );
+                },
                 child: Text("Los geht's! Füge deinen ersten Eintrag hinzu!"),
               ),
             )
