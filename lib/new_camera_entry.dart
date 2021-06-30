@@ -45,8 +45,13 @@ class _NewCameraEntryState extends State<NewCameraEntry> {
 
       final result = await resultFuture;
       if (result != null) {
-        Navigator.pop(context,
-            Tuple2(ImageEntry(imageFile.path, result.item1), widget.date));
+        Navigator.pop(
+          context,
+          Tuple2(
+            ImageEntry(imageFile.path, result.item1),
+            widget.date ?? result.item2,
+          ),
+        );
       } else {
         imageFile.delete();
         Navigator.pop(context);

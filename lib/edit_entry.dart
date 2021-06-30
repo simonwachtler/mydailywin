@@ -192,7 +192,8 @@ class _EditEntryState extends State<EditEntry> {
                           IconButton(
                             icon: Icon(Icons.edit),
                             onPressed: () async {
-                              final result = await showLengthDialog(context, false);
+                              final result =
+                                  await showLengthDialog(context, false);
                               if (result != null) {
                                 setState(() {
                                   image.length = result.item1;
@@ -223,7 +224,8 @@ class _EditEntryState extends State<EditEntry> {
             icon: Icon(Icons.add),
             onPressed: () async {
               final imageEntry = await Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => NewCameraEntry()),
+                MaterialPageRoute(
+                    builder: (_) => NewCameraEntry(date: widget.entry.date)),
               );
               if (imageEntry != null) {
                 setState(() {
